@@ -8,33 +8,33 @@ using OpenTK.Graphics.OpenGL4;
 
 namespace BogieEngineCore
 {
-    internal class VertexBuffer
+    class ElementBuffer
     {
         int _handle;
-        private Vector3[] vertices;
-        public Vector3[] Vertice { get { return vertices; } }
+        uint[] indices;
+        public uint[] Indices { get { return indices; } }
 
-        public VertexBuffer()
+        public ElementBuffer()
         {
             _handle = GL.GenBuffer();
         }
 
-        public void SetVertices(Vector3[] vertices)
+        public void SetIndices(uint[] indices)
         {
-            this.vertices = vertices;
+            this.indices = indices;
             Bind();
-            GL.BufferData(BufferTarget.ArrayBuffer, vertices.Length * sizeof(float) * 3, vertices, BufferUsageHint.StaticDraw);
+            GL.BufferData(BufferTarget.ElementArrayBuffer, indices.Length * sizeof(uint), indices, BufferUsageHint.StaticDraw);
             UnBind();
         }
 
         public void Bind()
         {
-            GL.BindBuffer(BufferTarget.ArrayBuffer, _handle);
+            GL.BindBuffer(BufferTarget.ElementArrayBuffer, _handle);
         }
 
         public void UnBind()
         {
-            GL.BindBuffer(BufferTarget.ArrayBuffer, 0);
+            GL.BindBuffer(BufferTarget.ElementArrayBuffer, 0);
         }
 
         public void Dispose()

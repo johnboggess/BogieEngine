@@ -26,15 +26,21 @@ namespace BogieEngineCore
 
             Vector3[] vertices =
             {
-                new Vector3(-0.5f, -0.5f, 0.0f),
+                new Vector3(0.5f, 0.5f, 0.0f),
                 new Vector3(0.5f, -0.5f, 0.0f),
-                new Vector3(0.0f,  0.5f, 0.0f)
+                new Vector3(-0.5f, -0.5f, 0.0f),
+                new Vector3(-0.5f, 0.5f, 0.0f),
+            };
+
+            uint[] indices =
+            {
+                0,1,3,1,2,3
             };
 
             shader = new Shader("Shaders/default.vert", "Shaders/default.frag");
 
             va = new VertexArray();
-            va.Setup(vertices);
+            va.Setup(vertices, indices);
 
             base.OnLoad(e);
         }
@@ -51,7 +57,7 @@ namespace BogieEngineCore
 
             shader.Use();
             va.Bind();
-            GL.DrawArrays(PrimitiveType.Triangles, 0, 3);
+            va.Draw();
             Context.SwapBuffers();
             base.OnRenderFrame(e);
         }

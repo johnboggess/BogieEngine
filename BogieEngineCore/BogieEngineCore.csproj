@@ -48,6 +48,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ElementBuffer.cs" />
     <Compile Include="Shader.cs" />
     <Compile Include="VertexArray.cs" />
     <Compile Include="VertexBuffer.cs" />
