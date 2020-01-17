@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.28922.388
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BogieEngineCore", "BogieEngineCore\BogieEngineCore.csproj", "{BA635738-421E-40C8-9A85-EEAFE3451312}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BogieEngineConsoleTest", "BogieEngineConsoleTest\BogieEngineConsoleTest.csproj", "{718EA19C-EA8A-4F37-8ED6-2C3C40E54CE6}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{BA635738-421E-40C8-9A85-EEAFE3451312}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BA635738-421E-40C8-9A85-EEAFE3451312}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BA635738-421E-40C8-9A85-EEAFE3451312}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BA635738-421E-40C8-9A85-EEAFE3451312}.Release|Any CPU.Build.0 = Release|Any CPU
+		{718EA19C-EA8A-4F37-8ED6-2C3C40E54CE6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{718EA19C-EA8A-4F37-8ED6-2C3C40E54CE6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{718EA19C-EA8A-4F37-8ED6-2C3C40E54CE6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{718EA19C-EA8A-4F37-8ED6-2C3C40E54CE6}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {A760CA93-4F53-4792-A306-B78447EC3D7B}
+	EndGlobalSection
+EndGlobal
