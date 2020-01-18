@@ -23,24 +23,24 @@ namespace BogieEngineCore.Modelling
             return new Model(ProcessNode(scene.RootNode, scene));
         }
 
-        private static List<Mesh> ProcessNode(Node node, Scene scene)
+        private static List<MeshData> ProcessNode(Node node, Scene scene)
         {
-            List<Mesh> meshes = new List<Mesh>();
+            List<MeshData> meshData = new List<MeshData>();
             for(int i = 0; i < node.MeshCount; i++)
             {
                 Assimp.Mesh aiMesh = scene.Meshes[node.MeshIndices[i]];
-                meshes.Add(ProcessMesh(aiMesh, scene));
+                meshData.Add(ProcessMesh(aiMesh, scene));
             }
 
             foreach(Node child in node.Children)
             {
-                meshes.AddRange(ProcessNode(child, scene));
+                meshData.AddRange(ProcessNode(child, scene));
             }
-            return meshes;
+            return meshData;
 
         }
 
-        private static Mesh ProcessMesh(Assimp.Mesh aiMesh, Scene scene)
+        private static MeshData ProcessMesh(Assimp.Mesh aiMesh, Scene scene)
         {
             List<uint> indices = new List<uint>();
             Vertex[] vertices = new Vertex[aiMesh.VertexCount];
@@ -89,10 +89,12 @@ namespace BogieEngineCore.Modelling
             vertexArray.Setup(vb, eb);
 
             Mesh mesh = new Mesh(vertexArray);
-            mesh.Shader = _game.DefaultShader;
             mesh.Textures = textures;
 
-            return mesh;
+            MeshData meshData = new MeshData(mesh);
+            meshData.Shader = _game.DefaultShader;
+
+            return meshData;
         }
 
     }

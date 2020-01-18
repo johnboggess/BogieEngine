@@ -37,7 +37,7 @@ namespace BogieEngineCore
         {
             if(_pathToModel.ContainsKey(filePath))
             {
-                return _pathToModel[filePath];
+                return new Model(_pathToModel[filePath], _game);
             }
             Model model = ModelLoader.LoadModel(filePath, _game);
             _pathToModel.Add(filePath, model);

@@ -13,8 +13,6 @@ namespace BogieEngineCore.Modelling
 {
     public class Mesh : IDisposable
     {
-        public Matrix4 Transform;
-        public Shader Shader;
         public bool Disposed => ((IDisposable)_VertexArray).Disposed;
         public List<Texture> Textures = new List<Texture>();
 

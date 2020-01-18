@@ -10,19 +10,32 @@ namespace BogieEngineCore.Modelling
     public class Model
     {
         public Matrix4 Transform = Matrix4.Identity;
-        public List<Mesh> Meshes = new List<Mesh>();
+        public List<MeshData> MeshData = new List<MeshData>();
 
-        public Model(List<Mesh> meshes)
+        public Model(List<MeshData> meshData)
         {
-            Meshes = meshes;
+            MeshData = meshData;
+        }
+
+        public Model(Model model, Game game)
+        {
+            foreach(MeshData meshData in model.MeshData)
+            {
+                MeshData newMeshData = new MeshData(meshData._Mesh);
+                newMeshData.Shader = meshData.Shader;
+                MeshData.Add(newMeshData);
+            }
         }
 
         public void Draw()
         {
-            foreach(Mesh mesh in Meshes)
+            foreach(MeshData mesh in MeshData)
             {
-                mesh.Shader.Use(Transform);
-                mesh.Draw();
+                if (mesh.Visible)
+                {
+                    mesh.Shader.Use(Transform);
+                    mesh.Draw();
+                }
             }
         }
     }
