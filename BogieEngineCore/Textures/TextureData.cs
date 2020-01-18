@@ -17,15 +17,15 @@ namespace BogieEngineCore.Textures
     public class TextureData: IDisposable
     {
         public bool Disposed { get { return _disposed; } }
-        private bool _disposed = false;
+        internal TextureUnit _TextureUnit;
 
         int _handle;
-        TextureUnit _textureUnit;
+        private bool _disposed = false;
 
         internal TextureData(string filePath, TextureUnit textureUnit)
         {
             _handle = GL.GenTexture();
-            _textureUnit = textureUnit;
+            _TextureUnit = textureUnit;
 
             Image<Rgba32> image = (Image<Rgba32>)Image.Load(filePath);
             image.Mutate(x => x.Flip(FlipMode.Vertical));
@@ -40,7 +40,6 @@ namespace BogieEngineCore.Textures
             }
 
             Bind();
-
             GL.TexImage2D(TextureTarget.Texture2D, 0, PixelInternalFormat.Rgba, image.Width, image.Height, 0, PixelFormat.Rgba, PixelType.UnsignedByte, pixels.ToArray());
             //GL.GenerateMipmaps()
             UnBind();
@@ -48,7 +47,7 @@ namespace BogieEngineCore.Textures
 
         public void Bind()
         {
-            GL.ActiveTexture(_textureUnit);
+            GL.ActiveTexture(_TextureUnit);
             GL.BindTexture(TextureTarget.Texture2D, _handle);
         }
 

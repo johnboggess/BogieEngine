@@ -7,9 +7,10 @@ using System.Threading.Tasks;
 using OpenTK.Graphics.OpenGL4;
 namespace BogieEngineCore.Textures
 {
-    class Texture : IDisposable
+    public class Texture : IDisposable
     {
         public bool Disposed { get { return _textureData.Disposed; } }
+        public TextureUnit TextureUnit { get { return _textureData._TextureUnit; } set { _textureData._TextureUnit = value; } }
         public TextureWrapMode WrapMode
         {
             get { return _wrapMode; }
@@ -51,12 +52,9 @@ namespace BogieEngineCore.Textures
         TextureMagFilter _textureMagFilter = TextureMagFilter.Linear;
         TextureData _textureData;
 
-        internal Texture(TextureData textureData, TextureWrapMode wrapMode = TextureWrapMode.Repeat, TextureMinFilter minFilter = TextureMinFilter.Linear, TextureMagFilter magFilter = TextureMagFilter.Linear)
+        internal Texture(TextureData textureData)
         {
             _textureData = textureData;
-            _wrapMode = wrapMode;
-            _textureMinFilter = minFilter;
-            _textureMagFilter = magFilter;
 
             _textureData.Bind();
             GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureWrapS, (int)_wrapMode);

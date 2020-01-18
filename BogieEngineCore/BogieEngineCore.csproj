@@ -74,6 +74,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Camera.cs" />
+    <Compile Include="ContentManager.cs" />
     <Compile Include="ElementBuffer.cs" />
     <Compile Include="GPUBuffer.cs" />
     <Compile Include="IDisposable.cs" />

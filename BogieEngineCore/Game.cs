@@ -13,6 +13,7 @@ namespace BogieEngineCore
 {
     public class Game : GameWindow
     {
+        public ContentManager ContentManager = new ContentManager();
         public Color4 ClearColor = Color4.White;
         public Camera ActiveCamera = new Camera();
         public Random rng = new Random();
@@ -47,8 +48,8 @@ namespace BogieEngineCore
             };
 
             _Shader = new Shader("Shaders/default.vert", "Shaders/default.frag");
-            _Texture = new Texture(new TextureData("Textures/Brick.jpg", TextureUnit.Texture0));
-            _TextureMask = new Texture(new TextureData("Textures/Circle.png", TextureUnit.Texture1));
+            _Texture = ContentManager.LoadTexture("Textures/Brick.jpg", TextureUnit.Texture0);
+            _TextureMask = ContentManager.LoadTexture("Textures/Circle.png", TextureUnit.Texture1);
 
             _VB = new VertexBuffer();
             _VB.SetVertices(vertices);
