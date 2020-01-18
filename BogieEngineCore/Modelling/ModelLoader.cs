@@ -5,15 +5,21 @@ using System.Text;
 using System.Threading.Tasks;
 
 using Assimp;
+
+using BogieEngineCore.Texturing;
 namespace BogieEngineCore.Modelling
 {
     internal class ModelLoader
     {
-        public static Model LoadModel(string filePath)
-        {
-            AssimpContext assimpContext = new AssimpContext();
-            Scene scene = assimpContext.ImportFile(filePath, PostProcessSteps.Triangulate | PostProcessSteps.FlipUVs | PostProcessSteps.GenerateNormals);
+        static Game _game;
+        static string folder;
 
+        public static Model LoadModel(string filePath, Game game)
+        {
+            folder = filePath.Substring(0,filePath.LastIndexOf("/"));
+            AssimpContext assimpContext = new AssimpContext();
+            Scene scene = assimpContext.ImportFile(filePath, PostProcessSteps.Triangulate | PostProcessSteps.GenerateNormals);
+            _game = game;
             return new Model(ProcessNode(scene.RootNode, scene));
         }
 
@@ -62,6 +68,18 @@ namespace BogieEngineCore.Modelling
                 }
             }
 
+            List<Texture> textures = new List<Texture>();
+            if(aiMesh.MaterialIndex > 0)
+            {
+                Assimp.Material material = scene.Materials[aiMesh.MaterialIndex];
+
+                string diffusePath = material.TextureDiffuse.FilePath;
+                if (diffusePath != null)
+                {
+                    textures.Add(_game.ContentManager.LoadTexture(folder+"/" + diffusePath, OpenTK.Graphics.OpenGL4.TextureUnit.Texture0));
+                }
+            }
+
             VertexBuffer vb = new VertexBuffer();
             vb.SetVertices(vertices.ToArray());
             ElementBuffer eb = new ElementBuffer();
@@ -70,7 +88,10 @@ namespace BogieEngineCore.Modelling
             VertexArray vertexArray = new VertexArray();
             vertexArray.Setup(vb, eb);
 
-            return new Mesh(vertexArray);
+            Mesh mesh = new Mesh(vertexArray);
+            mesh.Textures = textures;
+
+            return mesh;
         }
 
     }
