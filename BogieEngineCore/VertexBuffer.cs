@@ -11,19 +11,19 @@ namespace BogieEngineCore
     internal class VertexBuffer
     {
         int _handle;
-        private Vector3[] vertices;
-        public Vector3[] Vertice { get { return vertices; } }
+        private Vertex[] _vertices;
+        public Vertex[] Vertice { get { return _vertices; } }
 
         public VertexBuffer()
         {
             _handle = GL.GenBuffer();
         }
 
-        public void SetVertices(Vector3[] vertices)
+        public void SetVertices(Vertex[] vertices)
         {
-            this.vertices = vertices;
+            _vertices = vertices;
             Bind();
-            GL.BufferData(BufferTarget.ArrayBuffer, vertices.Length * sizeof(float) * 3, vertices, BufferUsageHint.StaticDraw);
+            GL.BufferData(BufferTarget.ArrayBuffer, vertices.Length * Vertex.Size, vertices, BufferUsageHint.StaticDraw);
             UnBind();
         }
 

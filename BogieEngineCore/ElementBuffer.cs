@@ -11,8 +11,8 @@ namespace BogieEngineCore
     class ElementBuffer
     {
         int _handle;
-        uint[] indices;
-        public uint[] Indices { get { return indices; } }
+        uint[] _indices;
+        public uint[] Indices { get { return _indices; } }
 
         public ElementBuffer()
         {
@@ -21,7 +21,7 @@ namespace BogieEngineCore
 
         public void SetIndices(uint[] indices)
         {
-            this.indices = indices;
+            _indices = indices;
             Bind();
             GL.BufferData(BufferTarget.ElementArrayBuffer, indices.Length * sizeof(uint), indices, BufferUsageHint.StaticDraw);
             UnBind();

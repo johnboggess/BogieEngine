@@ -5,38 +5,46 @@ using System.Text;
 using System.Threading.Tasks;
 using OpenTK;
 using OpenTK.Graphics.OpenGL4;
+
+using BogieEngineCore.Shaders;
+using BogieEngineCore.Textures;
+
 namespace BogieEngineCore
 {
     class VertexArray
     {
         int _handle;
-        VertexBuffer vbo;
-        ElementBuffer ebo;
+        VertexBuffer _vbo;
+        ElementBuffer _ebo;
+        List<Texture> _textures;
 
         public VertexArray()
         {
             _handle = GL.GenVertexArray();
         }
 
-        public void Setup(Vector3[] vertices, uint[] indices)
+        public void Setup(Vertex[] vertices, uint[] indices, List<Texture> textures)
         {
-            vbo = new VertexBuffer();
-            vbo.SetVertices(vertices);
-            ebo = new ElementBuffer();
-            ebo.SetIndices(indices);
+            _vbo = new VertexBuffer();
+            _vbo.SetVertices(vertices);
+            _ebo = new ElementBuffer();
+            _ebo.SetIndices(indices);
 
-            Setup(vbo, ebo);
+            Setup(_vbo, _ebo, textures);
         }
 
-        public void Setup(VertexBuffer vbo, ElementBuffer ebo)
+        public void Setup(VertexBuffer vbo, ElementBuffer ebo, List<Texture> textures)
         {
-            this.ebo = ebo;
-            this.vbo = vbo;
+            _ebo = ebo;
+            _vbo = vbo;
+            _textures = textures;
             Bind();
 
             vbo.Bind();
-            GL.VertexAttribPointer(Shader.VertexPositionLocation, 3, VertexAttribPointerType.Float, false, 3 * sizeof(float), 0);
+            GL.VertexAttribPointer(Shader.VertexPositionLocation, 3, VertexAttribPointerType.Float, false, Vertex.Size, 0);
             GL.EnableVertexAttribArray(Shader.VertexPositionLocation);
+            GL.VertexAttribPointer(Shader.VertexUVLocation, 2, VertexAttribPointerType.Float, false, Vertex.Size, 3 * sizeof(float));
+            GL.EnableVertexAttribArray(Shader.VertexUVLocation);
 
             ebo.Bind();
 
@@ -49,6 +57,12 @@ namespace BogieEngineCore
             GL.BindVertexArray(_handle);
         }
 
+        public void BindTextures()
+        {
+            foreach (Texture texture in _textures)
+                texture.Bind();
+        }
+
         public void UnBind()
         {
             GL.BindVertexArray(0);
@@ -56,12 +70,15 @@ namespace BogieEngineCore
 
         public void Draw()
         {
-            GL.DrawElements(PrimitiveType.Triangles, ebo.Indices.Length, DrawElementsType.UnsignedInt, 0);
+            GL.DrawElements(PrimitiveType.Triangles, _ebo.Indices.Length, DrawElementsType.UnsignedInt, 0);
         }
 
         public void Dispose()
         {
-            vbo.Dispose();
+            _vbo.Dispose();
+            _ebo.Dispose();
+            foreach (Texture texture in _textures)
+                texture.Dispose();
             GL.DeleteBuffer(_handle);
         }
 
