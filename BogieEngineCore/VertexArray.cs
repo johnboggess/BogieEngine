@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 using OpenTK;
 using OpenTK.Graphics.OpenGL4;
 
-using BogieEngineCore.Shaders;
-using BogieEngineCore.Textures;
+using BogieEngineCore.Shading;
+using BogieEngineCore.Texturing;
 
 namespace BogieEngineCore
 {
@@ -34,6 +34,8 @@ namespace BogieEngineCore
             vbo.Bind();
             GL.VertexAttribPointer(Shader.VertexPositionLocation, 3, VertexAttribPointerType.Float, false, Vertex.Size, 0);
             GL.EnableVertexAttribArray(Shader.VertexPositionLocation);
+            GL.VertexAttribPointer(Shader.VertexUVLocation, 2, VertexAttribPointerType.Float, false, Vertex.Size, 3 * sizeof(float));
+            GL.EnableVertexAttribArray(Shader.VertexUVLocation);
             GL.VertexAttribPointer(Shader.VertexUVLocation, 2, VertexAttribPointerType.Float, false, Vertex.Size, 3 * sizeof(float));
             GL.EnableVertexAttribArray(Shader.VertexUVLocation);
 

@@ -7,9 +7,9 @@ using OpenTK;
 using OpenTK.Graphics;
 using OpenTK.Graphics.OpenGL4;
 
-using BogieEngineCore.Models;
-using BogieEngineCore.Shaders;
-using BogieEngineCore.Textures;
+using BogieEngineCore.Modelling;
+using BogieEngineCore.Shading;
+using BogieEngineCore.Texturing;
 namespace BogieEngineCore
 {
     public class Game : GameWindow
@@ -36,11 +36,11 @@ namespace BogieEngineCore
 
         protected override void OnLoad(EventArgs e)
         {
-            _Shader = new Shader("Shaders/default.vert", "Shaders/default.frag");
-            _Texture = ContentManager.LoadTexture("Textures/Brick.jpg", TextureUnit.Texture0);
-            _TextureMask = ContentManager.LoadTexture("Textures/Circle.png", TextureUnit.Texture1);
+            _Shader = new Shader("Resources/Shaders/default.vert", "Resources/Shaders/default.frag");
+            _Texture = ContentManager.LoadTexture("Resources/Textures/Brick.jpg", TextureUnit.Texture0);
+            _TextureMask = ContentManager.LoadTexture("Resources/Textures/Circle.png", TextureUnit.Texture1);
 
-            _ModelMonkey = ModelLoader.LoadModel("Resources/Monkey.obj");
+            _ModelMonkey = ModelLoader.LoadModel("Resources/Models/Monkey.obj");
             _ModelMonkey.Transform = Matrix4.Identity;
             foreach (Mesh mesh in _ModelMonkey.Meshes)
             {

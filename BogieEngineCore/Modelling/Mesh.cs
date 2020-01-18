@@ -6,9 +6,10 @@ using System.Threading.Tasks;
 
 using OpenTK;
 
-using BogieEngineCore.Textures;
-using BogieEngineCore.Shaders;
-namespace BogieEngineCore.Models
+using BogieEngineCore.Texturing;
+using BogieEngineCore.Shading;
+
+namespace BogieEngineCore.Modelling
 {
     public class Mesh : IDisposable
     {

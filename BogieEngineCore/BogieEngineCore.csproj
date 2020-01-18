@@ -81,12 +81,12 @@
     <Compile Include="ElementBuffer.cs" />
     <Compile Include="GPUBuffer.cs" />
     <Compile Include="IDisposable.cs" />
-    <Compile Include="Models\Mesh.cs" />
-    <Compile Include="Models\Model.cs" />
-    <Compile Include="Models\ModelLoader.cs" />
-    <Compile Include="Shaders\Shader.cs" />
-    <Compile Include="Textures\Texture.cs" />
-    <Compile Include="Textures\TextureData.cs" />
+    <Compile Include="Modelling\Mesh.cs" />
+    <Compile Include="Modelling\Model.cs" />
+    <Compile Include="Modelling\ModelLoader.cs" />
+    <Compile Include="Shading\Shader.cs" />
+    <Compile Include="Texturing\Texture.cs" />
+    <Compile Include="Texturing\TextureData.cs" />
     <Compile Include="Vertex.cs" />
     <Compile Include="VertexArray.cs" />
     <Compile Include="VertexBuffer.cs" />
@@ -97,21 +97,21 @@
     <None Include="app.config" />
     <None Include="OpenTK.dll.config" />
     <None Include="packages.config" />
-    <None Include="Resources\Monkey.obj">
+    <None Include="Resources\Models\Monkey.obj">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="Shaders\default.frag">
+    <None Include="Resources\Shaders\default.frag">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="Shaders\default.vert">
+    <None Include="Resources\Shaders\default.vert">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Textures\Brick.jpg">
+    <Content Include="Resources\Textures\Brick.jpg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Textures\Circle.png">
+    <Content Include="Resources\Textures\Circle.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>

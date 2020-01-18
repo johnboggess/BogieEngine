@@ -8,7 +8,7 @@ using System.IO;
 using OpenTK;
 using OpenTK.Graphics.OpenGL4;
 
-namespace BogieEngineCore.Shaders
+namespace BogieEngineCore.Shading
 {
     public class Shader : IDisposable
     {

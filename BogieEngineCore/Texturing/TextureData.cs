@@ -12,7 +12,7 @@ using SixLabors.ImageSharp.Processing;
 using OpenTK;
 using OpenTK.Graphics.OpenGL4;
 
-namespace BogieEngineCore.Textures
+namespace BogieEngineCore.Texturing
 {
     public class TextureData: IDisposable
     {

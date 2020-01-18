@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 using OpenTK.Graphics.OpenGL4;
-namespace BogieEngineCore.Textures
+namespace BogieEngineCore.Texturing
 {
     public class Texture : IDisposable
     {

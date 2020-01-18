@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 using OpenTK;
-namespace BogieEngineCore.Models
+namespace BogieEngineCore.Modelling
 {
     class Model
     {

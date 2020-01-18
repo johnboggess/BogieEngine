@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 using OpenTK.Graphics.OpenGL4;
 
-using BogieEngineCore.Shaders;
-using BogieEngineCore.Textures;
+using BogieEngineCore.Shading;
+using BogieEngineCore.Texturing;
 namespace BogieEngineCore
 {
     public class ContentManager
