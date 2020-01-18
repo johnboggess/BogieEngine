@@ -20,6 +20,7 @@ namespace BogieEngineCore
         public Camera ActiveCamera = new Camera();
 
         internal Model _Samus;
+        internal Model _SamusNoVisor;
 
         float rot = 0;
 
@@ -37,7 +38,11 @@ namespace BogieEngineCore
 
             //downloaded from https://sketchfab.com/3d-models/varia-suit-79c802129f9a4945aba62a607892ac31
             _Samus = ContentManager.LoadModel("Resources/Models/VariaSuit/DolBarriersuit.obj");
+            _SamusNoVisor = ContentManager.LoadModel("Resources/Models/VariaSuit/DolBarriersuit.obj");
+            _SamusNoVisor.Transform = Matrix4.CreateScale(.1f) * Matrix4.CreateTranslation(0, -1, 0);
 
+            List<MeshData> meshData = _SamusNoVisor.GetMeshWithName("polygon6");
+            if(meshData.Count > 0) { meshData[0].Visible = false; }
             base.OnLoad(e);
         }
 
@@ -54,14 +59,17 @@ namespace BogieEngineCore
             DefaultShader.View = ActiveCamera.View;
 
             rot += .01f;
-            _Samus.Transform = Matrix4.CreateScale(.1f)*Matrix4.CreateRotationY(rot) * Matrix4.CreateTranslation(0, -1, 0); ;
+            _Samus.Transform = Matrix4.CreateScale(.1f)*Matrix4.CreateRotationY(rot) * Matrix4.CreateTranslation(-.5f, -1, 0);
             _Samus.Draw();
+
+            _SamusNoVisor.Transform = Matrix4.CreateScale(.1f) * Matrix4.CreateRotationY(rot) * Matrix4.CreateTranslation(.5f, -1, 0);
+            _SamusNoVisor.Draw();
 
             Context.SwapBuffers();
             base.OnRenderFrame(e);
         }
 
-        protected override void OnUnload(EventArgs e)
+        protected override void OnUnload(EventArgs  e)
         {
             DefaultShader.Dispose();
         }

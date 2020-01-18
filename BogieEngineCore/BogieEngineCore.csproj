@@ -82,7 +82,7 @@
     <Compile Include="GPUBuffer.cs" />
     <Compile Include="IDisposable.cs" />
     <Compile Include="Modelling\Mesh.cs" />
-    <Compile Include="Modelling\MeshProperties.cs" />
+    <Compile Include="Modelling\MeshData.cs" />
     <Compile Include="Modelling\Model.cs" />
     <Compile Include="Modelling\ModelLoader.cs" />
     <Compile Include="Shading\Shader.cs" />

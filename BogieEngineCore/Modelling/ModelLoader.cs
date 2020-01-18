@@ -88,7 +88,7 @@ namespace BogieEngineCore.Modelling
             VertexArray vertexArray = new VertexArray();
             vertexArray.Setup(vb, eb);
 
-            Mesh mesh = new Mesh(vertexArray);
+            Mesh mesh = new Mesh(aiMesh.Name, vertexArray);
             mesh.Textures = textures;
 
             MeshData meshData = new MeshData(mesh);

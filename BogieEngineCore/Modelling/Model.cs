@@ -27,6 +27,16 @@ namespace BogieEngineCore.Modelling
             }
         }
 
+        public List<MeshData> GetMeshWithName(string name)
+        {
+            List<MeshData> result = new List<MeshData>();
+            foreach(MeshData meshData in MeshData)
+            {
+                if(meshData.Name == name) { result.Add(meshData); }
+            }
+            return result;
+        }
+
         public void Draw()
         {
             foreach(MeshData mesh in MeshData)

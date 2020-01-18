@@ -15,11 +15,15 @@ namespace BogieEngineCore.Modelling
     {
         public bool Disposed => ((IDisposable)_VertexArray).Disposed;
         public List<Texture> Textures = new List<Texture>();
+        public string Name { get { return _name; } }
 
         internal VertexArray _VertexArray;
 
-        internal Mesh(VertexArray vertexArray)
+        private string _name;
+
+        internal Mesh(string name, VertexArray vertexArray)
         {
+            _name = name;
             _VertexArray = vertexArray;
         }
 

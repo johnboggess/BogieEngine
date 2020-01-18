@@ -11,7 +11,9 @@ namespace BogieEngineCore.Modelling
     {
         public Shader Shader;
         public bool Visible = true;
+        public string Name { get { return _Mesh.Name; } }
         public bool Disposed => ((IDisposable)_Mesh).Disposed;
+
 
         internal Mesh _Mesh;
 
