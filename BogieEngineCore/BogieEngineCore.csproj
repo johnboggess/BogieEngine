@@ -78,6 +78,8 @@
     <Compile Include="ElementBuffer.cs" />
     <Compile Include="GPUBuffer.cs" />
     <Compile Include="IDisposable.cs" />
+    <Compile Include="Models\Mesh.cs" />
+    <Compile Include="Models\Model.cs" />
     <Compile Include="Shaders\Shader.cs" />
     <Compile Include="Textures\Texture.cs" />
     <Compile Include="Textures\TextureData.cs" />

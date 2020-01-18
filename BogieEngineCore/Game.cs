@@ -7,6 +7,7 @@ using OpenTK;
 using OpenTK.Graphics;
 using OpenTK.Graphics.OpenGL4;
 
+using BogieEngineCore.Models;
 using BogieEngineCore.Shaders;
 using BogieEngineCore.Textures;
 namespace BogieEngineCore
@@ -20,6 +21,8 @@ namespace BogieEngineCore
 
         internal VertexBuffer _VB;
         internal ElementBuffer _EB;
+        internal Mesh _Mesh;
+        internal Model _Model;
         internal VertexArray _VA;
         internal Shader _Shader;
         internal Texture _Texture;
@@ -58,8 +61,14 @@ namespace BogieEngineCore
             _EB.SetIndices(indices);
 
             _VA = new VertexArray();
-            _VA.Setup(_VB, _EB, new List<Texture> { _Texture, _TextureMask });
+            _VA.Setup(_VB, _EB);
 
+            _Mesh = new Mesh(_VA);
+            _Mesh.Shader = _Shader;
+            _Mesh.Textures = new List<Texture> { _Texture, _TextureMask };
+
+            _Model = new Model(new List<Mesh> { _Mesh });
+            _Model.Transform = Matrix4.CreateRotationX(MathHelper.DegreesToRadians(-55.0f));
             base.OnLoad(e);
         }
 
@@ -72,11 +81,11 @@ namespace BogieEngineCore
         protected override void OnRenderFrame(FrameEventArgs e)
         {
             GL.Clear(ClearBufferMask.ColorBufferBit);
+            _Shader.Projection = ActiveCamera.Projection;
+            _Shader.View = ActiveCamera.View;
 
-            _VA.Bind();
-            _VA.BindTextures();
-            _Shader.Use(ActiveCamera.Projection, ActiveCamera.View, Matrix4.CreateRotationX(MathHelper.DegreesToRadians(-55.0f)));
-            _VA.Draw();
+            _Model.Draw();
+
             Context.SwapBuffers();
             base.OnRenderFrame(e);
         }

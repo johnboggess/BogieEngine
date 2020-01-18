@@ -19,18 +19,16 @@ namespace BogieEngineCore
         int _handle;
         VertexBuffer _vbo;
         ElementBuffer _ebo;
-        List<Texture> _textures;
 
         public VertexArray()
         {
             _handle = GL.GenVertexArray();
         }
 
-        public void Setup(VertexBuffer vbo, ElementBuffer ebo, List<Texture> textures)
+        public void Setup(VertexBuffer vbo, ElementBuffer ebo)
         {
             _ebo = ebo;
             _vbo = vbo;
-            _textures = textures;
             Bind();
 
             vbo.Bind();
@@ -48,12 +46,6 @@ namespace BogieEngineCore
         public void Bind()
         {
             GL.BindVertexArray(_handle);
-        }
-
-        public void BindTextures()
-        {
-            foreach (Texture texture in _textures)
-                texture.Bind();
         }
 
         public void UnBind()

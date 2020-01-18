@@ -15,11 +15,39 @@ namespace BogieEngineCore.Shaders
         public static readonly int VertexPositionLocation = 0;
         public static readonly int VertexUVLocation = 1;
 
+        public Matrix4 Projection
+        {
+            get { return _projection; }
+            set
+            {
+                _projection = value;
+                GL.UseProgram(_handle);
+                GL.UniformMatrix4(projectionLocation, false, ref _projection);
+
+            }
+        }
+
+        public Matrix4 View
+        {
+            get { return _view; }
+            set
+            {
+                _view = value;
+                GL.UseProgram(_handle);
+                GL.UniformMatrix4(viewLocation, false, ref _view);
+
+            }
+        }
+
         public bool Disposed { get { return _disposed; } }
-        private bool _disposed = false;
 
 
         int _handle;
+
+        Matrix4 _projection;
+        Matrix4 _view;
+        private bool _disposed = false;
+
         int projectionLocation;
         int viewLocation;
         int modelLocation;
@@ -86,11 +114,9 @@ namespace BogieEngineCore.Shaders
             modelLocation = GL.GetUniformLocation(_handle, "model");
         }
 
-        public void Use(Matrix4 projection, Matrix4 view, Matrix4 model)
+        public void Use(Matrix4 model)
         {
             GL.UseProgram(_handle);
-            GL.UniformMatrix4(projectionLocation, false, ref projection);
-            GL.UniformMatrix4(viewLocation, false, ref view);
             GL.UniformMatrix4(modelLocation, false, ref model);
         }
 
