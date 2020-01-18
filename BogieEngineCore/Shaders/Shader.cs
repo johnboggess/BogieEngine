@@ -11,6 +11,9 @@ namespace BogieEngineCore.Shaders
 {
     public class Shader : IDisposable
     {
+        public bool Disposed { get { return _disposed; } }
+        private bool _disposed = false;
+
         public static readonly int VertexPositionLocation = 0;
         public static readonly int VertexUVLocation = 1;
 
@@ -83,22 +86,7 @@ namespace BogieEngineCore.Shaders
 
         public void Dispose()
         {
-            Dispose(true);
-            GC.SuppressFinalize(this);
-        }
-
-        protected virtual void Dispose(bool disposing)
-        {
-            if (!disposedValue)
-            {
-                GL.DeleteProgram(_handle);
-
-                disposedValue = true;
-            }
-        }
-
-        ~Shader()
-        {
+            _disposed = true;
             GL.DeleteProgram(_handle);
         }
     }

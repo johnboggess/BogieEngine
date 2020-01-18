@@ -15,6 +15,8 @@ namespace BogieEngineCore
     {
         public Color4 ClearColor = Color4.White;
 
+        internal VertexBuffer _VB;
+        internal ElementBuffer _EB;
         internal VertexArray _VA;
         internal Shader _Shader;
         internal Texture _Texture;
@@ -45,8 +47,15 @@ namespace BogieEngineCore
             _Shader = new Shader("Shaders/default.vert", "Shaders/default.frag");
             _Texture = new Texture("Textures/Brick.jpg", TextureUnit.Texture0);
             _TextureMask = new Texture("Textures/Circle.png", TextureUnit.Texture1);
+
+            _VB = new VertexBuffer();
+            _VB.SetVertices(vertices);
+
+            _EB = new ElementBuffer();
+            _EB.SetIndices(indices);
+
             _VA = new VertexArray();
-            _VA.Setup(vertices, indices, new List<Texture> { _Texture, _TextureMask });
+            _VA.Setup(_VB, _EB, new List<Texture> { _Texture, _TextureMask });
 
             base.OnLoad(e);
         }

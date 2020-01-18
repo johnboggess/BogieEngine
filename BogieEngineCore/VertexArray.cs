@@ -11,8 +11,11 @@ using BogieEngineCore.Textures;
 
 namespace BogieEngineCore
 {
-    class VertexArray
+    class VertexArray : IDisposable
     {
+        public bool Disposed { get { return _disposed; } }
+        private bool _disposed = false;
+
         int _handle;
         VertexBuffer _vbo;
         ElementBuffer _ebo;
@@ -21,16 +24,6 @@ namespace BogieEngineCore
         public VertexArray()
         {
             _handle = GL.GenVertexArray();
-        }
-
-        public void Setup(Vertex[] vertices, uint[] indices, List<Texture> textures)
-        {
-            _vbo = new VertexBuffer();
-            _vbo.SetVertices(vertices);
-            _ebo = new ElementBuffer();
-            _ebo.SetIndices(indices);
-
-            Setup(_vbo, _ebo, textures);
         }
 
         public void Setup(VertexBuffer vbo, ElementBuffer ebo, List<Texture> textures)
@@ -75,10 +68,7 @@ namespace BogieEngineCore
 
         public void Dispose()
         {
-            _vbo.Dispose();
-            _ebo.Dispose();
-            foreach (Texture texture in _textures)
-                texture.Dispose();
+            _disposed = true;
             GL.DeleteBuffer(_handle);
         }
 

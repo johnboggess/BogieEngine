@@ -8,38 +8,22 @@ using OpenTK.Graphics.OpenGL4;
 
 namespace BogieEngineCore
 {
-    internal class VertexBuffer
+    /// <summary>
+    /// Represents a buffer of vertices on the GPU
+    /// </summary>
+    internal class VertexBuffer : GPUBuffer
     {
-        int _handle;
         private Vertex[] _vertices;
         public Vertex[] Vertice { get { return _vertices; } }
 
-        public VertexBuffer()
-        {
-            _handle = GL.GenBuffer();
-        }
+        public VertexBuffer() : base(BufferTarget.ArrayBuffer, BufferUsageHint.StaticDraw) { }
 
         public void SetVertices(Vertex[] vertices)
         {
             _vertices = vertices;
             Bind();
-            GL.BufferData(BufferTarget.ArrayBuffer, vertices.Length * Vertex.Size, vertices, BufferUsageHint.StaticDraw);
+            GL.BufferData(bufferTarget, vertices.Length * Vertex.Size, vertices, bufferUsageHint);
             UnBind();
-        }
-
-        public void Bind()
-        {
-            GL.BindBuffer(BufferTarget.ArrayBuffer, _handle);
-        }
-
-        public void UnBind()
-        {
-            GL.BindBuffer(BufferTarget.ArrayBuffer, 0);
-        }
-
-        public void Dispose()
-        {
-            GL.DeleteBuffer(_handle);
         }
     }
 }

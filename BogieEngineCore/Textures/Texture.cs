@@ -14,11 +14,13 @@ using OpenTK.Graphics.OpenGL4;
 
 namespace BogieEngineCore.Textures
 {
-    public class Texture
+    public class Texture: IDisposable
     {
+        public bool Disposed { get { return _disposed; } }
+        private bool _disposed = false;
+
         int _handle;
         TextureUnit _textureUnit;
-
 
         public Texture(string filePath, TextureUnit textureUnit, TextureWrapMode wrapMode = TextureWrapMode.Repeat, TextureMinFilter minFilter = TextureMinFilter.Linear, TextureMagFilter magFilter = TextureMagFilter.Linear)
         {
@@ -65,6 +67,7 @@ namespace BogieEngineCore.Textures
 
         public void Dispose()
         {
+            _disposed = true;
             GL.DeleteTexture(_handle);
         }
     }

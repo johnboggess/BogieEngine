@@ -8,16 +8,12 @@ using OpenTK.Graphics.OpenGL4;
 
 namespace BogieEngineCore
 {
-    class ElementBuffer
+    class ElementBuffer : GPUBuffer
     {
-        int _handle;
         uint[] _indices;
         public uint[] Indices { get { return _indices; } }
 
-        public ElementBuffer()
-        {
-            _handle = GL.GenBuffer();
-        }
+        public ElementBuffer() : base(BufferTarget.ElementArrayBuffer, BufferUsageHint.StaticDraw) { }
 
         public void SetIndices(uint[] indices)
         {
@@ -25,21 +21,6 @@ namespace BogieEngineCore
             Bind();
             GL.BufferData(BufferTarget.ElementArrayBuffer, indices.Length * sizeof(uint), indices, BufferUsageHint.StaticDraw);
             UnBind();
-        }
-
-        public void Bind()
-        {
-            GL.BindBuffer(BufferTarget.ElementArrayBuffer, _handle);
-        }
-
-        public void UnBind()
-        {
-            GL.BindBuffer(BufferTarget.ElementArrayBuffer, 0);
-        }
-
-        public void Dispose()
-        {
-            GL.DeleteBuffer(_handle);
         }
     }
 }
