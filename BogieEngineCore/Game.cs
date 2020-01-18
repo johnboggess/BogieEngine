@@ -23,6 +23,7 @@ namespace BogieEngineCore
         internal ElementBuffer _EB;
         internal Mesh _Mesh;
         internal Model _Model;
+        internal Model _ModelMonkey;
         internal VertexArray _VA;
         internal Shader _Shader;
         internal Texture _Texture;
@@ -35,6 +36,19 @@ namespace BogieEngineCore
 
         protected override void OnLoad(EventArgs e)
         {
+            _Shader = new Shader("Shaders/default.vert", "Shaders/default.frag");
+            _Texture = ContentManager.LoadTexture("Textures/Brick.jpg", TextureUnit.Texture0);
+            _TextureMask = ContentManager.LoadTexture("Textures/Circle.png", TextureUnit.Texture1);
+
+            _ModelMonkey = ModelLoader.LoadModel("Resources/Monkey.obj");
+            _ModelMonkey.Transform = Matrix4.Identity;
+            foreach (Mesh mesh in _ModelMonkey.Meshes)
+            {
+                mesh.Shader = _Shader;
+                mesh.Textures.Add(_Texture);
+                mesh.Textures.Add(_TextureMask);
+            }
+
             GL.ClearColor(1, 1, 1, 1);
 
             Vertex[] vertices =
@@ -50,9 +64,6 @@ namespace BogieEngineCore
                 0,1,3,1,2,3
             };
 
-            _Shader = new Shader("Shaders/default.vert", "Shaders/default.frag");
-            _Texture = ContentManager.LoadTexture("Textures/Brick.jpg", TextureUnit.Texture0);
-            _TextureMask = ContentManager.LoadTexture("Textures/Circle.png", TextureUnit.Texture1);
 
             _VB = new VertexBuffer();
             _VB.SetVertices(vertices);
@@ -85,6 +96,7 @@ namespace BogieEngineCore
             _Shader.View = ActiveCamera.View;
 
             _Model.Draw();
+            _ModelMonkey.Draw();
 
             Context.SwapBuffers();
             base.OnRenderFrame(e);

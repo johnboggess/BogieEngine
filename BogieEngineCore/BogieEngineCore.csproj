@@ -83,6 +83,7 @@
     <Compile Include="IDisposable.cs" />
     <Compile Include="Models\Mesh.cs" />
     <Compile Include="Models\Model.cs" />
+    <Compile Include="Models\ModelLoader.cs" />
     <Compile Include="Shaders\Shader.cs" />
     <Compile Include="Textures\Texture.cs" />
     <Compile Include="Textures\TextureData.cs" />
@@ -96,6 +97,9 @@
     <None Include="app.config" />
     <None Include="OpenTK.dll.config" />
     <None Include="packages.config" />
+    <None Include="Resources\Monkey.obj">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="Shaders\default.frag">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
