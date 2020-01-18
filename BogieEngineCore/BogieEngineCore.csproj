@@ -79,6 +79,7 @@
     <Compile Include="IDisposable.cs" />
     <Compile Include="Shaders\Shader.cs" />
     <Compile Include="Textures\Texture.cs" />
+    <Compile Include="Textures\TextureData.cs" />
     <Compile Include="Vertex.cs" />
     <Compile Include="VertexArray.cs" />
     <Compile Include="VertexBuffer.cs" />

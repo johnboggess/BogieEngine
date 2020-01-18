@@ -15,6 +15,7 @@ namespace BogieEngineCore
     {
         public Color4 ClearColor = Color4.White;
         public Camera ActiveCamera = new Camera();
+        public Random rng = new Random();
 
         internal VertexBuffer _VB;
         internal ElementBuffer _EB;
@@ -46,8 +47,8 @@ namespace BogieEngineCore
             };
 
             _Shader = new Shader("Shaders/default.vert", "Shaders/default.frag");
-            _Texture = new Texture("Textures/Brick.jpg", TextureUnit.Texture0);
-            _TextureMask = new Texture("Textures/Circle.png", TextureUnit.Texture1);
+            _Texture = new Texture(new TextureData("Textures/Brick.jpg", TextureUnit.Texture0));
+            _TextureMask = new Texture(new TextureData("Textures/Circle.png", TextureUnit.Texture1));
 
             _VB = new VertexBuffer();
             _VB.SetVertices(vertices);

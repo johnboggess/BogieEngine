@@ -4,71 +4,82 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-using SixLabors.ImageSharp;
-using SixLabors.ImageSharp.Advanced;
-using SixLabors.ImageSharp.PixelFormats;
-using SixLabors.ImageSharp.Processing;
-
-using OpenTK;
 using OpenTK.Graphics.OpenGL4;
-
 namespace BogieEngineCore.Textures
 {
-    public class Texture: IDisposable
+    class Texture : IDisposable
     {
-        public bool Disposed { get { return _disposed; } }
-        private bool _disposed = false;
-
-        int _handle;
-        TextureUnit _textureUnit;
-
-        public Texture(string filePath, TextureUnit textureUnit, TextureWrapMode wrapMode = TextureWrapMode.Repeat, TextureMinFilter minFilter = TextureMinFilter.Linear, TextureMagFilter magFilter = TextureMagFilter.Linear)
+        public bool Disposed { get { return _textureData.Disposed; } }
+        public TextureWrapMode WrapMode
         {
-            _handle = GL.GenTexture();
-            _textureUnit = textureUnit;
-
-            Image<Rgba32> image = (Image<Rgba32>)Image.Load(filePath);
-            image.Mutate(x => x.Flip(FlipMode.Vertical));
-            Rgba32[] tempPixels = image.GetPixelSpan().ToArray();
-            List<byte> pixels = new List<byte>();
-            foreach (Rgba32 p in tempPixels)
+            get { return _wrapMode; }
+            set
             {
-                pixels.Add(p.R);
-                pixels.Add(p.G);
-                pixels.Add(p.B);
-                pixels.Add(p.A);
+                _wrapMode = value;
+                _textureData.Bind();
+                GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureWrapS, (int)_wrapMode);
+                GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureWrapT, (int)_wrapMode);
+                _textureData.UnBind();
             }
+        }
+        public TextureMinFilter TextureMinFilter
+        {
+            get { return _textureMinFilter; }
+            set
+            {
+                _textureMinFilter = value;
+                _textureData.Bind();
+                GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMinFilter, (int)_textureMinFilter);
+                _textureData.UnBind();
+            }
+        }
+        public TextureMagFilter TextureMagFilter
+        {
+            get { return _textureMagFilter; }
+            set
+            {
+                _textureMagFilter = value;
+                _textureData.Bind();
+                GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMagFilter, (int)_textureMagFilter);
+                _textureData.UnBind();
+            }
+        }
 
-            Bind();
 
-            //repeat the texture in both direction
-            GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureWrapS, (int)wrapMode);
-            GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureWrapT, (int)wrapMode);
+        TextureWrapMode _wrapMode = TextureWrapMode.Repeat;
+        TextureMinFilter _textureMinFilter = TextureMinFilter.Linear;
+        TextureMagFilter _textureMagFilter = TextureMagFilter.Linear;
+        TextureData _textureData;
 
-            //Scale the texture linearly
-            GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMinFilter, (int)minFilter);
-            GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMagFilter, (int)magFilter);
+        internal Texture(TextureData textureData, TextureWrapMode wrapMode = TextureWrapMode.Repeat, TextureMinFilter minFilter = TextureMinFilter.Linear, TextureMagFilter magFilter = TextureMagFilter.Linear)
+        {
+            _textureData = textureData;
+            _wrapMode = wrapMode;
+            _textureMinFilter = minFilter;
+            _textureMagFilter = magFilter;
 
-            GL.TexImage2D(TextureTarget.Texture2D, 0, PixelInternalFormat.Rgba, image.Width, image.Height, 0, PixelFormat.Rgba, PixelType.UnsignedByte, pixels.ToArray());
-            //GL.GenerateMipmaps()
-            UnBind();
+            _textureData.Bind();
+            GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureWrapS, (int)_wrapMode);
+            GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureWrapT, (int)_wrapMode);
+
+            GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMinFilter, (int)_textureMinFilter);
+            GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMagFilter, (int)_textureMagFilter);
+            _textureData.UnBind();
         }
 
         public void Bind()
         {
-            GL.ActiveTexture(_textureUnit);
-            GL.BindTexture(TextureTarget.Texture2D, _handle);
+            _textureData.Bind();
         }
 
         public void UnBind()
         {
-            GL.BindTexture(TextureTarget.Texture2D, 0);
+            _textureData.UnBind();
         }
 
         public void Dispose()
         {
-            _disposed = true;
-            GL.DeleteTexture(_handle);
+            _textureData.Dispose();
         }
     }
 }

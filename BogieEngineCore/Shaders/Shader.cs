@@ -12,11 +12,12 @@ namespace BogieEngineCore.Shaders
 {
     public class Shader : IDisposable
     {
+        public static readonly int VertexPositionLocation = 0;
+        public static readonly int VertexUVLocation = 1;
+
         public bool Disposed { get { return _disposed; } }
         private bool _disposed = false;
 
-        public static readonly int VertexPositionLocation = 0;
-        public static readonly int VertexUVLocation = 1;
 
         int _handle;
         int projectionLocation;
