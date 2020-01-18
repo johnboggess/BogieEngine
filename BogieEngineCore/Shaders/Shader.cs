@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.IO;
 
+using OpenTK;
 using OpenTK.Graphics.OpenGL4;
 
 namespace BogieEngineCore.Shaders
@@ -17,9 +18,11 @@ namespace BogieEngineCore.Shaders
         public static readonly int VertexPositionLocation = 0;
         public static readonly int VertexUVLocation = 1;
 
-        private bool disposedValue = false;
-
         int _handle;
+        int projectionLocation;
+        int viewLocation;
+        int modelLocation;
+
         public Shader(string vertexPath, string fragmentPath)
         {
             //Read source code from file
@@ -58,7 +61,7 @@ namespace BogieEngineCore.Shaders
             GL.DeleteShader(fragHandle);
 
             //Set the texture units of the samplers in the order they appear
-            Use(); //must use the shader before uniforms can be set
+            GL.UseProgram(_handle); //must use the shader before uniforms can be set
             int uniformCount;
             int samplersFound = 0;
             GL.GetProgram(_handle, GetProgramParameterName.ActiveUniforms, out uniformCount);
@@ -76,13 +79,19 @@ namespace BogieEngineCore.Shaders
                     samplersFound += 1;
                 }
             }
+
+            projectionLocation = GL.GetUniformLocation(_handle, "projection");
+            viewLocation = GL.GetUniformLocation(_handle, "view");
+            modelLocation = GL.GetUniformLocation(_handle, "model");
         }
 
-        public void Use()
+        public void Use(Matrix4 projection, Matrix4 view, Matrix4 model)
         {
             GL.UseProgram(_handle);
+            GL.UniformMatrix4(projectionLocation, false, ref projection);
+            GL.UniformMatrix4(viewLocation, false, ref view);
+            GL.UniformMatrix4(modelLocation, false, ref model);
         }
-
 
         public void Dispose()
         {

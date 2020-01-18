@@ -11,9 +11,10 @@ using BogieEngineCore.Shaders;
 using BogieEngineCore.Textures;
 namespace BogieEngineCore
 {
-    public class Window : GameWindow
+    public class Game : GameWindow
     {
         public Color4 ClearColor = Color4.White;
+        public Camera ActiveCamera = new Camera();
 
         internal VertexBuffer _VB;
         internal ElementBuffer _EB;
@@ -22,7 +23,7 @@ namespace BogieEngineCore
         internal Texture _Texture;
         internal Texture _TextureMask;
 
-        public Window(int width, int height, string title, int updateRate = 30, int frameRate = 30) : base(width, height, OpenTK.Graphics.GraphicsMode.Default, title)
+        public Game(int width, int height, string title, int updateRate = 30, int frameRate = 30) : base(width, height, OpenTK.Graphics.GraphicsMode.Default, title)
         {
             Run(updateRate, frameRate);
         }
@@ -72,7 +73,7 @@ namespace BogieEngineCore
 
             _VA.Bind();
             _VA.BindTextures();
-            _Shader.Use();
+            _Shader.Use(ActiveCamera.Projection, ActiveCamera.View, Matrix4.CreateRotationX(MathHelper.DegreesToRadians(-55.0f)));
             _VA.Draw();
             Context.SwapBuffers();
             base.OnRenderFrame(e);

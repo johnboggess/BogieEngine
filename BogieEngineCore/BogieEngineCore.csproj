@@ -73,14 +73,16 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Camera.cs" />
     <Compile Include="ElementBuffer.cs" />
     <Compile Include="GPUBuffer.cs" />
+    <Compile Include="IDisposable.cs" />
     <Compile Include="Shaders\Shader.cs" />
     <Compile Include="Textures\Texture.cs" />
     <Compile Include="Vertex.cs" />
     <Compile Include="VertexArray.cs" />
     <Compile Include="VertexBuffer.cs" />
-    <Compile Include="Window.cs" />
+    <Compile Include="Game.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
