@@ -89,6 +89,7 @@ namespace BogieEngineCore.Modelling
             vertexArray.Setup(vb, eb);
 
             Mesh mesh = new Mesh(vertexArray);
+            mesh.Shader = _game.DefaultShader;
             mesh.Textures = textures;
 
             return mesh;

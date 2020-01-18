@@ -14,19 +14,18 @@ namespace BogieEngineCore
 {
     public class Game : GameWindow
     {
-        public ContentManager ContentManager = new ContentManager();
+        public ContentManager ContentManager;
         public Color4 ClearColor = Color4.White;
+        public Shader DefaultShader;
         public Camera ActiveCamera = new Camera();
-        public Random rng = new Random();
 
         internal Model _Samus;
-        internal Shader _Shader;
-        internal Texture _Texture;
 
         float rot = 0;
 
         public Game(int width, int height, string title, int updateRate = 30, int frameRate = 30) : base(width, height, OpenTK.Graphics.GraphicsMode.Default, title)
         {
+            ContentManager = new ContentManager(this);
             Run(updateRate, frameRate);
         }
 
@@ -34,16 +33,10 @@ namespace BogieEngineCore
         {
             GL.Enable(EnableCap.DepthTest);
             GL.ClearColor(ClearColor);
-
-            _Shader = new Shader("Resources/Shaders/default.vert", "Resources/Shaders/default.frag");
-            _Texture = ContentManager.LoadTexture("Resources/Textures/Brick.jpg", TextureUnit.Texture0);
+            DefaultShader = new Shader("Resources/Shaders/default.vert", "Resources/Shaders/default.frag");
 
             //downloaded from https://sketchfab.com/3d-models/varia-suit-79c802129f9a4945aba62a607892ac31
-            _Samus = ModelLoader.LoadModel("Resources/Models/VariaSuit/DolBarriersuit.obj", this);
-            foreach (Mesh mesh in _Samus.Meshes)
-            {
-                mesh.Shader = _Shader;
-            }
+            _Samus = ContentManager.LoadModel("Resources/Models/VariaSuit/DolBarriersuit.obj");
 
             base.OnLoad(e);
         }
@@ -57,14 +50,11 @@ namespace BogieEngineCore
         protected override void OnRenderFrame(FrameEventArgs e)
         {
             GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
-            _Shader.Projection = ActiveCamera.Projection;
-            _Shader.View = ActiveCamera.View;
+            DefaultShader.Projection = ActiveCamera.Projection;
+            DefaultShader.View = ActiveCamera.View;
 
             rot += .01f;
             _Samus.Transform = Matrix4.CreateScale(.1f)*Matrix4.CreateRotationY(rot) * Matrix4.CreateTranslation(0, -1, 0); ;
-
-            //_Model.Draw();
-            //_ModelMonkey.Draw();
             _Samus.Draw();
 
             Context.SwapBuffers();
@@ -73,7 +63,7 @@ namespace BogieEngineCore
 
         protected override void OnUnload(EventArgs e)
         {
-            _Shader.Dispose();
+            DefaultShader.Dispose();
         }
     }
 }

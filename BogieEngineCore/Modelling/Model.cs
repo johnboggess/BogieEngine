@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using OpenTK;
 namespace BogieEngineCore.Modelling
 {
-    class Model
+    public class Model
     {
         public Matrix4 Transform = Matrix4.Identity;
         public List<Mesh> Meshes = new List<Mesh>();

@@ -7,12 +7,20 @@ using System.Threading.Tasks;
 using OpenTK.Graphics.OpenGL4;
 
 using BogieEngineCore.Shading;
+using BogieEngineCore.Modelling;
 using BogieEngineCore.Texturing;
 namespace BogieEngineCore
 {
     public class ContentManager
     {
+        Game _game;
         Dictionary<string, TextureData> _pathToTextureData = new Dictionary<string, TextureData>();
+        Dictionary<string, Model> _pathToModel = new Dictionary<string, Model>();
+
+        public ContentManager(Game game)
+        {
+            _game = game;
+        }
 
         public Texture LoadTexture(string filePath, TextureUnit textureUnit)
         {
@@ -23,6 +31,17 @@ namespace BogieEngineCore
             TextureData textureData = new TextureData(filePath, textureUnit);
             _pathToTextureData.Add(filePath, textureData);
             return new Texture(textureData);
+        }
+
+        public Model LoadModel(string filePath)
+        {
+            if(_pathToModel.ContainsKey(filePath))
+            {
+                return _pathToModel[filePath];
+            }
+            Model model = ModelLoader.LoadModel(filePath, _game);
+            _pathToModel.Add(filePath, model);
+            return model;
         }
     }
 }
