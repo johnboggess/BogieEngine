@@ -11,12 +11,12 @@ namespace BogieEngineCore.Modelling
 {
     internal class ModelLoader
     {
-        static Game _game;
+        static ContentManager _contentManager;
         static string folder;
 
-        public static Model LoadModel(string filePath, Game game, Shading.Shader shader)
+        public static Model LoadModel(string filePath, ContentManager contentManager, Shading.Shader shader)
         {
-            _game = game;
+            _contentManager = contentManager;
             folder = filePath.Substring(0,filePath.LastIndexOf("/"));
             AssimpContext assimpContext = new AssimpContext();
             Scene scene = assimpContext.ImportFile(filePath, PostProcessSteps.Triangulate | PostProcessSteps.GenerateNormals);
@@ -77,7 +77,7 @@ namespace BogieEngineCore.Modelling
                 string diffusePath = material.TextureDiffuse.FilePath;
                 if (diffusePath != null)
                 {
-                    textures.Add(_game.ContentManager.LoadTexture(folder+"/" + diffusePath, OpenTK.Graphics.OpenGL4.TextureUnit.Texture0));
+                    textures.Add(_contentManager.LoadTexture(folder+"/" + diffusePath, OpenTK.Graphics.OpenGL4.TextureUnit.Texture0));
                 }
             }
 

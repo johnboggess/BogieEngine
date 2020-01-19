@@ -88,6 +88,7 @@
     <Compile Include="Nodes\ModelNode.cs" />
     <Compile Include="Nodes\Node.cs" />
     <Compile Include="Nodes\Node3D.cs" />
+    <Compile Include="Nodes\Root.cs" />
     <Compile Include="Shading\Shader.cs" />
     <Compile Include="Texturing\Texture.cs" />
     <Compile Include="Texturing\TextureData.cs" />
@@ -95,7 +96,7 @@
     <Compile Include="Vertex.cs" />
     <Compile Include="VertexArray.cs" />
     <Compile Include="VertexBuffer.cs" />
-    <Compile Include="Game.cs" />
+    <Compile Include="TestGame.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -19,7 +19,7 @@ namespace BogieEngineCore.Modelling
             MeshData = meshData;
         }
 
-        public Model(Model model, Game game)
+        public Model(Model model)
         {
             foreach(MeshData meshData in model.MeshData)
             {

@@ -35,9 +35,9 @@ namespace BogieEngineCore.Nodes
 
         internal void _Draw()
         {
-            foreach (Node node in _Childern)
-                node.Draw();
             Draw();
+            foreach (Node node in _Childern)
+                node._Draw();
         }
 
     }
