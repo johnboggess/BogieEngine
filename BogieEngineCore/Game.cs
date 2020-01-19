@@ -21,6 +21,7 @@ namespace BogieEngineCore
 
         internal Model _Samus;
         internal Model _SamusNoVisor;
+        internal Model _Cube;
 
         float rot = 0;
 
@@ -38,11 +39,14 @@ namespace BogieEngineCore
 
             //downloaded from https://sketchfab.com/3d-models/varia-suit-79c802129f9a4945aba62a607892ac31
             _Samus = ContentManager.LoadModel("Resources/Models/VariaSuit/DolBarriersuit.obj");
+            _Samus.GetMeshWithName("polygon6")[0].Textures = new List<Texture>();
             _SamusNoVisor = ContentManager.LoadModel("Resources/Models/VariaSuit/DolBarriersuit.obj");
             _SamusNoVisor.Transform = Matrix4.CreateScale(.1f) * Matrix4.CreateTranslation(0, -1, 0);
 
+            _Cube = ContentManager.LoadModel("Resources/Models/Cube.obj");
+
             List<MeshData> meshData = _SamusNoVisor.GetMeshWithName("polygon6");
-            if(meshData.Count > 0) { meshData[0].Visible = false; }
+            if(meshData.Count > 0) { meshData[0].Visible = true; }
             base.OnLoad(e);
         }
 

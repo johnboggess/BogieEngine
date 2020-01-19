@@ -5,6 +5,8 @@ using System.Text;
 using System.Threading.Tasks;
 
 using OpenTK;
+
+using BogieEngineCore.Texturing;
 namespace BogieEngineCore.Modelling
 {
     public class Model
@@ -23,6 +25,7 @@ namespace BogieEngineCore.Modelling
             {
                 MeshData newMeshData = new MeshData(meshData._Mesh);
                 newMeshData.Shader = meshData.Shader;
+                newMeshData.Textures = meshData.Textures;
                 MeshData.Add(newMeshData);
             }
         }

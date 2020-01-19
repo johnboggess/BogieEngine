@@ -98,6 +98,9 @@
     <None Include="app.config" />
     <None Include="OpenTK.dll.config" />
     <None Include="packages.config" />
+    <None Include="Resources\Models\Cube.obj">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="Resources\Models\Monkey.obj">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

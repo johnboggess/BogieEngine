@@ -89,10 +89,10 @@ namespace BogieEngineCore.Modelling
             vertexArray.Setup(vb, eb);
 
             Mesh mesh = new Mesh(aiMesh.Name, vertexArray);
-            mesh.Textures = textures;
 
             MeshData meshData = new MeshData(mesh);
             meshData.Shader = _game.DefaultShader;
+            meshData.Textures = textures;
 
             return meshData;
         }

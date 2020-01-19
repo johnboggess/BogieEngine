@@ -14,7 +14,6 @@ namespace BogieEngineCore.Modelling
     public class Mesh : IDisposable
     {
         public bool Disposed => ((IDisposable)_VertexArray).Disposed;
-        public List<Texture> Textures = new List<Texture>();
         public string Name { get { return _name; } }
 
         internal VertexArray _VertexArray;
@@ -29,15 +28,17 @@ namespace BogieEngineCore.Modelling
 
         public void Draw()
         {
-            _VertexArray.Bind();
-            foreach(Texture texture in Textures)
-                texture.Bind();
             _VertexArray.Draw();
         }
 
         public void Dispose()
         {
             ((IDisposable)_VertexArray).Dispose();
+        }
+
+        internal void BindVertexArray()
+        {
+            _VertexArray.Bind();
         }
     }
 }

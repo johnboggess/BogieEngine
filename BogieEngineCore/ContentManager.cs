@@ -41,7 +41,7 @@ namespace BogieEngineCore
             }
             Model model = ModelLoader.LoadModel(filePath, _game);
             _pathToModel.Add(filePath, model);
-            return model;
+            return new Model(model, _game);
         }
     }
 }
