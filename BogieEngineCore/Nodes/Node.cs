@@ -8,19 +8,37 @@ namespace BogieEngineCore.Nodes
 {
     public class Node
     {
-        public List<Node> Childern = new List<Node>();
+        public Node Parent;
+        public List<Node> Childern { get { return _Childern; } }
 
-        internal void _Process()
-        {
-            Process();
-        }
+        internal List<Node> _Childern = new List<Node>();
 
-        internal void _Draw()
+        public void AddNode(Node node)
         {
-            Draw();
+            if(node.Parent != null)
+            {
+                node.Parent._Childern.Remove(node);
+            }
+            node.Parent = this;
+            this._Childern.Add(node);
         }
 
         public virtual void Process() { }
         public virtual void Draw() { }
+
+        internal void _Process()
+        {
+            Process();
+            foreach (Node node in _Childern)
+                node._Process();
+        }
+
+        internal void _Draw()
+        {
+            foreach (Node node in _Childern)
+                node.Draw();
+            Draw();
+        }
+
     }
 }

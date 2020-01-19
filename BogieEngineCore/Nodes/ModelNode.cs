@@ -20,5 +20,10 @@ namespace BogieEngineCore.Nodes
         {
             Model.Draw(Transform.GetMatrix4());
         }
+
+        public List<MeshData> GetMeshWithName(string name)
+        {
+            return Model.GetMeshWithName(name);
+        }
     }
 }

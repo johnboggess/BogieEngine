@@ -21,12 +21,11 @@ namespace BogieEngineCore
         public Shader DefaultShader;
         public Shader MaskCubeShader;
         public Camera ActiveCamera = new Camera();
+        public Node World = new Node();
 
         internal ModelNode _Samus;
         internal ModelNode _SamusNoVisor;
-        internal Model _Cube;
-
-        float rot = 0;
+        internal ModelNode _Cube;
 
         public Game(int width, int height, string title, int updateRate = 30, int frameRate = 30) : base(width, height, OpenTK.Graphics.GraphicsMode.Default, title)
         {
@@ -54,17 +53,23 @@ namespace BogieEngineCore
             _SamusNoVisor.Transform.Scale(new Vector3(.1f, .1f, .1f));
             _SamusNoVisor.Transform.Position = new Vector3(.5f, -1, 0);
 
+            World.AddNode(_Samus);
+            World.AddNode(_SamusNoVisor);
+
             Texture cube0Tex = ContentManager.LoadTexture("Resources/Textures/Brick.jpg", TextureUnit.Texture0);
             Texture cube1Tex = ContentManager.LoadTexture("Resources/Textures/Circle.png", TextureUnit.Texture1);
 
-            _Cube = ContentManager.LoadModel("Resources/Models/Cube.obj");
-            _Cube.Transform = Matrix4.CreateTranslation(0, 0, -2) * Matrix4.CreateScale(3.5f, 3.5f, 1);
-            _Cube.MeshData[0].Shader = MaskCubeShader;
-            _Cube.MeshData[0].Textures.Add(cube0Tex);
-            _Cube.MeshData[0].Textures.Add(cube1Tex);
+            _Cube = new ModelNode(ContentManager.LoadModel("Resources/Models/Cube.obj"));
+            _Cube.Transform.Scale(new Vector3(3.5f, 3.5f, 1));
+            _Cube.Transform.Position = new Vector3(0, 0, -2);
+            _Cube.Model.MeshData[0].Shader = MaskCubeShader;
+            _Cube.Model.MeshData[0].Textures.Add(cube0Tex);
+            _Cube.Model.MeshData[0].Textures.Add(cube1Tex);
 
-            //List<MeshData> meshData = _SamusNoVisor.GetMeshWithName("polygon6");
-            //if(meshData.Count > 0) { meshData[0].Visible = false; }
+            World.AddNode(_Cube);
+
+            List<MeshData> meshData = _SamusNoVisor.GetMeshWithName("polygon6");
+            if(meshData.Count > 0) { meshData[0].Visible = false; }
             base.OnLoad(e);
         }
 
@@ -115,14 +120,10 @@ namespace BogieEngineCore
             MaskCubeShader.Projection = ActiveCamera.Projection;
             MaskCubeShader.View = ActiveCamera.View;
 
-            rot += .01f;
+            World._Draw();
+
             _Samus.Transform.Rotate(_SamusNoVisor.Transform.Up, -.01f);
-            _Samus.Draw();
-
             _SamusNoVisor.Transform.Rotate(_SamusNoVisor.Transform.Up, -.01f);
-            _SamusNoVisor.Draw();
-
-            _Cube.Draw(_Cube.Transform);
 
             Context.SwapBuffers();
             base.OnRenderFrame(e);
