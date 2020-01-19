@@ -12,7 +12,7 @@ namespace BogieEngineCore
         public Vector3 Forwards = -Vector3.UnitZ;
         public Vector3 Up = Vector3.UnitY;
         public Vector3 Right = Vector3.UnitX;
-        public Vector3 Position;
+        public Vector3 Position = Vector3.Zero;
 
         public Vector3 XAxis { get => Right; set => Right = value; }
         public Vector3 YAxis { get => Up; set => Up = value; }
@@ -29,6 +29,13 @@ namespace BogieEngineCore
             Forwards = rot * Forwards;
             Up = rot * Up;
             Right = rot * Right;
+        }
+
+        public void Scale(Vector3 Scale)
+        {
+            Forwards = Forwards * Scale.Z;
+            Up = Up * Scale.Y;
+            Right = Right * Scale.X;
         }
     }
 }

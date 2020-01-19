@@ -11,7 +11,7 @@ namespace BogieEngineCore.Modelling
 {
     public class Model
     {
-        public Matrix4 Transform = Matrix4.Identity;
+        public Matrix4 Transform;
         public List<MeshData> MeshData = new List<MeshData>();
 
         public Model(List<MeshData> meshData)
@@ -40,7 +40,7 @@ namespace BogieEngineCore.Modelling
             return result;
         }
 
-        public void Draw()
+        public void Draw(Matrix4 Transform)
         {
             foreach(MeshData mesh in MeshData)
             {

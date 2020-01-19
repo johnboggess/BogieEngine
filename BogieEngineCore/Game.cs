@@ -8,6 +8,7 @@ using OpenTK.Input;
 using OpenTK.Graphics;
 using OpenTK.Graphics.OpenGL4;
 
+using BogieEngineCore.Nodes;
 using BogieEngineCore.Modelling;
 using BogieEngineCore.Shading;
 using BogieEngineCore.Texturing;
@@ -21,8 +22,8 @@ namespace BogieEngineCore
         public Shader MaskCubeShader;
         public Camera ActiveCamera = new Camera();
 
-        internal Model _Samus;
-        internal Model _SamusNoVisor;
+        internal ModelNode _Samus;
+        internal ModelNode _SamusNoVisor;
         internal Model _Cube;
 
         float rot = 0;
@@ -37,13 +38,21 @@ namespace BogieEngineCore
         {
             GL.Enable(EnableCap.DepthTest);
             GL.ClearColor(ClearColor);
+
+            ActiveCamera.Transform.Position = new Vector3(0, 0, 3);
+            ActiveCamera.Transform.Scale(new Vector3(1, 1, 1));
+
             DefaultShader = new Shader("Resources/Shaders/default.vert", "Resources/Shaders/default.frag");
             MaskCubeShader = new Shader("Resources/Shaders/default.vert", "Resources/Shaders/maskCube.frag");
 
             //downloaded from https://sketchfab.com/3d-models/varia-suit-79c802129f9a4945aba62a607892ac31
-            _Samus = ContentManager.LoadModel("Resources/Models/VariaSuit/DolBarriersuit.obj");
-            _SamusNoVisor = ContentManager.LoadModel("Resources/Models/VariaSuit/DolBarriersuit.obj");
-            _SamusNoVisor.Transform = Matrix4.CreateScale(.1f) * Matrix4.CreateTranslation(0, -1, 0);
+            _Samus = new ModelNode(ContentManager.LoadModel("Resources/Models/VariaSuit/DolBarriersuit.obj"));
+            _Samus.Transform.Scale(new Vector3(.1f, .1f, .1f));
+            _Samus.Transform.Position = new Vector3(-.5f, -1, 0);
+
+            _SamusNoVisor = new ModelNode(ContentManager.LoadModel("Resources/Models/VariaSuit/DolBarriersuit.obj"));
+            _SamusNoVisor.Transform.Scale(new Vector3(.1f, .1f, .1f));
+            _SamusNoVisor.Transform.Position = new Vector3(.5f, -1, 0);
 
             Texture cube0Tex = ContentManager.LoadTexture("Resources/Textures/Brick.jpg", TextureUnit.Texture0);
             Texture cube1Tex = ContentManager.LoadTexture("Resources/Textures/Circle.png", TextureUnit.Texture1);
@@ -54,8 +63,8 @@ namespace BogieEngineCore
             _Cube.MeshData[0].Textures.Add(cube0Tex);
             _Cube.MeshData[0].Textures.Add(cube1Tex);
 
-            List<MeshData> meshData = _SamusNoVisor.GetMeshWithName("polygon6");
-            if(meshData.Count > 0) { meshData[0].Visible = false; }
+            //List<MeshData> meshData = _SamusNoVisor.GetMeshWithName("polygon6");
+            //if(meshData.Count > 0) { meshData[0].Visible = false; }
             base.OnLoad(e);
         }
 
@@ -107,13 +116,13 @@ namespace BogieEngineCore
             MaskCubeShader.View = ActiveCamera.View;
 
             rot += .01f;
-            _Samus.Transform = Matrix4.CreateScale(.1f)*Matrix4.CreateRotationY(rot) * Matrix4.CreateTranslation(-.5f, -1, 0);
+            _Samus.Transform.Rotate(_SamusNoVisor.Transform.Up, -.01f);
             _Samus.Draw();
 
-            _SamusNoVisor.Transform = Matrix4.CreateScale(.1f) * Matrix4.CreateRotationY(rot) * Matrix4.CreateTranslation(.5f, -1, 0);
+            _SamusNoVisor.Transform.Rotate(_SamusNoVisor.Transform.Up, -.01f);
             _SamusNoVisor.Draw();
 
-            _Cube.Draw();
+            _Cube.Draw(_Cube.Transform);
 
             Context.SwapBuffers();
             base.OnRenderFrame(e);

@@ -76,7 +76,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Camera.cs" />
+    <Compile Include="Nodes\Camera.cs" />
     <Compile Include="ContentManager.cs" />
     <Compile Include="ElementBuffer.cs" />
     <Compile Include="GPUBuffer.cs" />
@@ -85,6 +85,9 @@
     <Compile Include="Modelling\MeshData.cs" />
     <Compile Include="Modelling\Model.cs" />
     <Compile Include="Modelling\ModelLoader.cs" />
+    <Compile Include="Nodes\ModelNode.cs" />
+    <Compile Include="Nodes\Node.cs" />
+    <Compile Include="Nodes\Node3D.cs" />
     <Compile Include="Shading\Shader.cs" />
     <Compile Include="Texturing\Texture.cs" />
     <Compile Include="Texturing\TextureData.cs" />
