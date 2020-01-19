@@ -37,13 +37,13 @@ namespace BogieEngineCore
             return new Texture(textureData);
         }
 
-        public Model LoadModel(string filePath)
+        public Model LoadModel(string filePath, Shader shader)
         {
             if(_pathToModel.ContainsKey(filePath))
             {
                 return new Model(_pathToModel[filePath], _game);
             }
-            Model model = ModelLoader.LoadModel(filePath, _game);
+            Model model = ModelLoader.LoadModel(filePath, _game, shader);
             _pathToModel.Add(filePath, model);
             return new Model(model, _game);
         }

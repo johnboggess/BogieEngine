@@ -18,7 +18,7 @@ namespace BogieEngineCore
     {
         public ContentManager ContentManager;
         public Color4 ClearColor = Color4.CornflowerBlue;
-        public Shader DefaultShader;
+        private Shader DefaultShader;
         public Shader MaskCubeShader;
         public Camera ActiveCamera = new Camera();
         public Node World = new Node();
@@ -45,11 +45,11 @@ namespace BogieEngineCore
             MaskCubeShader = new Shader("Resources/Shaders/default.vert", "Resources/Shaders/maskCube.frag");
 
             //downloaded from https://sketchfab.com/3d-models/varia-suit-79c802129f9a4945aba62a607892ac31
-            _Samus = new ModelNode(ContentManager.LoadModel("Resources/Models/VariaSuit/DolBarriersuit.obj"));
+            _Samus = new ModelNode(ContentManager.LoadModel("Resources/Models/VariaSuit/DolBarriersuit.obj", DefaultShader));
             _Samus.Transform.Scale(new Vector3(.1f, .1f, .1f));
             _Samus.Transform.Position = new Vector3(-.5f, -1, 0);
 
-            _SamusNoVisor = new ModelNode(ContentManager.LoadModel("Resources/Models/VariaSuit/DolBarriersuit.obj"));
+            _SamusNoVisor = new ModelNode(ContentManager.LoadModel("Resources/Models/VariaSuit/DolBarriersuit.obj", DefaultShader));
             _SamusNoVisor.Transform.Scale(new Vector3(.1f, .1f, .1f));
             _SamusNoVisor.Transform.Position = new Vector3(.5f, -1, 0);
 
@@ -59,10 +59,9 @@ namespace BogieEngineCore
             Texture cube0Tex = ContentManager.LoadTexture("Resources/Textures/Brick.jpg", TextureUnit.Texture0);
             Texture cube1Tex = ContentManager.LoadTexture("Resources/Textures/Circle.png", TextureUnit.Texture1);
 
-            _Cube = new ModelNode(ContentManager.LoadModel("Resources/Models/Cube.obj"));
+            _Cube = new ModelNode(ContentManager.LoadModel("Resources/Models/Cube.obj", MaskCubeShader));
             _Cube.Transform.Scale(new Vector3(3.5f, 3.5f, 1));
             _Cube.Transform.Position = new Vector3(0, 0, -2);
-            _Cube.Model.MeshData[0].Shader = MaskCubeShader;
             _Cube.Model.MeshData[0].Textures.Add(cube0Tex);
             _Cube.Model.MeshData[0].Textures.Add(cube1Tex);
 

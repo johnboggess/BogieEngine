@@ -14,34 +14,34 @@ namespace BogieEngineCore.Modelling
         static Game _game;
         static string folder;
 
-        public static Model LoadModel(string filePath, Game game)
+        public static Model LoadModel(string filePath, Game game, Shading.Shader shader)
         {
+            _game = game;
             folder = filePath.Substring(0,filePath.LastIndexOf("/"));
             AssimpContext assimpContext = new AssimpContext();
             Scene scene = assimpContext.ImportFile(filePath, PostProcessSteps.Triangulate | PostProcessSteps.GenerateNormals);
 
-            _game = game;
-            return new Model(ProcessNode(scene.RootNode, scene));
+            return new Model(ProcessNode(scene.RootNode, scene, shader));
         }
 
-        private static List<MeshData> ProcessNode(Node node, Scene scene)
+        private static List<MeshData> ProcessNode(Node node, Scene scene, Shading.Shader shader)
         {
             List<MeshData> meshData = new List<MeshData>();
             for(int i = 0; i < node.MeshCount; i++)
             {
                 Assimp.Mesh aiMesh = scene.Meshes[node.MeshIndices[i]];
-                meshData.Add(ProcessMesh(aiMesh, scene));
+                meshData.Add(ProcessMesh(aiMesh, scene, shader));
             }
 
             foreach(Node child in node.Children)
             {
-                meshData.AddRange(ProcessNode(child, scene));
+                meshData.AddRange(ProcessNode(child, scene, shader));
             }
             return meshData;
 
         }
 
-        private static MeshData ProcessMesh(Assimp.Mesh aiMesh, Scene scene)
+        private static MeshData ProcessMesh(Assimp.Mesh aiMesh, Scene scene, Shading.Shader shader)
         {
             List<uint> indices = new List<uint>();
             Vertex[] vertices = new Vertex[aiMesh.VertexCount];
@@ -92,7 +92,7 @@ namespace BogieEngineCore.Modelling
             Mesh mesh = new Mesh(aiMesh.Name, vertexArray);
 
             MeshData meshData = new MeshData(mesh);
-            meshData.Shader = _game.DefaultShader;
+            meshData.Shader = shader;
             meshData.Textures = textures;
 
             return meshData;

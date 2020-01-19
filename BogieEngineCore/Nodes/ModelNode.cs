@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using BogieEngineCore.Modelling;
 namespace BogieEngineCore.Nodes
 {
-    class ModelNode : Node3D
+    public class ModelNode : Node3D
     {
         public Model Model;
 
