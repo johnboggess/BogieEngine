@@ -7,8 +7,14 @@ using System.Threading.Tasks;
 using OpenTK.Graphics.OpenGL4;
 namespace BogieEngineCore
 {
+    /// <summary>
+    /// Represents GPU buffer
+    /// </summary>
     class GPUBuffer : IDisposable
     {
+        /// <summary>
+        /// Has the buffer been deleted?
+        /// </summary>
         public bool Disposed { get { return _disposed; } }
         private bool _disposed = false;
 

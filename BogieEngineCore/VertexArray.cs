@@ -11,6 +11,9 @@ using BogieEngineCore.Texturing;
 
 namespace BogieEngineCore
 {
+    /// <summary>
+    /// GPU array representing the vertices for a mesh, attributes of each vertex, and the order the vertices should be rendered in
+    /// </summary>
     class VertexArray : IDisposable
     {
         public bool Disposed { get { return _disposed; } }
@@ -34,8 +37,6 @@ namespace BogieEngineCore
             vbo.Bind();
             GL.VertexAttribPointer(Shader.VertexPositionLocation, 3, VertexAttribPointerType.Float, false, Vertex.Size, 0);
             GL.EnableVertexAttribArray(Shader.VertexPositionLocation);
-            GL.VertexAttribPointer(Shader.VertexUVLocation, 2, VertexAttribPointerType.Float, false, Vertex.Size, 3 * sizeof(float));
-            GL.EnableVertexAttribArray(Shader.VertexUVLocation);
             GL.VertexAttribPointer(Shader.VertexUVLocation, 2, VertexAttribPointerType.Float, false, Vertex.Size, 3 * sizeof(float));
             GL.EnableVertexAttribArray(Shader.VertexUVLocation);
 

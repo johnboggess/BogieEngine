@@ -116,6 +116,9 @@
     <None Include="Resources\Shaders\default.vert">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Include="Resources\Shaders\maskCube.frag">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Content Include="Resources\Models\VariaSuit\gun_casing.png">

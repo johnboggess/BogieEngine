@@ -19,6 +19,7 @@ namespace BogieEngineCore.Modelling
             folder = filePath.Substring(0,filePath.LastIndexOf("/"));
             AssimpContext assimpContext = new AssimpContext();
             Scene scene = assimpContext.ImportFile(filePath, PostProcessSteps.Triangulate | PostProcessSteps.GenerateNormals);
+
             _game = game;
             return new Model(ProcessNode(scene.RootNode, scene));
         }

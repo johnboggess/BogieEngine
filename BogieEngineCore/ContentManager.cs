@@ -11,6 +11,9 @@ using BogieEngineCore.Modelling;
 using BogieEngineCore.Texturing;
 namespace BogieEngineCore
 {
+    /// <summary>
+    /// Used to load various resources such as models an textures. Makes sure that the same resource are not uploaded to the GPU twice.
+    /// </summary>
     public class ContentManager
     {
         Game _game;
@@ -21,6 +24,7 @@ namespace BogieEngineCore
         {
             _game = game;
         }
+
 
         public Texture LoadTexture(string filePath, TextureUnit textureUnit)
         {
