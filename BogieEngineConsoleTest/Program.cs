@@ -10,7 +10,7 @@ namespace BogieEngineConsoleTest
     {
         static void Main(string[] args)
         {
-            Game window = new Game(500, 500, "123");
+            Game window = new Game(800, 800, "Render");
             Console.Read();
         }
     }

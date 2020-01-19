@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using OpenTK;
+using OpenTK.Input;
 using OpenTK.Graphics;
 using OpenTK.Graphics.OpenGL4;
 
@@ -62,6 +63,38 @@ namespace BogieEngineCore
         {
             GL.Viewport(0, 0, Width, Height);
             base.OnResize(e);
+        }
+
+
+        protected override void OnUpdateFrame(FrameEventArgs e)
+        {
+            KeyboardState ks = Keyboard.GetState();
+            if (ks.IsKeyDown(Key.A))
+            {
+                ActiveCamera.Transform.Rotate(ActiveCamera.Transform.YAxis, -.1f);
+            }
+            if (ks.IsKeyDown(Key.D))
+            {
+                ActiveCamera.Transform.Rotate(ActiveCamera.Transform.YAxis, .1f);
+            }
+            if (ks.IsKeyDown(Key.W))
+            {
+                ActiveCamera.Transform.Rotate(ActiveCamera.Transform.Right, .1f);
+            }
+            if (ks.IsKeyDown(Key.S))
+            {
+                ActiveCamera.Transform.Rotate(ActiveCamera.Transform.Right, -.1f);
+            }
+            if (ks.IsKeyDown(Key.Q))
+            {
+                ActiveCamera.Transform.Rotate(ActiveCamera.Transform.Forwards, .1f);
+            }
+            if (ks.IsKeyDown(Key.E))
+            {
+                ActiveCamera.Transform.Rotate(ActiveCamera.Transform.Forwards, -.1f);
+            }
+
+
         }
 
         protected override void OnRenderFrame(FrameEventArgs e)
