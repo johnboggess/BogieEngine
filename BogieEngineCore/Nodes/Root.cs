@@ -8,16 +8,16 @@ namespace BogieEngineCore.Nodes
 {
     public class Root : Node
     {
-        public override void Draw()
+        public override void Draw(float deltaT)
         {
             foreach (Node node in _Childern)
-                node._Draw();
+                node._Draw(deltaT);
         }
 
-        public override void Process()
+        public override void Process(float deltaT)
         {
             foreach (Node node in _Childern)
-                node._Process();
+                node._Process(deltaT);
         }
     }
 }

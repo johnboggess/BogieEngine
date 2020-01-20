@@ -23,21 +23,21 @@ namespace BogieEngineCore.Nodes
             this._Childern.Add(node);
         }
 
-        public virtual void Process() { }
-        public virtual void Draw() { }
+        public virtual void Process(float deltaT) { }
+        public virtual void Draw(float deltaT) { }
 
-        internal void _Process()
+        internal void _Process(float deltaT)
         {
-            Process();
+            Process(deltaT);
             foreach (Node node in _Childern)
-                node._Process();
+                node._Process(deltaT);
         }
 
-        internal void _Draw()
+        internal void _Draw(float deltaT)
         {
-            Draw();
+            Draw(deltaT);
             foreach (Node node in _Childern)
-                node._Draw();
+                node._Draw(deltaT);
         }
 
     }

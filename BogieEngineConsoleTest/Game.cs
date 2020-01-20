@@ -86,7 +86,7 @@ namespace BogieEngineConsoleTest
 
         protected override void OnUpdateFrame(FrameEventArgs e)
         {
-            World.Process();
+            World.Process((float)e.Time);
         }
 
         protected override void OnRenderFrame(FrameEventArgs e)
@@ -98,7 +98,7 @@ namespace BogieEngineConsoleTest
             MaskCubeShader.Projection = ActiveCamera.Projection;
             MaskCubeShader.View = ActiveCamera.View;
 
-            World.Draw();
+            World.Draw((float)e.Time);
 
             _Samus.Transform.Rotate(_SamusNoVisor.Transform.Up, -.01f);
             _SamusNoVisor.Transform.Rotate(_SamusNoVisor.Transform.Up, -.01f);

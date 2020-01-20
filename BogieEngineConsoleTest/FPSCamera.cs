@@ -13,7 +13,7 @@ namespace BogieEngineConsoleTest
 {
     class FPSCamera : Camera
     {
-        float moveScale = .1f;
+        float moveScale = 1f;
 
         bool initMouse = true;
         float lastX = 0f;
@@ -22,7 +22,7 @@ namespace BogieEngineConsoleTest
         float yawScale = 0.01f;
         float pitchScale = 0.01f;
 
-        public override void Process()
+        public override void Process(float deltaT)
         {
             KeyboardState ks = Keyboard.GetState();
             MouseState ms = Mouse.GetCursorState();
@@ -44,29 +44,29 @@ namespace BogieEngineConsoleTest
 
             if (ks.IsKeyDown(Key.A))
             {
-                Transform.Position -= Transform.Right * moveScale;
+                Transform.Position -= Transform.Right * moveScale * deltaT;
             }
             if (ks.IsKeyDown(Key.D))
             {
-                Transform.Position += Transform.Right * moveScale;
+                Transform.Position += Transform.Right * moveScale * deltaT;
             }
 
             if (ks.IsKeyDown(Key.W))
             {
-                Transform.Position += Transform.Forwards * moveScale;
+                Transform.Position += Transform.Forwards * moveScale * deltaT;
             }
             if (ks.IsKeyDown(Key.S))
             {
-                Transform.Position -= Transform.Forwards * moveScale;
+                Transform.Position -= Transform.Forwards * moveScale * deltaT;
             }
 
             if (ks.IsKeyDown(Key.ShiftLeft))
             {
-                Transform.Position += Vector3.UnitY * moveScale;
+                Transform.Position += Vector3.UnitY * moveScale * deltaT;
             }
             if (ks.IsKeyDown(Key.ControlLeft))
             {
-                Transform.Position -= Vector3.UnitY * moveScale;
+                Transform.Position -= Vector3.UnitY * moveScale * deltaT;
             }
         }
     }

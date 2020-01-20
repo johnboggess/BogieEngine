@@ -16,7 +16,7 @@ namespace BogieEngineCore.Nodes
             Model = model;
         }
 
-        public override void Draw()
+        public override void Draw(float deltaT)
         {
             Model.Draw(Transform.GetMatrix4());
         }
