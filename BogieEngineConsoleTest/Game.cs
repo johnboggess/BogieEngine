@@ -28,6 +28,7 @@ namespace BogieEngineConsoleTest
 
         public ModelNode _Samus;
         public ModelNode _SamusNoVisor;
+        public ModelNode _SamusRelativeCube;
         public ModelNode _Cube;
 
 
@@ -70,7 +71,11 @@ namespace BogieEngineConsoleTest
             _Cube.Model.MeshData[0].Textures.Add(cube0Tex);
             _Cube.Model.MeshData[0].Textures.Add(cube1Tex);
 
+            _SamusRelativeCube = new ModelNode(ContentManager.LoadModel("Resources/Models/Cube.obj", DefaultShader));
+            _SamusRelativeCube.Model.MeshData[0].Textures.Add(cube0Tex);
+
             World.AddNode(_Cube);
+            World.AddNode(_SamusRelativeCube);
             World.AddNode(ActiveCamera);
 
             List<MeshData> meshData = _SamusNoVisor.GetMeshWithName("polygon6");

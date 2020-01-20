@@ -15,6 +15,8 @@ namespace BogieEngineCore.Shading
         public static readonly int VertexPositionLocation = 0;
         public static readonly int VertexUVLocation = 1;
 
+        public string VertexShaderName { get { return _vertexShaderName; } }
+        public string FragmentShaderName { get { return _fragmentShaderName; } }
         public Matrix4 Projection
         {
             get { return _projection; }
@@ -43,7 +45,8 @@ namespace BogieEngineCore.Shading
 
 
         int _handle;
-
+        public string _vertexShaderName;
+        public string _fragmentShaderName;
         Matrix4 _projection;
         Matrix4 _view;
         private bool _disposed = false;
@@ -57,9 +60,11 @@ namespace BogieEngineCore.Shading
             //Read source code from file
             int vertexHandle;
             string vertexSource = File.ReadAllText(vertexPath);
+            _vertexShaderName = vertexPath.Substring(vertexPath.LastIndexOf("/") + 1, vertexPath.Length - vertexPath.LastIndexOf("/") - 1);
 
             int fragHandle;
             string fragSource = File.ReadAllText(fragmentPath);
+            _fragmentShaderName = fragmentPath.Substring(fragmentPath.LastIndexOf("/") + 1, fragmentPath.Length - fragmentPath.LastIndexOf("/") - 1);
 
             ///Create shader and bind the source code to it
             vertexHandle = GL.CreateShader(ShaderType.VertexShader);

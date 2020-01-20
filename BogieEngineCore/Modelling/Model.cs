@@ -25,7 +25,7 @@ namespace BogieEngineCore.Modelling
             {
                 MeshData newMeshData = new MeshData(meshData._Mesh);
                 newMeshData.Shader = meshData.Shader;
-                newMeshData.Textures = meshData.Textures;
+                newMeshData.Textures = new List<Texture>(meshData.Textures);
                 MeshData.Add(newMeshData);
             }
         }
@@ -38,6 +38,12 @@ namespace BogieEngineCore.Modelling
                 if(meshData.Name == name) { result.Add(meshData); }
             }
             return result;
+        }
+
+        public void SetShader(Shading.Shader shader)
+        {
+            foreach (MeshData meshData in MeshData)
+                meshData.Shader = shader;
         }
 
         public void Draw(Matrix4 Transform)
