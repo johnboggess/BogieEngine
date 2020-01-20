@@ -38,7 +38,6 @@ namespace BogieEngineConsoleTest
             float diffY = ms.Y - lastY;
             lastX = ms.X;
             lastY = ms.Y;
-            Console.WriteLine(diffX);
 
             Transform.Rotate(Vector3.UnitY, diffX * yawScale);
             Transform.Rotate(Transform.Right, diffY * pitchScale);

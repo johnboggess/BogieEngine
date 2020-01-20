@@ -31,7 +31,7 @@ namespace BogieEngineConsoleTest
         public ModelNode _Cube;
 
 
-        public Game(int width, int height, string title, int updateRate = 30, int frameRate = 30) : base(width, height, OpenTK.Graphics.GraphicsMode.Default, title)
+        public Game(int width, int height, string title, int updateRate = 60, int frameRate = 60) : base(width, height, OpenTK.Graphics.GraphicsMode.Default, title)
         {
             ContentManager = new ContentManager();
             Run(updateRate, frameRate);
@@ -40,6 +40,7 @@ namespace BogieEngineConsoleTest
         protected override void OnLoad(EventArgs e)
         {
             GL.Enable(EnableCap.DepthTest);
+            GL.Enable(EnableCap.CullFace);
             GL.ClearColor(ClearColor);
 
             ActiveCamera.Transform.Position = new Vector3(0, 0, 3);
@@ -104,6 +105,8 @@ namespace BogieEngineConsoleTest
 
             Context.SwapBuffers();
             base.OnRenderFrame(e);
+            Console.WriteLine("Time (s):" + e.Time);
+            Console.WriteLine("FPS (s):" + 1d/e.Time);
         }
 
         protected override void OnUnload(EventArgs e)
