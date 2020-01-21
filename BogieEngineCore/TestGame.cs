@@ -120,7 +120,7 @@ namespace BogieEngineCore
             MaskCubeShader.Projection = ActiveCamera.Projection;
             MaskCubeShader.View = ActiveCamera.View;
 
-            World._Draw((float)e.Time);
+            World._Draw((float)e.Time, new Transform());
 
             _Samus.Transform.Rotate(_SamusNoVisor.Transform.Up, -.01f);
             _SamusNoVisor.Transform.Rotate(_SamusNoVisor.Transform.Up, -.01f);

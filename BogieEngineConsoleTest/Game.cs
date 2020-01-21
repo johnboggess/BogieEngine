@@ -29,8 +29,10 @@ namespace BogieEngineConsoleTest
         public ModelNode _Samus;
         public ModelNode _SamusNoVisor;
         public ModelNode _SamusRelativeCube;
+        public ModelNode _MiniSamus;
         public ModelNode _Cube;
 
+        int frame = 0;
 
         public Game(int width, int height, string title, int updateRate = 60, int frameRate = 60) : base(width, height, OpenTK.Graphics.GraphicsMode.Default, title)
         {
@@ -45,7 +47,6 @@ namespace BogieEngineConsoleTest
             GL.ClearColor(ClearColor);
 
             ActiveCamera.Transform.Position = new Vector3(0, 0, 3);
-            ActiveCamera.Transform.Scale(new Vector3(1, 1, 1));
 
             DefaultShader = new Shader("Resources/Shaders/default.vert", "Resources/Shaders/default.frag");
             MaskCubeShader = new Shader("Resources/Shaders/default.vert", "Resources/Shaders/maskCube.frag");
@@ -58,6 +59,9 @@ namespace BogieEngineConsoleTest
             _SamusNoVisor = new ModelNode(ContentManager.LoadModel("Resources/Models/VariaSuit/DolBarriersuit.obj", DefaultShader));
             _SamusNoVisor.Transform.Scale(new Vector3(.1f, .1f, .1f));
             _SamusNoVisor.Transform.Position = new Vector3(.5f, -1, 0);
+
+            _MiniSamus = new ModelNode(ContentManager.LoadModel("Resources/Models/VariaSuit/DolBarriersuit.obj", DefaultShader));
+            _MiniSamus.Transform.Scale(new Vector3(.1f, .1f, .1f));
 
             World.AddNode(_Samus);
             World.AddNode(_SamusNoVisor);
@@ -73,10 +77,15 @@ namespace BogieEngineConsoleTest
 
             _SamusRelativeCube = new ModelNode(ContentManager.LoadModel("Resources/Models/Cube.obj", DefaultShader));
             _SamusRelativeCube.Model.MeshData[0].Textures.Add(cube0Tex);
+            _SamusRelativeCube.Transform.Scale(new Vector3(1, 1, 1));
 
             World.AddNode(_Cube);
             World.AddNode(_SamusRelativeCube);
+            _Samus.AddNode(_SamusRelativeCube);
+            _SamusRelativeCube.AddNode(_MiniSamus);
+
             World.AddNode(ActiveCamera);
+            //_Samus.AddNode(ActiveCamera);
 
             List<MeshData> meshData = _SamusNoVisor.GetMeshWithName("polygon6");
             if (meshData.Count > 0) { meshData[0].Visible = false; }
@@ -91,7 +100,7 @@ namespace BogieEngineConsoleTest
 
         protected override void OnUpdateFrame(FrameEventArgs e)
         {
-            World.Process((float)e.Time);
+            World.Process((float)e.Time, new Transform());
         }
 
         protected override void OnRenderFrame(FrameEventArgs e)
@@ -103,15 +112,19 @@ namespace BogieEngineConsoleTest
             MaskCubeShader.Projection = ActiveCamera.Projection;
             MaskCubeShader.View = ActiveCamera.View;
 
-            World.Draw((float)e.Time);
+            World.Draw((float)e.Time, new Transform());
 
             _Samus.Transform.Rotate(_SamusNoVisor.Transform.Up, -.01f);
             _SamusNoVisor.Transform.Rotate(_SamusNoVisor.Transform.Up, -.01f);
+            _SamusRelativeCube.Transform.Rotate(_SamusRelativeCube.Transform.Right, -.01f);
+            _MiniSamus.Transform.Position = new Vector3(0, (float)Math.Sin(frame/100f), 0);
+
+            frame += 1;
 
             Context.SwapBuffers();
             base.OnRenderFrame(e);
             Console.WriteLine("Time (s):" + e.Time);
-            Console.WriteLine("FPS (s):" + 1d/e.Time);
+            Console.WriteLine("FPS: " + 1d/e.Time);
         }
 
         protected override void OnUnload(EventArgs e)

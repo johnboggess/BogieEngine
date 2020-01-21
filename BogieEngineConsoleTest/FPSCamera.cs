@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+using BogieEngineCore;
 using BogieEngineCore.Nodes;
 
 using OpenTK.Input;
@@ -22,7 +23,7 @@ namespace BogieEngineConsoleTest
         float yawScale = 0.01f;
         float pitchScale = 0.01f;
 
-        public override void Process(float deltaT)
+        public override void Process(float deltaT, Transform parentWorldTransform)
         {
             KeyboardState ks = Keyboard.GetState();
             MouseState ms = Mouse.GetCursorState();
@@ -53,11 +54,11 @@ namespace BogieEngineConsoleTest
 
             if (ks.IsKeyDown(Key.W))
             {
-                Transform.Position += Transform.Forwards * moveScale * deltaT;
+                Transform.Position -= Transform.Forwards * moveScale * deltaT;
             }
             if (ks.IsKeyDown(Key.S))
             {
-                Transform.Position -= Transform.Forwards * moveScale * deltaT;
+                Transform.Position += Transform.Forwards * moveScale * deltaT;
             }
 
             if (ks.IsKeyDown(Key.ShiftLeft))

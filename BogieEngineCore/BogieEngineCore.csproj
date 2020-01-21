@@ -87,7 +87,6 @@
     <Compile Include="Modelling\ModelLoader.cs" />
     <Compile Include="Nodes\ModelNode.cs" />
     <Compile Include="Nodes\Node.cs" />
-    <Compile Include="Nodes\Node3D.cs" />
     <Compile Include="Nodes\Root.cs" />
     <Compile Include="Shading\Shader.cs" />
     <Compile Include="Texturing\Texture.cs" />

@@ -8,7 +8,7 @@ using OpenTK;
 using OpenTK.Graphics.OpenGL4;
 namespace BogieEngineCore.Nodes
 {
-    public class Camera : Node3D
+    public class Camera : Node
     {
         public Matrix4 Projection;
         public Matrix4 View { get { return Transform.GetMatrix4().Inverted(); } }
