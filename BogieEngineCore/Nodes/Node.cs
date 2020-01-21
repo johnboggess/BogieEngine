@@ -9,10 +9,13 @@ namespace BogieEngineCore.Nodes
     public class Node
     {
         public Node Parent;
-        public Transform Transform = new Transform();
+        public Transform LocalTransform = new Transform();
+        public Transform WorldTransform { get { return _worldTransform; } }
         public List<Node> Childern { get { return _Childern; } }
 
         internal List<Node> _Childern = new List<Node>();
+
+        Transform _worldTransform = new Transform();
 
         public void AddNode(Node node)
         {
@@ -29,20 +32,17 @@ namespace BogieEngineCore.Nodes
 
         internal void _Process(float deltaT, Transform parentWorldTransform)
         {
+            _worldTransform.FromMatrix4(LocalTransform.GetMatrix4() * parentWorldTransform.GetMatrix4());
             Process(deltaT, parentWorldTransform);
-            Transform t = new Transform();
-            t.FromMatrix4(Transform.GetMatrix4() * parentWorldTransform.GetMatrix4());
             foreach (Node node in _Childern)
-                node._Process(deltaT, t);
+                node._Process(deltaT, _worldTransform);
         }
 
         internal void _Draw(float deltaT, Transform parentWorldTransform)
         {
             Draw(deltaT, parentWorldTransform);
-            Transform t = new Transform();
-            t.FromMatrix4(Transform.GetMatrix4() * parentWorldTransform.GetMatrix4());
             foreach (Node node in _Childern)
-                node._Draw(deltaT, t);
+                node._Draw(deltaT, _worldTransform);
         }
 
     }

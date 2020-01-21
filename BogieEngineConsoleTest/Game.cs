@@ -46,22 +46,22 @@ namespace BogieEngineConsoleTest
             GL.Enable(EnableCap.CullFace);
             GL.ClearColor(ClearColor);
 
-            ActiveCamera.Transform.Position = new Vector3(0, 0, 3);
+            ActiveCamera.LocalTransform.Position = new Vector3(0, 0, 3);
 
             DefaultShader = new Shader("Resources/Shaders/default.vert", "Resources/Shaders/default.frag");
             MaskCubeShader = new Shader("Resources/Shaders/default.vert", "Resources/Shaders/maskCube.frag");
 
             //downloaded from https://sketchfab.com/3d-models/varia-suit-79c802129f9a4945aba62a607892ac31
             _Samus = new ModelNode(ContentManager.LoadModel("Resources/Models/VariaSuit/DolBarriersuit.obj", DefaultShader));
-            _Samus.Transform.Scale(new Vector3(.1f, .1f, .1f));
-            _Samus.Transform.Position = new Vector3(-.5f, -1, 0);
+            _Samus.LocalTransform.Scale(new Vector3(.1f, .1f, .1f));
+            _Samus.LocalTransform.Position = new Vector3(-.5f, -1, 0);
 
             _SamusNoVisor = new ModelNode(ContentManager.LoadModel("Resources/Models/VariaSuit/DolBarriersuit.obj", DefaultShader));
-            _SamusNoVisor.Transform.Scale(new Vector3(.1f, .1f, .1f));
-            _SamusNoVisor.Transform.Position = new Vector3(.5f, -1, 0);
+            _SamusNoVisor.LocalTransform.Scale(new Vector3(.1f, .1f, .1f));
+            _SamusNoVisor.LocalTransform.Position = new Vector3(.5f, -1, 0);
 
             _MiniSamus = new ModelNode(ContentManager.LoadModel("Resources/Models/VariaSuit/DolBarriersuit.obj", DefaultShader));
-            _MiniSamus.Transform.Scale(new Vector3(.1f, .1f, .1f));
+            _MiniSamus.LocalTransform.Scale(new Vector3(.1f, .1f, .1f));
 
             World.AddNode(_Samus);
             World.AddNode(_SamusNoVisor);
@@ -70,14 +70,14 @@ namespace BogieEngineConsoleTest
             Texture cube1Tex = ContentManager.LoadTexture("Resources/Textures/Circle.png", TextureUnit.Texture1);
 
             _Cube = new ModelNode(ContentManager.LoadModel("Resources/Models/Cube.obj", MaskCubeShader));
-            _Cube.Transform.Scale(new Vector3(3.5f, 3.5f, 1));
-            _Cube.Transform.Position = new Vector3(0, 0, -2);
+            _Cube.LocalTransform.Scale(new Vector3(3.5f, 3.5f, 1));
+            _Cube.LocalTransform.Position = new Vector3(0, 0, -2);
             _Cube.Model.MeshData[0].Textures.Add(cube0Tex);
             _Cube.Model.MeshData[0].Textures.Add(cube1Tex);
 
             _SamusRelativeCube = new ModelNode(ContentManager.LoadModel("Resources/Models/Cube.obj", DefaultShader));
             _SamusRelativeCube.Model.MeshData[0].Textures.Add(cube0Tex);
-            _SamusRelativeCube.Transform.Scale(new Vector3(1, 1, 1));
+            _SamusRelativeCube.LocalTransform.Scale(new Vector3(1, 1, 1));
 
             World.AddNode(_Cube);
             World.AddNode(_SamusRelativeCube);
@@ -114,10 +114,10 @@ namespace BogieEngineConsoleTest
 
             World.Draw((float)e.Time, new Transform());
 
-            _Samus.Transform.Rotate(_SamusNoVisor.Transform.Up, -.01f);
-            _SamusNoVisor.Transform.Rotate(_SamusNoVisor.Transform.Up, -.01f);
-            _SamusRelativeCube.Transform.Rotate(_SamusRelativeCube.Transform.Right, -.01f);
-            _MiniSamus.Transform.Position = new Vector3(0, (float)Math.Sin(frame/100f), 0);
+            _Samus.LocalTransform.Rotate(_SamusNoVisor.LocalTransform.Up, -.01f);
+            _SamusNoVisor.LocalTransform.Rotate(_SamusNoVisor.LocalTransform.Up, -.01f);
+            _SamusRelativeCube.LocalTransform.Rotate(_SamusRelativeCube.LocalTransform.Right, -.01f);
+            _MiniSamus.LocalTransform.Position = new Vector3(0, (float)Math.Sin(frame/100f), 0);
 
             frame += 1;
 

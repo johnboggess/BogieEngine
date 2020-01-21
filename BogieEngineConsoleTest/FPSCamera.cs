@@ -40,34 +40,34 @@ namespace BogieEngineConsoleTest
             lastX = ms.X;
             lastY = ms.Y;
 
-            Transform.Rotate(Vector3.UnitY, diffX * yawScale);
-            Transform.Rotate(Transform.Right, diffY * pitchScale);
+            LocalTransform.Rotate(Vector3.UnitY, diffX * yawScale);
+            LocalTransform.Rotate(LocalTransform.Right, diffY * pitchScale);
 
             if (ks.IsKeyDown(Key.A))
             {
-                Transform.Position -= Transform.Right * moveScale * deltaT;
+                LocalTransform.Position -= LocalTransform.Right * moveScale * deltaT;
             }
             if (ks.IsKeyDown(Key.D))
             {
-                Transform.Position += Transform.Right * moveScale * deltaT;
+                LocalTransform.Position += LocalTransform.Right * moveScale * deltaT;
             }
 
             if (ks.IsKeyDown(Key.W))
             {
-                Transform.Position -= Transform.Forwards * moveScale * deltaT;
+                LocalTransform.Position -= LocalTransform.Forwards * moveScale * deltaT;
             }
             if (ks.IsKeyDown(Key.S))
             {
-                Transform.Position += Transform.Forwards * moveScale * deltaT;
+                LocalTransform.Position += LocalTransform.Forwards * moveScale * deltaT;
             }
 
             if (ks.IsKeyDown(Key.ShiftLeft))
             {
-                Transform.Position += Vector3.UnitY * moveScale * deltaT;
+                LocalTransform.Position += Vector3.UnitY * moveScale * deltaT;
             }
             if (ks.IsKeyDown(Key.ControlLeft))
             {
-                Transform.Position -= Vector3.UnitY * moveScale * deltaT;
+                LocalTransform.Position -= Vector3.UnitY * moveScale * deltaT;
             }
         }
     }

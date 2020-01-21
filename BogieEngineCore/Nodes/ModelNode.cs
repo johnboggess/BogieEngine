@@ -20,7 +20,7 @@ namespace BogieEngineCore.Nodes
 
         public override void Draw(float deltaT, Transform parentWorldTransform)
         {
-            Model.Draw(Transform.GetMatrix4() * parentWorldTransform.GetMatrix4());
+            Model.Draw(LocalTransform.GetMatrix4() * parentWorldTransform.GetMatrix4());
         }
 
         public List<MeshData> GetMeshWithName(string name)

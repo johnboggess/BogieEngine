@@ -11,7 +11,7 @@ namespace BogieEngineCore.Nodes
     public class Camera : Node
     {
         public Matrix4 Projection;
-        public Matrix4 View { get { return Transform.GetMatrix4().Inverted(); } }
+        public Matrix4 View { get { return WorldTransform.GetMatrix4().Inverted(); } }
 
         public Camera()
         {
