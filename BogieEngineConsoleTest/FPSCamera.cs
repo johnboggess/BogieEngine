@@ -43,17 +43,14 @@ namespace BogieEngineConsoleTest
 
 
             float currentRot = Transform.RotationToPlane(LocalTransform.Forwards, Vector3.UnitY);
-            Console.WriteLine(currentRot);
-            if (Math.Abs(currentRot) < upDownLimit)
-            {
-                LocalTransform.Rotate(Vector3.UnitY, -diffX * yawScale);
-                LocalTransform.Rotate(LocalTransform.Right, -diffY * pitchScale);
-            }
-            else
+
+            LocalTransform.Rotate(Vector3.UnitY, -diffX * yawScale);
+            LocalTransform.Rotate(LocalTransform.Right, -diffY * pitchScale);
+
+            if (Math.Abs(currentRot) >= upDownLimit)
             {
                 float signedLimit = Math.Sign(currentRot) * upDownLimit;
-                float signedOffset = Math.Sign(currentRot) * 0.001f;
-                LocalTransform.Rotate(LocalTransform.Right, signedLimit - signedOffset - currentRot);
+                LocalTransform.Rotate(LocalTransform.Right, signedLimit - currentRot);
             }
 
 
@@ -74,15 +71,6 @@ namespace BogieEngineConsoleTest
             {
                 LocalTransform.Position += LocalTransform.Forwards * moveScale * deltaT;
             }
-
-            /*if (ks.IsKeyDown(Key.Q))
-            {
-                LocalTransform.Rotate(LocalTransform.Forwards, .1f);
-            }
-            if (ks.IsKeyDown(Key.E))
-            {
-                LocalTransform.Rotate(LocalTransform.Forwards, -.1f);
-            }*/
 
             if (ks.IsKeyDown(Key.ShiftLeft))
             {
