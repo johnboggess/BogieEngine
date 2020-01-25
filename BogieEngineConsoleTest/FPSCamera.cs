@@ -23,6 +23,7 @@ namespace BogieEngineConsoleTest
         float yawScale = 0.01f;
         float pitchScale = 0.01f;
 
+        float upDownLimit = 1;
         public override void Process(float deltaT, Transform parentWorldTransform)
         {
             KeyboardState ks = Keyboard.GetState();
@@ -40,9 +41,20 @@ namespace BogieEngineConsoleTest
             lastX = ms.X;
             lastY = ms.Y;
 
-            LocalTransform.Rotate(Vector3.UnitY, diffX * yawScale);
-            LocalTransform.Rotate(LocalTransform.Right, diffY * pitchScale);
-            //Console.WriteLine(diffY * pitchScale);
+
+            float currentRot = Transform.RotationToPlane(LocalTransform.Forwards, Vector3.UnitY);
+            Console.WriteLine(currentRot);
+            if (Math.Abs(currentRot) < upDownLimit)
+            {
+                LocalTransform.Rotate(Vector3.UnitY, -diffX * yawScale);
+                LocalTransform.Rotate(LocalTransform.Right, -diffY * pitchScale);
+            }
+            else
+            {
+                float signedLimit = Math.Sign(currentRot) * upDownLimit;
+                float signedOffset = Math.Sign(currentRot) * 0.001f;
+                LocalTransform.Rotate(LocalTransform.Right, signedLimit - signedOffset - currentRot);
+            }
 
 
             if (ks.IsKeyDown(Key.A))
@@ -63,14 +75,14 @@ namespace BogieEngineConsoleTest
                 LocalTransform.Position += LocalTransform.Forwards * moveScale * deltaT;
             }
 
-            if (ks.IsKeyDown(Key.Q))
+            /*if (ks.IsKeyDown(Key.Q))
             {
                 LocalTransform.Rotate(LocalTransform.Forwards, .1f);
             }
             if (ks.IsKeyDown(Key.E))
             {
                 LocalTransform.Rotate(LocalTransform.Forwards, -.1f);
-            }
+            }*/
 
             if (ks.IsKeyDown(Key.ShiftLeft))
             {
