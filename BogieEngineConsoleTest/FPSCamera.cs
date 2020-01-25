@@ -42,6 +42,8 @@ namespace BogieEngineConsoleTest
 
             LocalTransform.Rotate(Vector3.UnitY, diffX * yawScale);
             LocalTransform.Rotate(LocalTransform.Right, diffY * pitchScale);
+            //Console.WriteLine(diffY * pitchScale);
+
 
             if (ks.IsKeyDown(Key.A))
             {
@@ -59,6 +61,15 @@ namespace BogieEngineConsoleTest
             if (ks.IsKeyDown(Key.S))
             {
                 LocalTransform.Position += LocalTransform.Forwards * moveScale * deltaT;
+            }
+
+            if (ks.IsKeyDown(Key.Q))
+            {
+                LocalTransform.Rotate(LocalTransform.Forwards, .1f);
+            }
+            if (ks.IsKeyDown(Key.E))
+            {
+                LocalTransform.Rotate(LocalTransform.Forwards, -.1f);
             }
 
             if (ks.IsKeyDown(Key.ShiftLeft))

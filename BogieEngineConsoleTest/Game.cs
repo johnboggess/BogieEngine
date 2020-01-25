@@ -123,8 +123,8 @@ namespace BogieEngineConsoleTest
 
             Context.SwapBuffers();
             base.OnRenderFrame(e);
-            Console.WriteLine("Time (s):" + e.Time);
-            Console.WriteLine("FPS: " + 1d/e.Time);
+            //Console.WriteLine("Time (s):" + e.Time);
+            //Console.WriteLine("FPS: " + 1d/e.Time);
         }
 
         protected override void OnUnload(EventArgs e)
