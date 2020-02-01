@@ -62,7 +62,6 @@ namespace BogieEngineCore
             _TestRigidB = new TestPhysicsObject(this, ContentManager.LoadModel("Resources/Models/Cube.obj", MaskCubeShader));
             _TestRigidB.LocalTransform.Position = new Vector3(0, -1, 0);
             _TestRigidB.LocalTransform.Scale = new Vector3(1, 1, 1);
-            _TestRigidB.RigidBodyMatchLocalTransform(new Transform());
             _TestRigid.Model.MeshData[0].Textures.Add(cube0Tex);
             _TestRigid.Model.MeshData[0].Textures.Add(cube1Tex);
 

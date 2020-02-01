@@ -9,19 +9,19 @@ namespace BogieEngineCore
 {
     public class Transform
     {
-        public Quaternion _Quaternion = new Quaternion(0,0,0);
+        public Quaternion Quaternion = new Quaternion(0,0,0);
 
         public Vector3 Forwards
         {
-            get { return (_Quaternion * Vector3.UnitZ) * Scale.Z; }
+            get { return (Quaternion * Vector3.UnitZ) * Scale.Z; }
         }
         public Vector3 Up
         {
-            get { return (_Quaternion * Vector3.UnitY) * Scale.Y; }
+            get { return (Quaternion * Vector3.UnitY) * Scale.Y; }
         }
         public Vector3 Right
         {
-            get { return (_Quaternion * Vector3.UnitX) * Scale.X; }
+            get { return (Quaternion * Vector3.UnitX) * Scale.X; }
         }
 
         public Vector3 XAxis { get => Right; }
@@ -40,7 +40,7 @@ namespace BogieEngineCore
         {
             Scale = matrix.ExtractScale();
             Position = matrix.ExtractTranslation();
-            _Quaternion = matrix.ExtractRotation();
+            Quaternion = matrix.ExtractRotation();
 
             //Right = matrix.Row0.Xyz;
             //Up = matrix.Row1.Xyz;
@@ -53,7 +53,7 @@ namespace BogieEngineCore
         /// <param name="eulerAngles">The rotation about the X, Y, and Z axis.</param>
         public void SetRotation(Vector3 eulerAngles)
         {
-            _Quaternion = new Quaternion(eulerAngles);
+            Quaternion = new Quaternion(eulerAngles);
         }
 
         /// <summary>
@@ -62,7 +62,7 @@ namespace BogieEngineCore
         /// <param name="eulerAngles">The amount to rotate around the X, Y, and Z axis by </param>
         public void Rotate(Vector3 eulerAngles)
         {
-            _Quaternion = new Quaternion(eulerAngles) * _Quaternion;
+            Quaternion = new Quaternion(eulerAngles) * Quaternion;
         }
 
         /// <summary>
@@ -72,7 +72,7 @@ namespace BogieEngineCore
         /// <param name="radians"> How far to rotate the transform.</param>
         public void Rotate(Vector3 axis, float radians)
         {
-            _Quaternion = Quaternion.FromAxisAngle(axis, radians) * _Quaternion;
+            Quaternion = Quaternion.FromAxisAngle(axis, radians) * Quaternion;
         }
 
         /// <summary>

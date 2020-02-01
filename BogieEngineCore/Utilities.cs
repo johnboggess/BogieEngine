@@ -4,17 +4,28 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+using BepuPhysics;
+using BepuUtilities;
 namespace BogieEngineCore
 {
     public class Utilities
     {
-        public static System.Numerics.Vector3 TKVector3ToSystemVector3(OpenTK.Vector3 vec)
+        public static System.Numerics.Vector3 ConvertVector3Type(OpenTK.Vector3 vec)
         {
             return new System.Numerics.Vector3(vec.X, vec.Y, vec.Z);
         }
-        public static OpenTK.Vector3 SystemVector3ToTKVector3(System.Numerics.Vector3 vec)
+        public static OpenTK.Vector3 ConvertVector3Type(System.Numerics.Vector3 vec)
         {
             return new OpenTK.Vector3(vec.X, vec.Y, vec.Z);
+        }
+
+        public static OpenTK.Quaternion ConvertQuaternionType(BepuUtilities.Quaternion quaternion)
+        {
+            return new OpenTK.Quaternion(quaternion.X, quaternion.Y, quaternion.Z, quaternion.W);
+        }
+        public static BepuUtilities.Quaternion ConvertQuaternionType(OpenTK.Quaternion quaternion)
+        {
+            return new BepuUtilities.Quaternion(quaternion.X, quaternion.Y, quaternion.Z, quaternion.W);
         }
     }
 }

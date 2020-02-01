@@ -75,6 +75,7 @@ namespace BogieEngineConsoleTest
             _Cube = new Block(this);
             _Cube.LocalTransform.ScaleBy(new Vector3(3.5f, 3.5f, 1));
             _Cube.LocalTransform.Position = new Vector3(0, 0, -2);
+            _Cube.LocalTransform.Quaternion = new Quaternion(0, 0, .72f);
             _Cube.Init(new Transform());
 
             _SamusRelativeCube = new ModelNode(this, ContentManager.LoadModel("Resources/Models/Cube.obj", DefaultShader));
