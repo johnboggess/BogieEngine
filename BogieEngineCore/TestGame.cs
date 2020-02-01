@@ -22,14 +22,10 @@ namespace BogieEngineCore
     /// <summary>
     /// Just used for some testing.
     /// </summary>
-    public class TestGame : GameWindow
+    public class TestGame : BaseGame
     {
-        public ContentManager ContentManager;
-        public Color4 ClearColor = Color4.CornflowerBlue;
         private Shader DefaultShader;
         public Shader MaskCubeShader;
-        public Camera ActiveCamera = new Camera();
-        public Root World = new Root();
 
         internal ModelNode _Samus;
         internal ModelNode _SamusNoVisor;
@@ -37,24 +33,12 @@ namespace BogieEngineCore
         internal TestPhysicsObject _TestRigid;
         internal TestPhysicsObject _TestRigidB;
 
-        CollisionSystem _collisionSystem;
-        JitterWorld _jitterWorld;
-
-        public TestGame(int width, int height, string title, int updateRate = 30, int frameRate = 30) : base(width, height, OpenTK.Graphics.GraphicsMode.Default, title)
+        public TestGame(int width, int height, string title, int updateRate = 30, int frameRate = 30) : base(width, height, title, updateRate, frameRate)
         {
-
-            _collisionSystem = new CollisionSystemSAP();
-            _jitterWorld = new JitterWorld(_collisionSystem);
-
-            ContentManager = new ContentManager();
-            Run(updateRate, frameRate);
         }
 
-        protected override void OnLoad(EventArgs e)
+        protected override void Loading(EventArgs e)
         {
-            GL.Enable(EnableCap.DepthTest);
-            GL.ClearColor(ClearColor);
-
             Texture cube0Tex = ContentManager.LoadTexture("Resources/Textures/Brick.jpg", TextureUnit.Texture0);
             Texture cube1Tex = ContentManager.LoadTexture("Resources/Textures/Circle.png", TextureUnit.Texture1);
 
@@ -76,13 +60,13 @@ namespace BogieEngineCore
             _TestRigid = new TestPhysicsObject(ContentManager.LoadModel("Resources/Models/Cube.obj", MaskCubeShader));
             _TestRigid.LocalTransform.Position = new Vector3(0, 1, 0);
             _TestRigid.LocalTransform.Scale = new Vector3(.5f, .5f, .5f);
-            _TestRigid._JitterRigidBody.Shape = new BoxShape(.5f, .5f, .5f);
+            _TestRigid.JitterRigidBody.Shape = new BoxShape(.5f, .5f, .5f);
             _TestRigid.LocalTransform.Rotate(Vector3.UnitZ, .71f);
             _TestRigid.LocalTransform.Rotate(Vector3.UnitX, .71f);
             _TestRigid.RigidBodyMatchLocalTransform(new Transform());
             _TestRigid.Model.MeshData[0].Textures.Add(cube0Tex);
             _TestRigid.Model.MeshData[0].Textures.Add(cube1Tex);
-            _jitterWorld.AddBody(_TestRigid._JitterRigidBody);
+            JitterWorld.AddBody(_TestRigid.JitterRigidBody);
 
             _TestRigidB = new TestPhysicsObject(ContentManager.LoadModel("Resources/Models/Cube.obj", MaskCubeShader));
             _TestRigidB.LocalTransform.Position = new Vector3(0, -1, 0);
@@ -90,8 +74,8 @@ namespace BogieEngineCore
             _TestRigidB.RigidBodyMatchLocalTransform(new Transform());
             _TestRigid.Model.MeshData[0].Textures.Add(cube0Tex);
             _TestRigid.Model.MeshData[0].Textures.Add(cube1Tex);
-            _jitterWorld.AddBody(_TestRigidB._JitterRigidBody);
-            _TestRigidB._JitterRigidBody.IsStatic = true;
+            JitterWorld.AddBody(_TestRigidB.JitterRigidBody);
+            _TestRigidB.JitterRigidBody.IsStatic = true;
 
 
             _Cube = new ModelNode(ContentManager.LoadModel("Resources/Models/Cube.obj", MaskCubeShader));
@@ -109,8 +93,7 @@ namespace BogieEngineCore
             World.AddNode(ActiveCamera);
 
             List<MeshData> meshData = _SamusNoVisor.GetMeshWithName("polygon6");
-            if(meshData.Count > 0) { meshData[0].Visible = false; }
-            base.OnLoad(e);
+            if (meshData.Count > 0) { meshData[0].Visible = false; }
         }
 
         protected override void OnResize(EventArgs e)
@@ -119,7 +102,7 @@ namespace BogieEngineCore
             base.OnResize(e);
         }
 
-        protected override void OnUpdateFrame(FrameEventArgs e)
+        protected override void PreUpdateFrame(FrameEventArgs e)
         {
             KeyboardState ks = Keyboard.GetState();
             if (ks.IsKeyDown(Key.A))
@@ -146,26 +129,18 @@ namespace BogieEngineCore
             {
                 ActiveCamera.LocalTransform.Rotate(ActiveCamera.LocalTransform.Forwards, -.1f);
             }
-            _jitterWorld.Step(.01f, true);
-            World.Process((float)e.Time, new Transform());
         }
 
-        protected override void OnRenderFrame(FrameEventArgs e)
+        protected override void PreRenderFrame(FrameEventArgs e)
         {
-            GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
             DefaultShader.Projection = ActiveCamera.Projection;
             DefaultShader.View = ActiveCamera.View;
 
             MaskCubeShader.Projection = ActiveCamera.Projection;
             MaskCubeShader.View = ActiveCamera.View;
 
-            World.Draw((float)e.Time, new Transform());
-
             _Samus.LocalTransform.Rotate(_SamusNoVisor.LocalTransform.Up, -.01f);
             _SamusNoVisor.LocalTransform.Rotate(_SamusNoVisor.LocalTransform.Up, -.01f);
-
-            Context.SwapBuffers();
-            base.OnRenderFrame(e);
         }
 
         protected override void OnUnload(EventArgs  e)

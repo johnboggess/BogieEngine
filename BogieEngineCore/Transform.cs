@@ -14,7 +14,11 @@ namespace BogieEngineCore
         public Vector3 Right = Vector3.UnitX;
         public Vector3 Position = Vector3.Zero;
 
-        public Vector3 XAxis { get => Right; set => Right = value; }
+        public Vector3 XAxis
+        {
+            get => Right;
+            set => Right = value;
+        }
         public Vector3 YAxis { get => Up; set => Up = value; }
         public Vector3 ZAxis { get => Forwards; set => Forwards = value; }
 
@@ -26,13 +30,13 @@ namespace BogieEngineCore
             }
             set
             {
-                XAxis.Normalize();
+                XAxis = XAxis.Normalized();
                 XAxis *= value.X;
 
-                YAxis.Normalize();
+                YAxis = YAxis.Normalized();
                 YAxis *= value.Y;
 
-                ZAxis.Normalize();
+                ZAxis = ZAxis.Normalized();
                 ZAxis *= value.Z;
             }
         }

@@ -79,6 +79,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BaseGame.cs" />
     <Compile Include="Nodes\Camera.cs" />
     <Compile Include="ContentManager.cs" />
     <Compile Include="ElementBuffer.cs" />
@@ -97,6 +98,7 @@
     <Compile Include="Texturing\Texture.cs" />
     <Compile Include="Texturing\TextureData.cs" />
     <Compile Include="Transform.cs" />
+    <Compile Include="Utilities.cs" />
     <Compile Include="Vertex.cs" />
     <Compile Include="VertexArray.cs" />
     <Compile Include="VertexBuffer.cs" />

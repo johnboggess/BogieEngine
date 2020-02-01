@@ -36,6 +36,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Jitter, Version=0.1.7.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Jitter.Redpoint.0.3.0\lib\net45\Jitter.dll</HintPath>
+    </Reference>
     <Reference Include="OpenTK, Version=3.1.0.0, Culture=neutral, PublicKeyToken=bad199fe84eb3df4, processorArchitecture=MSIL">
       <HintPath>..\packages\OpenTK.3.1.0\lib\net20\OpenTK.dll</HintPath>
     </Reference>
@@ -72,6 +75,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Block.cs" />
     <Compile Include="FPSCamera.cs" />
     <Compile Include="Game.cs" />
     <Compile Include="Program.cs" />
