@@ -9,33 +9,27 @@ namespace BogieEngineCore
 {
     public class Transform
     {
-        public Vector3 Forwards = Vector3.UnitZ;
-        public Vector3 Up = Vector3.UnitY;
-        public Vector3 Right = Vector3.UnitX;
-        public Vector3 Position = Vector3.Zero;
+        public Quaternion _Quaternion = new Quaternion(0,0,0);
 
-        public Vector3 XAxis { get => Right; set => Right = value; }
-        public Vector3 YAxis { get => Up; set => Up = value; }
-        public Vector3 ZAxis { get => Forwards; set => Forwards = value; }
-
-        public Vector3 Scale
+        public Vector3 Forwards
         {
-            get
-            {
-                return new Vector3(XAxis.Length, YAxis.Length, ZAxis.Length);
-            }
-            set
-            {
-                XAxis = XAxis.Normalized();
-                XAxis *= value.X;
-
-                YAxis = YAxis.Normalized();
-                YAxis *= value.Y;
-
-                ZAxis = ZAxis.Normalized();
-                ZAxis *= value.Z;
-            }
+            get { return (_Quaternion * Vector3.UnitZ) * Scale.Z; }
         }
+        public Vector3 Up
+        {
+            get { return (_Quaternion * Vector3.UnitY) * Scale.Y; }
+        }
+        public Vector3 Right
+        {
+            get { return (_Quaternion * Vector3.UnitX) * Scale.X; }
+        }
+
+        public Vector3 XAxis { get => Right; }
+        public Vector3 YAxis { get => Up; }
+        public Vector3 ZAxis { get => Forwards; }
+
+        public Vector3 Position = Vector3.Zero;
+        public Vector3 Scale = new Vector3(1);
 
         public Matrix4 GetMatrix4()
         {
@@ -44,34 +38,52 @@ namespace BogieEngineCore
 
         public void FromMatrix4(Matrix4 matrix)
         {
-            Right = matrix.Row0.Xyz;
-            Up = matrix.Row1.Xyz;
-            Forwards = matrix.Row2.Xyz;
-            Position = matrix.Row3.Xyz;
+            Scale = matrix.ExtractScale();
+            Position = matrix.ExtractTranslation();
+            _Quaternion = matrix.ExtractRotation();
+
+            //Right = matrix.Row0.Xyz;
+            //Up = matrix.Row1.Xyz;
+            //Forwards = matrix.Row2.Xyz;
         }
 
         /// <summary>
-        /// To rotate the transform about an arbitrary axis.
+        /// Set the rotation of the transform.
+        /// </summary>
+        /// <param name="eulerAngles">The rotation about the X, Y, and Z axis.</param>
+        public void SetRotation(Vector3 eulerAngles)
+        {
+            _Quaternion = new Quaternion(eulerAngles);
+        }
+
+        /// <summary>
+        /// Rotate the transform by the given Euler angles.
+        /// </summary>
+        /// <param name="eulerAngles">The amount to rotate around the X, Y, and Z axis by </param>
+        public void Rotate(Vector3 eulerAngles)
+        {
+            _Quaternion = new Quaternion(eulerAngles) * _Quaternion;
+        }
+
+        /// <summary>
+        /// Rotate the transform about an arbitrary axis.
         /// </summary>
         /// <param name="axis">The axis to rotate the transform round.</param>
         /// <param name="radians"> How far to rotate the transform.</param>
         public void Rotate(Vector3 axis, float radians)
         {
-            Matrix3 rot = Matrix3.CreateFromAxisAngle(axis, -radians);
-            Forwards = rot * Forwards;
-            Up = rot * Up;
-            Right = rot * Right;
+            _Quaternion = Quaternion.FromAxisAngle(axis, radians) * _Quaternion;
         }
 
         /// <summary>
         /// Scales the transform by the given scale vector.
         /// </summary>
-        /// <param name="Scale">Multiples the X, Y and Z axis of the transform by the X, Y and Z elements of the Scale.</param>
-        public void ScaleBy(Vector3 Scale)
+        /// <param name="scale">Multiples the X, Y and Z axis of the transform by the X, Y and Z elements of the scale.</param>
+        public void ScaleBy(Vector3 scale)
         {
-            Forwards = Forwards * Scale.Z;
-            Up = Up * Scale.Y;
-            Right = Right * Scale.X;
+            Scale.Z = Scale.Z * scale.Z;
+            Scale.Y = Scale.Y * scale.Y;
+            Scale.X = Scale.X * scale.X;
         }
 
         /// <summary>

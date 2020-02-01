@@ -47,14 +47,14 @@ namespace BogieEngineConsoleTest
 
             float currentRot = Transform.RotationToPlane(LocalTransform.Forwards, Vector3.UnitY);
 
-            LocalTransform.Rotate(Vector3.UnitY, -diffX * yawScale);
             LocalTransform.Rotate(LocalTransform.Right, -diffY * pitchScale);
+            LocalTransform.Rotate(Vector3.UnitY, -diffX * yawScale);
 
-            if (Math.Abs(currentRot) >= upDownLimit)
+            /*if (Math.Abs(currentRot) >= upDownLimit)
             {
                 float signedLimit = Math.Sign(currentRot) * upDownLimit;
                 LocalTransform.Rotate(LocalTransform.Right, signedLimit - currentRot);
-            }
+            }*/
 
 
             if (ks.IsKeyDown(Key.A))
