@@ -24,6 +24,9 @@ namespace BogieEngineConsoleTest
         float pitchScale = 0.01f;
 
         float upDownLimit = 1;
+
+        public FPSCamera(BaseGame game) : base(game) { }
+
         public override void Process(float deltaT, Transform parentWorldTransform)
         {
             KeyboardState ks = Keyboard.GetState();

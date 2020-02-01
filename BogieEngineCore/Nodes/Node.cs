@@ -8,6 +8,7 @@ namespace BogieEngineCore.Nodes
 {
     public class Node
     {
+        public BaseGame Game;
         public Node Parent;
         public Transform LocalTransform = new Transform();
         public Transform WorldTransform { get { return _worldTransform; } }
@@ -16,6 +17,11 @@ namespace BogieEngineCore.Nodes
         internal List<Node> _Childern = new List<Node>();
 
         Transform _worldTransform = new Transform();
+
+        public Node(BaseGame game)
+        {
+            this.Game = game;
+        }
 
         public void AddNode(Node node)
         {
@@ -30,7 +36,7 @@ namespace BogieEngineCore.Nodes
         public virtual void Process(float deltaT, Transform parentWorldTransform) { }
         public virtual void Draw(float deltaT, Transform parentWorldTransform) { }
 
-        internal void _Process(float deltaT, Transform parentWorldTransform)
+        internal virtual void _Process(float deltaT, Transform parentWorldTransform)
         {
             _worldTransform.FromMatrix4(LocalTransform.GetMatrix4() * parentWorldTransform.GetMatrix4());
             Process(deltaT, parentWorldTransform);
@@ -38,7 +44,7 @@ namespace BogieEngineCore.Nodes
                 node._Process(deltaT, _worldTransform);
         }
 
-        internal void _Draw(float deltaT, Transform parentWorldTransform)
+        internal virtual void _Draw(float deltaT, Transform parentWorldTransform)
         {
             Draw(deltaT, parentWorldTransform);
             foreach (Node node in _Childern)

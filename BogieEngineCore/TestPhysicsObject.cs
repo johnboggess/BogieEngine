@@ -11,7 +11,7 @@ namespace BogieEngineCore
     {
         public Modelling.Model Model;
 
-        public TestPhysicsObject(Modelling.Model model) : base()
+        public TestPhysicsObject(BaseGame game, Modelling.Model model) : base(game)
         {
             Model = model;
         }

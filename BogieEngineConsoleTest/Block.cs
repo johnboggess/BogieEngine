@@ -14,6 +14,8 @@ namespace BogieEngineConsoleTest
     {
         public static Model Model;
 
+        public Block(BaseGame game) : base(game) { }
+
         public override void Draw(float deltaT, Transform parentWorldTransform)
         {
             Model.Draw(LocalTransform.GetMatrix4() * parentWorldTransform.GetMatrix4());

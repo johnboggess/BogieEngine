@@ -9,10 +9,6 @@ using OpenTK.Input;
 using OpenTK.Graphics;
 using OpenTK.Graphics.OpenGL4;
 
-using Jitter;
-using Jitter.Collision;
-using Jitter.Collision.Shapes;
-
 using BogieEngineCore.Nodes;
 using BogieEngineCore.Modelling;
 using BogieEngineCore.Shading;
@@ -49,36 +45,29 @@ namespace BogieEngineCore
             MaskCubeShader = new Shader("Resources/Shaders/default.vert", "Resources/Shaders/maskCube.frag");
 
             //downloaded from https://sketchfab.com/3d-models/varia-suit-79c802129f9a4945aba62a607892ac31
-            _Samus = new ModelNode(ContentManager.LoadModel("Resources/Models/VariaSuit/DolBarriersuit.obj", DefaultShader));
+            _Samus = new ModelNode(this, ContentManager.LoadModel("Resources/Models/VariaSuit/DolBarriersuit.obj", DefaultShader));
             _Samus.LocalTransform.ScaleBy(new Vector3(.1f, .1f, .1f));
             _Samus.LocalTransform.Position = new Vector3(-.5f, -1, 0);
 
-            _SamusNoVisor = new ModelNode(ContentManager.LoadModel("Resources/Models/VariaSuit/DolBarriersuit.obj", DefaultShader));
+            _SamusNoVisor = new ModelNode(this, ContentManager.LoadModel("Resources/Models/VariaSuit/DolBarriersuit.obj", DefaultShader));
             _SamusNoVisor.LocalTransform.ScaleBy(new Vector3(.1f, .1f, .1f));
             _SamusNoVisor.LocalTransform.Position = new Vector3(.5f, -1, 0);
 
-            _TestRigid = new TestPhysicsObject(ContentManager.LoadModel("Resources/Models/Cube.obj", MaskCubeShader));
+            _TestRigid = new TestPhysicsObject(this, ContentManager.LoadModel("Resources/Models/Cube.obj", MaskCubeShader));
             _TestRigid.LocalTransform.Position = new Vector3(0, 1, 0);
             _TestRigid.LocalTransform.Scale = new Vector3(.5f, .5f, .5f);
-            _TestRigid.JitterRigidBody.Shape = new BoxShape(.5f, .5f, .5f);
-            _TestRigid.LocalTransform.Rotate(Vector3.UnitZ, .71f);
-            _TestRigid.LocalTransform.Rotate(Vector3.UnitX, .71f);
-            _TestRigid.RigidBodyMatchLocalTransform(new Transform());
             _TestRigid.Model.MeshData[0].Textures.Add(cube0Tex);
             _TestRigid.Model.MeshData[0].Textures.Add(cube1Tex);
-            JitterWorld.AddBody(_TestRigid.JitterRigidBody);
 
-            _TestRigidB = new TestPhysicsObject(ContentManager.LoadModel("Resources/Models/Cube.obj", MaskCubeShader));
+            _TestRigidB = new TestPhysicsObject(this, ContentManager.LoadModel("Resources/Models/Cube.obj", MaskCubeShader));
             _TestRigidB.LocalTransform.Position = new Vector3(0, -1, 0);
             _TestRigidB.LocalTransform.Scale = new Vector3(1, 1, 1);
             _TestRigidB.RigidBodyMatchLocalTransform(new Transform());
             _TestRigid.Model.MeshData[0].Textures.Add(cube0Tex);
             _TestRigid.Model.MeshData[0].Textures.Add(cube1Tex);
-            JitterWorld.AddBody(_TestRigidB.JitterRigidBody);
-            _TestRigidB.JitterRigidBody.IsStatic = true;
 
 
-            _Cube = new ModelNode(ContentManager.LoadModel("Resources/Models/Cube.obj", MaskCubeShader));
+            _Cube = new ModelNode(this, ContentManager.LoadModel("Resources/Models/Cube.obj", MaskCubeShader));
             _Cube.LocalTransform.ScaleBy(new Vector3(3.5f, 3.5f, 1));
             _Cube.LocalTransform.Position = new Vector3(0, 0, -2);
             _Cube.Model.MeshData[0].Textures.Add(cube0Tex);

@@ -8,6 +8,8 @@ namespace BogieEngineCore.Nodes
 {
     public class Root : Node
     {
+        public Root(BaseGame game) : base(game) { }
+
         public override void Draw(float deltaT, Transform parentWorldTransform)
         {
             foreach (Node node in _Childern)

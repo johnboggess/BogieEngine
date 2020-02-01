@@ -37,7 +37,7 @@ namespace BogieEngineConsoleTest
 
         protected override void Loading(EventArgs e)
         {
-            ActiveCamera = new FPSCamera();
+            ActiveCamera = new FPSCamera(this);
             ActiveCamera.LocalTransform.Position = new Vector3(0, 0, 3);
 
 
@@ -52,38 +52,32 @@ namespace BogieEngineConsoleTest
 
 
             //downloaded from https://sketchfab.com/3d-models/varia-suit-79c802129f9a4945aba62a607892ac31
-            _Samus = new ModelNode(ContentManager.LoadModel("Resources/Models/VariaSuit/DolBarriersuit.obj", DefaultShader));
+            _Samus = new ModelNode(this, ContentManager.LoadModel("Resources/Models/VariaSuit/DolBarriersuit.obj", DefaultShader));
             _Samus.LocalTransform.ScaleBy(new Vector3(.1f, .1f, .1f));
             _Samus.LocalTransform.Position = new Vector3(-.5f, -1, 0);
 
-            _SamusNoVisor = new ModelNode(ContentManager.LoadModel("Resources/Models/VariaSuit/DolBarriersuit.obj", DefaultShader));
+            _SamusNoVisor = new ModelNode(this, ContentManager.LoadModel("Resources/Models/VariaSuit/DolBarriersuit.obj", DefaultShader));
             _SamusNoVisor.LocalTransform.ScaleBy(new Vector3(.1f, .1f, .1f));
             _SamusNoVisor.LocalTransform.Position = new Vector3(.5f, -1, 0);
 
-            _MiniSamus = new ModelNode(ContentManager.LoadModel("Resources/Models/VariaSuit/DolBarriersuit.obj", DefaultShader));
+            _MiniSamus = new ModelNode(this, ContentManager.LoadModel("Resources/Models/VariaSuit/DolBarriersuit.obj", DefaultShader));
             _MiniSamus.LocalTransform.ScaleBy(new Vector3(.1f, .1f, .1f));
 
 
-            Floor = new Block();
+            /*Floor = new Block(this);
             Floor.LocalTransform.Position = new Vector3(0, -10, 0);
-            Floor.LocalTransform.Scale = new Vector3(10, 1, 10);
-            Floor.JitterRigidBody.IsStatic = true;
-            Floor.JitterRigidBody.Shape = new Jitter.Collision.Shapes.BoxShape(Utilities.OpenTKVectorToJVector(Floor.LocalTransform.Scale));
-            Floor.RigidBodyMatchLocalTransform(new Transform());
-            JitterWorld.AddBody(Floor.JitterRigidBody);
+            Floor.LocalTransform.Scale = new Vector3(10, 1, 10);*/
 
-            _Cube = new Block();
+            _Cube = new Block(this);
             _Cube.LocalTransform.ScaleBy(new Vector3(3.5f, 3.5f, 1));
             _Cube.LocalTransform.Position = new Vector3(0, 0, -2);
-            _Cube.JitterRigidBody.Shape = new Jitter.Collision.Shapes.BoxShape(Utilities.OpenTKVectorToJVector(_Cube.LocalTransform.Scale));
-            _Cube.RigidBodyMatchLocalTransform(new Transform());
-            JitterWorld.AddBody(_Cube.JitterRigidBody);
+            _Cube.Init(new Transform());
 
-            _SamusRelativeCube = new ModelNode(ContentManager.LoadModel("Resources/Models/Cube.obj", DefaultShader));
+            _SamusRelativeCube = new ModelNode(this, ContentManager.LoadModel("Resources/Models/Cube.obj", DefaultShader));
             _SamusRelativeCube.Model.MeshData[0].Textures.Add(cube0Tex);
             _SamusRelativeCube.LocalTransform.ScaleBy(new Vector3(1, 1, 1));
 
-            World.AddNode(Floor);
+            //World.AddNode(Floor);
             World.AddNode(_Cube);
 
             World.AddNode(_Samus);

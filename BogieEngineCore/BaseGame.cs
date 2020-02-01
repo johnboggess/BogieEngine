@@ -3,31 +3,37 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Numerics;
 
 using OpenTK;
 using OpenTK.Input;
 using OpenTK.Graphics;
 using OpenTK.Graphics.OpenGL4;
 
-using Jitter;
-using Jitter.Collision;
+using BepuPhysics;
+using BepuUtilities.Memory;
 
 using BogieEngineCore.Nodes;
+using BogieEngineCore.Physics;
+
 namespace BogieEngineCore
 {
     public class BaseGame : GameWindow
     {
         public ContentManager ContentManager = new ContentManager();
         public Color4 ClearColor = Color4.CornflowerBlue;
-        public Camera ActiveCamera = new Camera();
-        public Root World = new Root();
+        public Camera ActiveCamera;
+        public Root World;
+        public Simulation PhysicsSimulation;
 
-        public CollisionSystemSAP CollisionSystem = new CollisionSystemSAP();
-        public JitterWorld JitterWorld;
+        private SimpleThreadDispatcher threadDispatcher = new SimpleThreadDispatcher(Environment.ProcessorCount);
 
         public BaseGame(int width, int height, string title, int updateRate = 60, int frameRate = 60) : base(width, height, GraphicsMode.Default, title)
         {
-            JitterWorld = new JitterWorld(CollisionSystem);
+            ActiveCamera = new Camera(this);
+            World = new Root(this);
+
+            PhysicsSimulation = Simulation.Create(new BufferPool(), new NarrowPhaseCallbacks(), new PoseIntegratorCallbacks(new System.Numerics.Vector3(0, -10, 0)));
             Run(updateRate, frameRate);
         }
 
@@ -46,10 +52,11 @@ namespace BogieEngineCore
         {
             PreUpdateFrame(e);
 
-            JitterWorld.Step((float)e.Time, true);
+            PhysicsSimulation.Timestep((float)e.Time, threadDispatcher);
             World.Process((float)e.Time, new Transform());
 
             PostUpdateFrame(e);
+            base.OnUpdateFrame(e);
         }
         protected virtual void PreUpdateFrame(FrameEventArgs e) { }
         protected virtual void PostUpdateFrame(FrameEventArgs e) { }

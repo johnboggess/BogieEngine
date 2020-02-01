@@ -13,7 +13,7 @@ namespace BogieEngineCore.Nodes
     {
         public Model Model;
 
-        public ModelNode(Model model)
+        public ModelNode(BaseGame game, Model model) : base(game)
         {
             Model = model;
         }

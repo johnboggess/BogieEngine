@@ -4,15 +4,17 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-using OpenTK;
-using Jitter;
 namespace BogieEngineCore
 {
     public class Utilities
     {
-        public static Jitter.LinearMath.JVector OpenTKVectorToJVector(OpenTK.Vector3 vector)
+        public static System.Numerics.Vector3 TKVector3ToSystemVector3(OpenTK.Vector3 vec)
         {
-            return new Jitter.LinearMath.JVector(vector.X, vector.Y, vector.Z);
+            return new System.Numerics.Vector3(vec.X, vec.Y, vec.Z);
+        }
+        public static OpenTK.Vector3 SystemVector3ToTKVector3(System.Numerics.Vector3 vec)
+        {
+            return new OpenTK.Vector3(vec.X, vec.Y, vec.Z);
         }
     }
 }

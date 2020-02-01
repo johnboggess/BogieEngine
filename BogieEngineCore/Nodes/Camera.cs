@@ -13,7 +13,7 @@ namespace BogieEngineCore.Nodes
         public Matrix4 Projection;
         public Matrix4 View { get { return WorldTransform.GetMatrix4().Inverted(); } }
 
-        public Camera()
+        public Camera(BaseGame game) : base(game)
         {
             Projection = Matrix4.CreatePerspectiveFieldOfView(MathHelper.DegreesToRadians(45.0f), 500 / 500, 0.1f, 100.0f);
         }
