@@ -12,14 +12,22 @@ namespace BogieEngineCore.Nodes
 
         public override void Draw(float deltaT, Transform parentWorldTransform)
         {
-            foreach (Node node in _Childern)
+            processAddRemoveQueue(_ProcessChildern, nodesQueuedToAdd_ProcessChildern, nodesQueuedToRemove_ProcessChildern);
+
+            foreach (Node node in _ProcessChildern)
                 node._Draw(deltaT, parentWorldTransform);
+
+            processAddRemoveQueue(_ProcessChildern, nodesQueuedToAdd_ProcessChildern, nodesQueuedToRemove_ProcessChildern);
         }
 
         public override void Process(float deltaT, Transform parentWorldTransform)
         {
-            foreach (Node node in _Childern)
+            processAddRemoveQueue(_DrawChildern, nodesQueuedToAdd_DrawChildern, nodesQueuedToRemove_DrawChildern);
+
+            foreach (Node node in _ProcessChildern)
                 node._Process(deltaT, parentWorldTransform);
+
+            processAddRemoveQueue(_DrawChildern, nodesQueuedToAdd_DrawChildern, nodesQueuedToRemove_DrawChildern);
         }
     }
 }

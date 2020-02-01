@@ -26,6 +26,7 @@ namespace BogieEngineCore
         public Root World;
         public Simulation PhysicsSimulation;
 
+
         private SimpleThreadDispatcher threadDispatcher = new SimpleThreadDispatcher(Environment.ProcessorCount);
 
         public BaseGame(int width, int height, string title, int updateRate = 60, int frameRate = 60) : base(width, height, GraphicsMode.Default, title)

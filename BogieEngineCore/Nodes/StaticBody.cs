@@ -19,7 +19,7 @@ namespace BogieEngineCore.Nodes
 
         }
 
-        public void Init(Transform parentWorldTransform)
+        public void CreateBox(Transform parentWorldTransform)
         {
             Matrix4 worldTransform = LocalTransform.GetMatrix4() * parentWorldTransform.GetMatrix4();
 

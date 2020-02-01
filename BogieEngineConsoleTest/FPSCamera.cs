@@ -15,6 +15,8 @@ namespace BogieEngineConsoleTest
     class FPSCamera : Camera
     {
         float moveScale = 1f;
+        float timer = 0f;
+        float timerMax = 1f;
 
         bool initMouse = true;
         float lastX = 0f;
@@ -44,18 +46,25 @@ namespace BogieEngineConsoleTest
             lastX = ms.X;
             lastY = ms.Y;
 
+            timer -= deltaT;
+            if(timer <= 0)
+            {
+                timer = 0;
+                if(ms.LeftButton == ButtonState.Pressed)
+                {
+                    timer = timerMax;
+                    Block block = new Block(Game);
+                    block.LocalTransform.Position = LocalTransform.Position;
+                    block.CreateBox(new Transform());
+                    block.BodyReference.Velocity.Linear = Utilities.ConvertVector3Type(LocalTransform.Forwards * -50);
+                    Game.World.AddNode(block);
+                }
+            }
 
             float currentRot = Transform.RotationToPlane(LocalTransform.Forwards, Vector3.UnitY);
 
             LocalTransform.Rotate(LocalTransform.Right, -diffY * pitchScale);
             LocalTransform.Rotate(Vector3.UnitY, -diffX * yawScale);
-
-            /*if (Math.Abs(currentRot) >= upDownLimit)
-            {
-                float signedLimit = Math.Sign(currentRot) * upDownLimit;
-                LocalTransform.Rotate(LocalTransform.Right, signedLimit - currentRot);
-            }*/
-
 
             if (ks.IsKeyDown(Key.A))
             {

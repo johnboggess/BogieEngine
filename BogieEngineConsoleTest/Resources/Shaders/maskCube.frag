@@ -7,5 +7,5 @@ uniform sampler2D mask;
 
 void main()
 {
-    FragColor = texture(diffuse, texCoord)*texture(mask, texCoord);//mix(texture(diffuse, texCoord), texture(test, texCoord), .5);
+    FragColor = texture(diffuse, texCoord*5)*texture(mask, texCoord*5);
 }
