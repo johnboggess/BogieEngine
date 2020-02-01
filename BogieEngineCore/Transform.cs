@@ -18,6 +18,25 @@ namespace BogieEngineCore
         public Vector3 YAxis { get => Up; set => Up = value; }
         public Vector3 ZAxis { get => Forwards; set => Forwards = value; }
 
+        public Vector3 Scale
+        {
+            get
+            {
+                return new Vector3(XAxis.Length, YAxis.Length, ZAxis.Length);
+            }
+            set
+            {
+                XAxis.Normalize();
+                XAxis *= value.X;
+
+                YAxis.Normalize();
+                YAxis *= value.Y;
+
+                ZAxis.Normalize();
+                ZAxis *= value.Z;
+            }
+        }
+
         public Matrix4 GetMatrix4()
         {
             return new Matrix4(new Vector4(Right, 0), new Vector4(Up, 0), new Vector4(Forwards, 0), new Vector4(Position, 1));
@@ -48,7 +67,7 @@ namespace BogieEngineCore
         /// Scales the transform by the given scale vector.
         /// </summary>
         /// <param name="Scale">Multiples the X, Y and Z axis of the transform by the X, Y and Z elements of the Scale.</param>
-        public void Scale(Vector3 Scale)
+        public void ScaleBy(Vector3 Scale)
         {
             Forwards = Forwards * Scale.Z;
             Up = Up * Scale.Y;

@@ -37,6 +37,9 @@
     <Reference Include="AssimpNet, Version=4.1.0.0, Culture=neutral, PublicKeyToken=0d51b391f59f42a6, processorArchitecture=MSIL">
       <HintPath>..\packages\AssimpNet.4.1.0\lib\net40\AssimpNet.dll</HintPath>
     </Reference>
+    <Reference Include="Jitter, Version=0.1.7.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Jitter.Redpoint.0.3.0\lib\net45\Jitter.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.Win32.SystemEvents, Version=4.0.1.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Win32.SystemEvents.4.6.0-preview.19073.11\lib\net461\Microsoft.Win32.SystemEvents.dll</HintPath>
     </Reference>
@@ -87,8 +90,10 @@
     <Compile Include="Modelling\ModelLoader.cs" />
     <Compile Include="Nodes\ModelNode.cs" />
     <Compile Include="Nodes\Node.cs" />
+    <Compile Include="Nodes\RigidBody.cs" />
     <Compile Include="Nodes\Root.cs" />
     <Compile Include="Shading\Shader.cs" />
+    <Compile Include="TestPhysicsObject.cs" />
     <Compile Include="Texturing\Texture.cs" />
     <Compile Include="Texturing\TextureData.cs" />
     <Compile Include="Transform.cs" />

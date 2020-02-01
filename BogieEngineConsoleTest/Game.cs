@@ -53,15 +53,15 @@ namespace BogieEngineConsoleTest
 
             //downloaded from https://sketchfab.com/3d-models/varia-suit-79c802129f9a4945aba62a607892ac31
             _Samus = new ModelNode(ContentManager.LoadModel("Resources/Models/VariaSuit/DolBarriersuit.obj", DefaultShader));
-            _Samus.LocalTransform.Scale(new Vector3(.1f, .1f, .1f));
+            _Samus.LocalTransform.ScaleBy(new Vector3(.1f, .1f, .1f));
             _Samus.LocalTransform.Position = new Vector3(-.5f, -1, 0);
 
             _SamusNoVisor = new ModelNode(ContentManager.LoadModel("Resources/Models/VariaSuit/DolBarriersuit.obj", DefaultShader));
-            _SamusNoVisor.LocalTransform.Scale(new Vector3(.1f, .1f, .1f));
+            _SamusNoVisor.LocalTransform.ScaleBy(new Vector3(.1f, .1f, .1f));
             _SamusNoVisor.LocalTransform.Position = new Vector3(.5f, -1, 0);
 
             _MiniSamus = new ModelNode(ContentManager.LoadModel("Resources/Models/VariaSuit/DolBarriersuit.obj", DefaultShader));
-            _MiniSamus.LocalTransform.Scale(new Vector3(.1f, .1f, .1f));
+            _MiniSamus.LocalTransform.ScaleBy(new Vector3(.1f, .1f, .1f));
 
             World.AddNode(_Samus);
             World.AddNode(_SamusNoVisor);
@@ -70,14 +70,14 @@ namespace BogieEngineConsoleTest
             Texture cube1Tex = ContentManager.LoadTexture("Resources/Textures/Circle.png", TextureUnit.Texture1);
 
             _Cube = new ModelNode(ContentManager.LoadModel("Resources/Models/Cube.obj", MaskCubeShader));
-            _Cube.LocalTransform.Scale(new Vector3(3.5f, 3.5f, 1));
+            _Cube.LocalTransform.ScaleBy(new Vector3(3.5f, 3.5f, 1));
             _Cube.LocalTransform.Position = new Vector3(0, 0, -2);
             _Cube.Model.MeshData[0].Textures.Add(cube0Tex);
             _Cube.Model.MeshData[0].Textures.Add(cube1Tex);
 
             _SamusRelativeCube = new ModelNode(ContentManager.LoadModel("Resources/Models/Cube.obj", DefaultShader));
             _SamusRelativeCube.Model.MeshData[0].Textures.Add(cube0Tex);
-            _SamusRelativeCube.LocalTransform.Scale(new Vector3(1, 1, 1));
+            _SamusRelativeCube.LocalTransform.ScaleBy(new Vector3(1, 1, 1));
 
             World.AddNode(_Cube);
             World.AddNode(_SamusRelativeCube);
