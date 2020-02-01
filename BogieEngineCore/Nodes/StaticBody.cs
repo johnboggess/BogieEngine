@@ -10,7 +10,7 @@ using BepuPhysics.Collidables;
 using OpenTK;
 namespace BogieEngineCore.Nodes
 {
-    class StaticBody : Node
+    public class StaticBody : Node
     {
         private int bodyHandle;
 

@@ -25,7 +25,7 @@ namespace BogieEngineConsoleTest
         public ModelNode _SamusNoVisor;
         public ModelNode _SamusRelativeCube;
         public ModelNode _MiniSamus;
-        public Block Floor;
+        public StaticBlock Floor;
         public Block _Cube;
 
 
@@ -40,7 +40,6 @@ namespace BogieEngineConsoleTest
             ActiveCamera = new FPSCamera(this);
             ActiveCamera.LocalTransform.Position = new Vector3(0, 0, 3);
 
-
             DefaultShader = new Shader("Resources/Shaders/default.vert", "Resources/Shaders/default.frag");
             MaskCubeShader = new Shader("Resources/Shaders/default.vert", "Resources/Shaders/maskCube.frag");
 
@@ -49,6 +48,10 @@ namespace BogieEngineConsoleTest
             Block.Model = ContentManager.LoadModel("Resources/Models/Cube.obj", MaskCubeShader);
             Block.Model.MeshData[0].Textures.Add(cube0Tex);
             Block.Model.MeshData[0].Textures.Add(cube1Tex);
+
+            StaticBlock.Model = ContentManager.LoadModel("Resources/Models/Cube.obj", MaskCubeShader);
+            StaticBlock.Model.MeshData[0].Textures.Add(cube0Tex);
+            StaticBlock.Model.MeshData[0].Textures.Add(cube1Tex);
 
 
             //downloaded from https://sketchfab.com/3d-models/varia-suit-79c802129f9a4945aba62a607892ac31
@@ -64,9 +67,10 @@ namespace BogieEngineConsoleTest
             _MiniSamus.LocalTransform.ScaleBy(new Vector3(.1f, .1f, .1f));
 
 
-            /*Floor = new Block(this);
+            Floor = new StaticBlock(this);
             Floor.LocalTransform.Position = new Vector3(0, -10, 0);
-            Floor.LocalTransform.Scale = new Vector3(10, 1, 10);*/
+            Floor.LocalTransform.Scale = new Vector3(10, 1, 10);
+            Floor.Init(new Transform());
 
             _Cube = new Block(this);
             _Cube.LocalTransform.ScaleBy(new Vector3(3.5f, 3.5f, 1));
@@ -77,7 +81,7 @@ namespace BogieEngineConsoleTest
             _SamusRelativeCube.Model.MeshData[0].Textures.Add(cube0Tex);
             _SamusRelativeCube.LocalTransform.ScaleBy(new Vector3(1, 1, 1));
 
-            //World.AddNode(Floor);
+            World.AddNode(Floor);
             World.AddNode(_Cube);
 
             World.AddNode(_Samus);

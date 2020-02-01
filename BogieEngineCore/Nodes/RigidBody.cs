@@ -69,7 +69,7 @@ namespace BogieEngineCore.Nodes
 
             Matrix4 worldToLocalTransform = parentWorldTransform.GetMatrix4();
             worldToLocalTransform.Invert();
-            LocalTransform.Position = Utilities.SystemVector3ToTKVector3(BodyDescription.Pose.Position);
+            //LocalTransform.Position = Utilities.SystemVector3ToTKVector3(BodyDescription.Pose.Position);
             /*Matrix4 worldToLocalTransform = parentWorldTransform.GetMatrix4();
             worldToLocalTransform.Invert();
             Vector3 scale = LocalTransform.Scale;

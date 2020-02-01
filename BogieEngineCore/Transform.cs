@@ -14,11 +14,7 @@ namespace BogieEngineCore
         public Vector3 Right = Vector3.UnitX;
         public Vector3 Position = Vector3.Zero;
 
-        public Vector3 XAxis
-        {
-            get => Right;
-            set => Right = value;
-        }
+        public Vector3 XAxis { get => Right; set => Right = value; }
         public Vector3 YAxis { get => Up; set => Up = value; }
         public Vector3 ZAxis { get => Forwards; set => Forwards = value; }
 
@@ -76,60 +72,6 @@ namespace BogieEngineCore
             Forwards = Forwards * Scale.Z;
             Up = Up * Scale.Y;
             Right = Right * Scale.X;
-        }
-
-        public Vector3 GetRotation()
-        {
-            float _00 = XAxis.X;
-            float _01 = YAxis.X;
-            float _02 = ZAxis.X;
-
-            float _10 = XAxis.Y;
-            float _11 = YAxis.Y;
-            float _12 = ZAxis.Y;
-
-            float _20 = XAxis.Z;
-            float _21 = YAxis.Z;
-            float _22 = ZAxis.Z;
-
-            if(_02 < 1.0f)
-            {
-                if(_02 > -1.0f)
-                {
-                    if(_10 == 0.0f && _01 == 0.0f && _12 == 0.0f && _21 == 0.0f && _11 == 1f)
-                    {
-                        Vector3 result = new Vector3();
-                        result.X = 0f;
-                        result.Y = (float)Math.Atan2(_02, _00);
-                        result.Z = 0f;
-                        return result;
-                    }
-                    else
-                    {
-                        Vector3 result = new Vector3();
-                        result.X = (float)Math.Atan2(-_12, _22);
-                        result.Y = (float)Math.Asin(_02);
-                        result.Z = (float)Math.Atan2(-_01, _00);
-                        return result;
-                    }
-                }
-                else
-                {
-                    Vector3 result = new Vector3();
-                    result.X = (float)-Math.Atan2(_01, _11);
-                    result.Y = (float)-Math.PI / 2.0f;
-                    result.Z = 0.0f;
-                    return result;
-                }
-            }
-            else
-            {
-                Vector3 result = new Vector3();
-                result.X = (float)Math.Atan2(_01, _11);
-                result.Y = (float)Math.PI / 2.0f;
-                result.Z = 0.0f;
-                return result;
-            }
         }
 
         /// <summary>
