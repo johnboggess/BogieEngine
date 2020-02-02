@@ -59,6 +59,14 @@ namespace BogieEngineConsoleTest
                     block.BodyReference.Velocity.Linear = Utilities.ConvertVector3Type(LocalTransform.Forwards * -50);
                     Game.World.AddNode(block);
                 }
+                else if (ms.RightButton == ButtonState.Pressed)
+                {
+                    timer = timerMax;
+                    Block block = new Block(Game);
+                    block.LocalTransform.Position = LocalTransform.Position;
+                    block.CreateBox(new Transform());
+                    Game.World.AddNode(block);
+                }
             }
 
             float currentRot = Transform.RotationToPlane(LocalTransform.Forwards, Vector3.UnitY);
