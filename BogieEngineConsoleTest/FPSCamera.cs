@@ -14,6 +14,8 @@ namespace BogieEngineConsoleTest
 {
     class FPSCamera : Camera
     {
+        public RigidBody Body;
+
         float moveScale = 1f;
         float timer = 0f;
         float timerMax = 1f;
@@ -27,7 +29,8 @@ namespace BogieEngineConsoleTest
 
         float upDownLimit = 1;
 
-        public FPSCamera(BaseGame game) : base(game) { }
+
+        public FPSCamera(BaseGame game) : base(game) {  }
 
         public override void Process(float deltaT, Transform parentWorldTransform)
         {
@@ -46,11 +49,12 @@ namespace BogieEngineConsoleTest
             lastX = ms.X;
             lastY = ms.Y;
 
+
             timer -= deltaT;
             if(timer <= 0)
             {
                 timer = 0;
-                if(ms.LeftButton == ButtonState.Pressed)
+                /*if(ms.LeftButton == ButtonState.Pressed)
                 {
                     timer = timerMax;
                     Block block = new Block(Game);
@@ -66,7 +70,7 @@ namespace BogieEngineConsoleTest
                     block.LocalTransform.Position = LocalTransform.Position;
                     block.CreateBox(new Transform());
                     Game.World.AddNode(block);
-                }
+                }*/
             }
 
             float currentRot = Transform.RotationToPlane(LocalTransform.Forwards, Vector3.UnitY);

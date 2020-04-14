@@ -15,10 +15,12 @@ namespace BogieEngineCore.Nodes
     {
         public BodyReference BodyReference;
 
-        private int bodyHandle;
+        private int _bodyHandle;
+        private bool _reportsContacts;
 
-        public RigidBody(BaseGame game) : base(game)
+        public RigidBody(BaseGame game, bool reportsContacts = false) : base(game)
         {
+            this._reportsContacts = reportsContacts;
         }
 
         public void CreateBox(Transform parentWorldTransform)
@@ -30,11 +32,13 @@ namespace BogieEngineCore.Nodes
             BodyDescription BodyDescription = BodyDescription.CreateDynamic(
                 new System.Numerics.Vector3(worldTransform.M41, worldTransform.M42, worldTransform.M43),
                 bodyInertia,
-                new CollidableDescription(Game.PhysicsSimulation.Shapes.Add(box), 0.1f),
+                new CollidableDescription(Game._PhysicsSimulation.Shapes.Add(box), 0.1f),
                 new BodyActivityDescription(0.01f));
             BodyDescription.Pose.Orientation = Utilities.ConvertQuaternionType(LocalTransform.Quaternion);
-            bodyHandle = Game.PhysicsSimulation.Bodies.Add(BodyDescription);
-            BodyReference = Game.PhysicsSimulation.Bodies.GetBodyReference(bodyHandle);
+            _bodyHandle = Game._PhysicsSimulation.Bodies.Add(BodyDescription);
+            BodyReference = Game._PhysicsSimulation.Bodies.GetBodyReference(_bodyHandle);
+
+            createShapeCommon();
         }
 
         public void CreateCylinder(float radius, float length, Transform parentWorldTransform)
@@ -46,17 +50,35 @@ namespace BogieEngineCore.Nodes
             BodyDescription BodyDescription = BodyDescription.CreateDynamic(
                 new System.Numerics.Vector3(worldTransform.M41, worldTransform.M42, worldTransform.M43),
                 bodyInertia,
-                new CollidableDescription(Game.PhysicsSimulation.Shapes.Add(cylinder), 0.1f),
+                new CollidableDescription(Game._PhysicsSimulation.Shapes.Add(cylinder), 0.1f),
                 new BodyActivityDescription(0.01f));
             BodyDescription.Pose.Orientation = Utilities.ConvertQuaternionType(LocalTransform.Quaternion);
-            bodyHandle = Game.PhysicsSimulation.Bodies.Add(BodyDescription);
-            BodyReference = Game.PhysicsSimulation.Bodies.GetBodyReference(bodyHandle);
+            _bodyHandle = Game._PhysicsSimulation.Bodies.Add(BodyDescription);
+            BodyReference = Game._PhysicsSimulation.Bodies.GetBodyReference(_bodyHandle);
+
+            createShapeCommon();
+        }
+
+        public bool IsColliding()
+        {
+            if (!_reportsContacts) { return false; }
+            return Game._GamePhysics._ContactDictionary._IsColliding(BodyReference.Handle);
+
         }
 
         internal override void _Process(float deltaT, Transform parentWorldTransform)
         {
             localTransformMatchRigidBody(parentWorldTransform);
             base._Process(deltaT, parentWorldTransform);
+        }
+
+        private void createShapeCommon()
+        {
+            if (_reportsContacts)
+            {
+                Game._GamePhysics._ContactDictionary._Add(_bodyHandle);
+                BodyReference.Activity.SleepThreshold = 0;
+            }
         }
 
         private void localTransformMatchRigidBody(Transform parentWorldTransform)

@@ -81,6 +81,7 @@
     <Compile Include="Block.cs" />
     <Compile Include="FPSCamera.cs" />
     <Compile Include="Game.cs" />
+    <Compile Include="Player.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="StaticBlock.cs" />
@@ -101,7 +102,7 @@
     <None Include="Resources\Models\VariaSuit\DolBarriersuit.obj">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="Resources\Shaders\maskCube.frag">
+    <None Include="Resources\Shaders\repeatTexture.frag">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>

@@ -24,17 +24,19 @@ namespace BogieEngineCore
         public Color4 ClearColor = Color4.CornflowerBlue;
         public Camera ActiveCamera;
         public Root World;
-        public Simulation PhysicsSimulation;
 
+        internal Simulation _PhysicsSimulation { get { return _GamePhysics._PhysicsSimulation; } }
+        internal GamePhysics _GamePhysics;
 
-        private SimpleThreadDispatcher threadDispatcher = new SimpleThreadDispatcher(Environment.ProcessorCount);
 
         public BaseGame(int width, int height, string title, int updateRate = 60, int frameRate = 60) : base(width, height, GraphicsMode.Default, title)
         {
             ActiveCamera = new Camera(this);
             World = new Root(this);
 
-            PhysicsSimulation = Simulation.Create(new BufferPool(), new NarrowPhaseCallbacks(), new PoseIntegratorCallbacks(new System.Numerics.Vector3(0, -10, 0)));
+            Simulation simulation = Simulation.Create(new BufferPool(), new NarrowPhaseCallbacks() { Game = this }, new PoseIntegratorCallbacks() { Game = this });
+            SimpleThreadDispatcher threadDispatcher = new SimpleThreadDispatcher(Environment.ProcessorCount);
+            _GamePhysics = new GamePhysics(simulation, threadDispatcher);
             Run(updateRate, frameRate);
         }
 
@@ -53,7 +55,7 @@ namespace BogieEngineCore
         {
             PreUpdateFrame(e);
 
-            PhysicsSimulation.Timestep((float)e.Time, threadDispatcher);
+            _GamePhysics._Timestep((float)e.Time);
             World.Process((float)e.Time, new Transform());
 
             PostUpdateFrame(e);

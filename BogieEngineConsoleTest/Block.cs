@@ -16,6 +16,11 @@ namespace BogieEngineConsoleTest
 
         public Block(BaseGame game) : base(game) { }
 
+        public override void Process(float deltaT, Transform parentWorldTransform)
+        {
+            BodyReference.Velocity.Linear += BogieEngineConsoleTest.Game.Gravity * deltaT;
+        }
+
         public override void Draw(float deltaT, Transform parentWorldTransform)
         {
             Model.Draw(LocalTransform.GetMatrix4() * parentWorldTransform.GetMatrix4());

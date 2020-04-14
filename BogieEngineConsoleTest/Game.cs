@@ -18,6 +18,7 @@ namespace BogieEngineConsoleTest
 {
     class Game : BaseGame
     {
+        public static System.Numerics.Vector3 Gravity = new System.Numerics.Vector3(0, -10, 0);
         public Shader DefaultShader;
         public Shader MaskCubeShader;
 
@@ -27,7 +28,7 @@ namespace BogieEngineConsoleTest
         public ModelNode _MiniSamus;
         public StaticBlock Floor;
         public Block _Cube;
-
+        public Player Player;
 
         int frame = 0;
 
@@ -37,21 +38,22 @@ namespace BogieEngineConsoleTest
 
         protected override void Loading(EventArgs e)
         {
+            DefaultShader = new Shader("Resources/Shaders/default.vert", "Resources/Shaders/default.frag");
+            MaskCubeShader = new Shader("Resources/Shaders/default.vert", "Resources/Shaders/repeatTexture.frag");
+
+            Texture cube0Tex = ContentManager.LoadTexture("Resources/Textures/Brick.jpg", TextureUnit.Texture0);
+
             ActiveCamera = new FPSCamera(this);
             ActiveCamera.LocalTransform.Position = new Vector3(0, 0, 3);
 
-            DefaultShader = new Shader("Resources/Shaders/default.vert", "Resources/Shaders/default.frag");
-            MaskCubeShader = new Shader("Resources/Shaders/default.vert", "Resources/Shaders/maskCube.frag");
+            Player = new Player(this, ActiveCamera);
+            Player.CreateBox(new Transform());
 
-            Texture cube0Tex = ContentManager.LoadTexture("Resources/Textures/Brick.jpg", TextureUnit.Texture0);
-            Texture cube1Tex = ContentManager.LoadTexture("Resources/Textures/Circle.png", TextureUnit.Texture1);
             Block.Model = ContentManager.LoadModel("Resources/Models/Cube.obj", MaskCubeShader);
             Block.Model.MeshData[0].Textures.Add(cube0Tex);
-            Block.Model.MeshData[0].Textures.Add(cube1Tex);
 
             StaticBlock.Model = ContentManager.LoadModel("Resources/Models/Cube.obj", MaskCubeShader);
             StaticBlock.Model.MeshData[0].Textures.Add(cube0Tex);
-            StaticBlock.Model.MeshData[0].Textures.Add(cube1Tex);
 
 
             //downloaded from https://sketchfab.com/3d-models/varia-suit-79c802129f9a4945aba62a607892ac31
@@ -72,20 +74,22 @@ namespace BogieEngineConsoleTest
             Floor.LocalTransform.Scale = new Vector3(10, 3, 10);
             Floor.CreateBox(new Transform());
 
-            _Cube = new Block(this);
-            _Cube.LocalTransform.ScaleBy(new Vector3(1, 3.5f, 1));
-            _Cube.LocalTransform.Position = new Vector3(0, 0, -2);
-            _Cube.LocalTransform.Quaternion = new Quaternion(0, 0, 1f);
-            _Cube.CreateBox(new Transform());
-            _Cube.BodyReference.Velocity.Angular = new System.Numerics.Vector3(1);
-            _Cube.BodyReference.Velocity.Linear = new System.Numerics.Vector3(1);
+            //_Cube = new Block(this);
+            //_Cube.LocalTransform.ScaleBy(new Vector3(1, 3.5f, 1));
+            //_Cube.LocalTransform.Position = new Vector3(0, 0, -2);
+            //_Cube.LocalTransform.Quaternion = new Quaternion(0, 0, 0f);
+            //_Cube.CreateBox(new Transform());
+            //_Cube.BodyReference.Velocity.Angular = new System.Numerics.Vector3(1);
+            //_Cube.BodyReference.Velocity.Linear = new System.Numerics.Vector3(1);
 
             _SamusRelativeCube = new ModelNode(this, ContentManager.LoadModel("Resources/Models/Cube.obj", DefaultShader));
             _SamusRelativeCube.Model.MeshData[0].Textures.Add(cube0Tex);
             _SamusRelativeCube.LocalTransform.ScaleBy(new Vector3(1, 1, 1));
 
+            World.AddNode(Player);
+
             World.AddNode(Floor);
-            World.AddNode(_Cube);
+            //World.AddNode(_Cube);
 
             World.AddNode(_Samus);
             World.AddNode(_SamusNoVisor);

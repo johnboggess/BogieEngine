@@ -27,9 +27,9 @@ namespace BogieEngineCore.Nodes
 
             StaticDescription staticDescription = new StaticDescription(
                 new System.Numerics.Vector3(worldTransform.M41, worldTransform.M42, worldTransform.M43),
-                new CollidableDescription(Game.PhysicsSimulation.Shapes.Add(box), 0.1f));
+                new CollidableDescription(Game._PhysicsSimulation.Shapes.Add(box), 0.1f));
 
-            bodyHandle = Game.PhysicsSimulation.Statics.Add(staticDescription);
+            bodyHandle = Game._PhysicsSimulation.Statics.Add(staticDescription);
         }
 
         internal override void _Process(float deltaT, Transform parentWorldTransform)

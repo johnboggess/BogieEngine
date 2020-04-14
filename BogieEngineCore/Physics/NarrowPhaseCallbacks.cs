@@ -14,6 +14,8 @@ namespace BogieEngineCore.Physics
 {
     struct NarrowPhaseCallbacks : INarrowPhaseCallbacks
     {
+        public BaseGame Game;
+
         /// <summary>
         /// Performs any required initialization logic after the Simulation instance has been constructed.
         /// </summary>
@@ -68,13 +70,14 @@ namespace BogieEngineCore.Physics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public unsafe bool ConfigureContactManifold<TManifold>(int workerIndex, CollidablePair pair, ref TManifold manifold, out PairMaterialProperties pairMaterial) where TManifold : struct, IContactManifold<TManifold>
         {
+            Game._GamePhysics._ContactDictionary._ContactGenerated(pair.A, pair.B);
+            Game._GamePhysics._ContactDictionary._ContactGenerated(pair.B, pair.A);
             //The IContactManifold parameter includes functions for accessing contact data regardless of what the underlying type of the manifold is.
             //If you want to have direct access to the underlying type, you can use the manifold.Convex property and a cast like Unsafe.As<TManifold, ConvexContactManifold or NonconvexContactManifold>(ref manifold).
             //The engine does not define any per-body material properties. Instead, all material lookup and blending operations are handled by the callbacks.
             pairMaterial.FrictionCoefficient = 1f;
             pairMaterial.MaximumRecoveryVelocity = 2f;
             pairMaterial.SpringSettings = new SpringSettings(30, 1);
-            //For the purposes of the demo, contact constraints are always generated.
             return true;
         }
 
