@@ -9,22 +9,32 @@ using Assimp;
 using BogieEngineCore.Texturing;
 namespace BogieEngineCore.Modelling
 {
+    /// <summary>
+    /// Loads models
+    /// </summary>
     internal class ModelLoader
     {
         static ContentManager _contentManager;
-        static string folder;
+        static string _folder;
 
+        /// <summary>
+        /// Loads the given file and assign it the given shader.
+        /// </summary>
+        /// <param name="filePath">Path to the file.</param>
+        /// <param name="contentManager">Content manager.</param>
+        /// <param name="shader">The shader to assign to the model.</param>
+        /// <returns>The loaded model.</returns>
         public static Model LoadModel(string filePath, ContentManager contentManager, Shading.Shader shader)
         {
             _contentManager = contentManager;
-            folder = filePath.Substring(0,filePath.LastIndexOf("/"));
+            _folder = filePath.Substring(0,filePath.LastIndexOf("/"));
             AssimpContext assimpContext = new AssimpContext();
             Scene scene = assimpContext.ImportFile(filePath, PostProcessSteps.Triangulate | PostProcessSteps.GenerateNormals);
 
-            return new Model(ProcessNode(scene.RootNode, scene, shader));
+            return new Model(_processNode(scene.RootNode, scene, shader));
         }
 
-        private static List<MeshData> ProcessNode(Node node, Scene scene, Shading.Shader shader)
+        private static List<MeshData> _processNode(Node node, Scene scene, Shading.Shader shader)
         {
             List<MeshData> meshData = new List<MeshData>();
             for(int i = 0; i < node.MeshCount; i++)
@@ -35,7 +45,7 @@ namespace BogieEngineCore.Modelling
 
             foreach(Node child in node.Children)
             {
-                meshData.AddRange(ProcessNode(child, scene, shader));
+                meshData.AddRange(_processNode(child, scene, shader));
             }
             return meshData;
 
@@ -77,7 +87,7 @@ namespace BogieEngineCore.Modelling
                 string diffusePath = material.TextureDiffuse.FilePath;
                 if (diffusePath != null)
                 {
-                    textures.Add(_contentManager.LoadTexture(folder+"/" + diffusePath, OpenTK.Graphics.OpenGL4.TextureUnit.Texture0));
+                    textures.Add(_contentManager.LoadTexture(_folder+"/" + diffusePath, OpenTK.Graphics.OpenGL4.TextureUnit.Texture0));
                 }
             }
 

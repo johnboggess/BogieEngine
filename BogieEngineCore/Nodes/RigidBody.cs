@@ -13,11 +13,21 @@ namespace BogieEngineCore.Nodes
 {
     public class RigidBody : Node
     {
+        /// <summary>
+        /// Reference to the physics body of the object.
+        /// </summary>
         public BodyReference BodyReference;
 
+        /// <summary>
+        /// Handle of the physics body.
+        /// </summary>
         private int _bodyHandle;
+        /// <summary>
+        /// Does the object store contact information for the dev to check collision information. Leave false if collision information is not necessary.
+        /// </summary>
         private bool _reportsContacts;
 
+        //todo: keep documenting
         public RigidBody(BaseGame game, bool reportsContacts = false) : base(game)
         {
             this._reportsContacts = reportsContacts;

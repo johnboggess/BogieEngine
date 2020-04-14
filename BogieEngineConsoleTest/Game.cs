@@ -59,11 +59,11 @@ namespace BogieEngineConsoleTest
             //downloaded from https://sketchfab.com/3d-models/varia-suit-79c802129f9a4945aba62a607892ac31
             _Samus = new ModelNode(this, ContentManager.LoadModel("Resources/Models/VariaSuit/DolBarriersuit.obj", DefaultShader));
             _Samus.LocalTransform.ScaleBy(new Vector3(.1f, .1f, .1f));
-            _Samus.LocalTransform.Position = new Vector3(-.5f, -1, 0);
+            _Samus.LocalTransform.Position = new Vector3(-.5f, -8, 0);
 
             _SamusNoVisor = new ModelNode(this, ContentManager.LoadModel("Resources/Models/VariaSuit/DolBarriersuit.obj", DefaultShader));
             _SamusNoVisor.LocalTransform.ScaleBy(new Vector3(.1f, .1f, .1f));
-            _SamusNoVisor.LocalTransform.Position = new Vector3(.5f, -1, 0);
+            _SamusNoVisor.LocalTransform.Position = new Vector3(.5f, -8, 0);
 
             _MiniSamus = new ModelNode(this, ContentManager.LoadModel("Resources/Models/VariaSuit/DolBarriersuit.obj", DefaultShader));
             _MiniSamus.LocalTransform.ScaleBy(new Vector3(.1f, .1f, .1f));
