@@ -45,24 +45,20 @@ namespace BogieEngineConsoleTest
             }
             if(ks.IsKeyDown(Key.Space) && IsColliding())
             {
-                BodyReference.Awake = true;
                 BodyReference.Velocity.Linear += new System.Numerics.Vector3(0, 6, 0);
             }
 
-            if (BodyReference.Awake)
+            Vector3 velocity = Utilities.ConvertVector3Type(BodyReference.Velocity.Linear);
+            Vector3 friction = -velocity.Normalized();
+            friction = friction * Math.Min(BodyReference.Velocity.Linear.Length(), .2f);
+            friction.Y = 0;
+
+            if (!float.IsNaN(friction.X))
             {
-                Vector3 velocity = Utilities.ConvertVector3Type(BodyReference.Velocity.Linear);
-                Vector3 friction = -velocity.Normalized();
-                friction = friction * Math.Min(BodyReference.Velocity.Linear.Length(), .2f);
-                friction.Y = 0;
-
-                if(!float.IsNaN(friction.X))
-                {
-                    BodyReference.Velocity.Linear += Utilities.ConvertVector3Type(friction);
-                }
-
-                BodyReference.Velocity.Linear += BogieEngineConsoleTest.Game.Gravity * deltaT;
+                BodyReference.Velocity.Linear += Utilities.ConvertVector3Type(friction);
             }
+
+            BodyReference.Velocity.Linear += BogieEngineConsoleTest.Game.Gravity * deltaT;
         }
     }
 }

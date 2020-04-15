@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.Concurrent;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -8,11 +9,11 @@ namespace BogieEngineCore.Physics
 {
     class ContactDictionary
     {
-        Dictionary<int, Dictionary<int, Contact>> _contacts = new Dictionary<int, Dictionary<int, Contact>>();
+        ConcurrentDictionary<int, ConcurrentDictionary<int, Contact>> _contacts = new ConcurrentDictionary<int, ConcurrentDictionary<int, Contact>>();
 
         internal void _Add(int handle)
         {
-            _contacts.Add(handle, new Dictionary<int, Contact>());
+            _contacts.TryAdd(handle, new ConcurrentDictionary<int, Contact>());
         }
 
         internal bool _AreContactsRecorded(int handle)
@@ -44,7 +45,7 @@ namespace BogieEngineCore.Physics
             {
                 if(!_contacts[ref1.Handle].ContainsKey(ref2.Handle))
                 {
-                    _contacts[ref1.Handle].Add(ref2.Handle, new Contact(ref1.Handle, ref1.Mobility, ref2.Handle, ref2.Mobility));
+                     _contacts[ref1.Handle].TryAdd(ref2.Handle, new Contact(ref1.Handle, ref1.Mobility, ref2.Handle, ref2.Mobility));
                 }
             }
         }

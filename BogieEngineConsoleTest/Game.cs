@@ -74,13 +74,13 @@ namespace BogieEngineConsoleTest
             Floor.LocalTransform.Scale = new Vector3(10, 3, 10);
             Floor.CreateBox(new Transform());
 
-            //_Cube = new Block(this);
-            //_Cube.LocalTransform.ScaleBy(new Vector3(1, 3.5f, 1));
-            //_Cube.LocalTransform.Position = new Vector3(0, 0, -2);
-            //_Cube.LocalTransform.Quaternion = new Quaternion(0, 0, 0f);
-            //_Cube.CreateBox(new Transform());
-            //_Cube.BodyReference.Velocity.Angular = new System.Numerics.Vector3(1);
-            //_Cube.BodyReference.Velocity.Linear = new System.Numerics.Vector3(1);
+            _Cube = new Block(this);
+            _Cube.LocalTransform.ScaleBy(new Vector3(1, 3.5f, 1));
+            _Cube.LocalTransform.Position = new Vector3(0, 0, -2);
+            _Cube.LocalTransform.Quaternion = new Quaternion(0, 0, 0f);
+            _Cube.CreateBox(new Transform());
+            _Cube.BodyReference.Velocity.Angular = new System.Numerics.Vector3(1);
+            _Cube.BodyReference.Velocity.Linear = new System.Numerics.Vector3(1);
 
             _SamusRelativeCube = new ModelNode(this, ContentManager.LoadModel("Resources/Models/Cube.obj", DefaultShader));
             _SamusRelativeCube.Model.MeshData[0].Textures.Add(cube0Tex);
@@ -89,7 +89,7 @@ namespace BogieEngineConsoleTest
             World.AddNode(Player);
 
             World.AddNode(Floor);
-            //World.AddNode(_Cube);
+            World.AddNode(_Cube);
 
             World.AddNode(_Samus);
             World.AddNode(_SamusNoVisor);

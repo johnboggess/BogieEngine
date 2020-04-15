@@ -54,7 +54,7 @@ namespace BogieEngineConsoleTest
             if(timer <= 0)
             {
                 timer = 0;
-                /*if(ms.LeftButton == ButtonState.Pressed)
+                if(ms.LeftButton == ButtonState.Pressed)
                 {
                     timer = timerMax;
                     Block block = new Block(Game);
@@ -70,7 +70,7 @@ namespace BogieEngineConsoleTest
                     block.LocalTransform.Position = LocalTransform.Position;
                     block.CreateBox(new Transform());
                     Game.World.AddNode(block);
-                }*/
+                }
             }
 
             float currentRot = Transform.RotationToPlane(LocalTransform.Forwards, Vector3.UnitY);
