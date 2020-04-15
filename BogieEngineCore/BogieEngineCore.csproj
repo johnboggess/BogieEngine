@@ -98,7 +98,7 @@
     <Compile Include="Nodes\RigidBody.cs" />
     <Compile Include="Nodes\Root.cs" />
     <Compile Include="Nodes\StaticBody.cs" />
-    <Compile Include="Physics\Contact.cs" />
+    <Compile Include="Physics\ContactInfo.cs" />
     <Compile Include="Physics\ContactDictionary.cs" />
     <Compile Include="Physics\GamePhysics.cs" />
     <Compile Include="Physics\NarrowPhaseCallbacks.cs" />

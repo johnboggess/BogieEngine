@@ -7,13 +7,15 @@ using System.Threading;
 using System.Threading.Tasks;
 
 using BepuPhysics;
-using BepuPhysics.CollisionDetection;
+
+using BogieEngineCore.Nodes;
 namespace BogieEngineCore.Physics
 {
     public class GamePhysics
     {
         internal Simulation _PhysicsSimulation;
         internal ContactDictionary _ContactDictionary = new ContactDictionary();
+        internal ConcurrentDictionary<int, Node> _physicsBodyHandleToNode = new ConcurrentDictionary<int, Node>();
 
         SimpleThreadDispatcher _threadDispatcher;
         

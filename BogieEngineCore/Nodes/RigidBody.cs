@@ -23,16 +23,24 @@ namespace BogieEngineCore.Nodes
         /// </summary>
         private int _bodyHandle;
         /// <summary>
-        /// Does the object store contact information for the dev to check collision information. Leave false if collision information is not necessary.
+        /// Does the object store contact information for the dev to check. Leave false if collision information is not necessary.
         /// </summary>
         private bool _reportsContacts;
 
-        //todo: keep documenting
+        /// <summary>
+        /// Creates a rigid body.
+        /// </summary>
+        /// <param name="game">The game the node is a part of.</param>
+        /// <param name="reportsContacts">Does the object store contact information for the dev to check. Leave false if collision information is not necessary.</param>
         public RigidBody(BaseGame game, bool reportsContacts = false) : base(game)
         {
             this._reportsContacts = reportsContacts;
         }
 
+        /// <summary>
+        /// Make this object a box rigid body.
+        /// </summary>
+        /// <param name="parentWorldTransform">The transform of the parent node.</param>
         public void CreateBox(Transform parentWorldTransform)
         {
             Matrix4 worldTransform = LocalTransform.GetMatrix4() * parentWorldTransform.GetMatrix4();
@@ -51,6 +59,10 @@ namespace BogieEngineCore.Nodes
             createShapeCommon();
         }
 
+        /// <summary>
+        /// Make this object a cylinder rigid body.
+        /// </summary>
+        /// <param name="parentWorldTransform">The transform of the parent node.</param>
         public void CreateCylinder(float radius, float length, Transform parentWorldTransform)
         {
             Matrix4 worldTransform = LocalTransform.GetMatrix4() * parentWorldTransform.GetMatrix4();
@@ -72,7 +84,7 @@ namespace BogieEngineCore.Nodes
         public bool IsColliding()
         {
             if (!_reportsContacts) { return false; }
-            return Game._GamePhysics._ContactDictionary._IsColliding(BodyReference.Handle);
+            return Game._GamePhysics._ContactDictionary._IsColliding(new Physics.ContactInfo(_bodyHandle, CollidableMobility.Dynamic));
 
         }
 
@@ -86,7 +98,7 @@ namespace BogieEngineCore.Nodes
         {
             if (_reportsContacts)
             {
-                Game._GamePhysics._ContactDictionary._Add(_bodyHandle);
+                Game._GamePhysics._ContactDictionary._Add(new Physics.ContactInfo(_bodyHandle, CollidableMobility.Dynamic));
                 BodyReference.Activity.SleepThreshold = 0;
             }
         }

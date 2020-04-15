@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace BogieEngineCore.Nodes
 {
+    /// <summary>
+    /// Root of the node tree. Should only be one.
+    /// </summary>
     public class Root : Node
     {
         public Root(BaseGame game) : base(game) { }

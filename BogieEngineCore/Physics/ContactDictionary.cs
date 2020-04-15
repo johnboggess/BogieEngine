@@ -9,59 +9,57 @@ namespace BogieEngineCore.Physics
 {
     class ContactDictionary
     {
-        ConcurrentDictionary<int, ConcurrentDictionary<int, Contact>> _contacts = new ConcurrentDictionary<int, ConcurrentDictionary<int, Contact>>();
+        ConcurrentDictionary<ContactInfo, List<ContactInfo>> _contacts = new ConcurrentDictionary<ContactInfo, List<ContactInfo>>();
 
-        internal void _Add(int handle)
+        internal void _Add(ContactInfo info)
         {
-            _contacts.TryAdd(handle, new ConcurrentDictionary<int, Contact>());
+            _contacts.TryAdd(info, new List<ContactInfo>());
         }
 
-        internal bool _AreContactsRecorded(int handle)
+        internal bool _AreContactsRecorded(ContactInfo info)
         {
-            return _contacts.ContainsKey(handle);
+            return _contacts.ContainsKey(info);
         }
 
         internal void _Clear()
         {
-            for (int i = 0; i < _contacts.Count; i++)
+            foreach(KeyValuePair<ContactInfo, List<ContactInfo>> info in _contacts)
             {
-                _contacts[i].Clear();
+                _contacts[info.Key].Clear();
             }
         }
         
-        internal void _Clear(int handle)
+        internal void _Clear(ContactInfo info)
         {
-            _contacts[handle].Clear();
+            _contacts[info].Clear();
         }
 
-        internal bool _IsColliding(int handle)
+        internal bool _IsColliding(ContactInfo info)
         {
-            return _contacts[handle].Count > 0;
+            return _contacts[info].Count > 0;
         }
 
         internal void _ContactGenerated(BepuPhysics.Collidables.CollidableReference ref1, BepuPhysics.Collidables.CollidableReference ref2)
         {
-            if(_AreContactsRecorded(ref1.Handle))
+            ContactInfo co1 = new ContactInfo(ref1.Handle, ref1.Mobility);
+            ContactInfo co2 = new ContactInfo(ref2.Handle, ref2.Mobility);
+            if (_AreContactsRecorded(co1))
             {
-                if(!_contacts[ref1.Handle].ContainsKey(ref2.Handle))
+                if(!_contacts[co1].Contains(co2))
                 {
-                     _contacts[ref1.Handle].TryAdd(ref2.Handle, new Contact(ref1.Handle, ref1.Mobility, ref2.Handle, ref2.Mobility));
+                    _contacts[co1].Add(co2);
                 }
             }
         }
 
-        internal List<Contact> _GetContacts(int handle)
+        internal List<ContactInfo> _GetContacts(ContactInfo info)
         {
-            return _contacts[handle].Values.ToList();
+            return _contacts[info];
         }
 
-        internal Contact _GetContacts(int handle, int contactHandle)
+        internal bool _AreInContact(ContactInfo info1, ContactInfo info2)
         {
-            if (_contacts[handle].ContainsKey(contactHandle))
-            {
-                return _contacts[handle][contactHandle];
-            }
-            return null;
+            return _contacts.ContainsKey(info1) && _contacts.ContainsKey(info2);
         }
     }
 }

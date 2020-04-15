@@ -12,6 +12,9 @@ namespace BogieEngineCore.Nodes
 {
     public class StaticBody : Node
     {
+        /// <summary>
+        /// Handle of the physics body.
+        /// </summary>
         private int bodyHandle;
 
         public StaticBody(BaseGame game) : base(game)
@@ -30,7 +33,7 @@ namespace BogieEngineCore.Nodes
                 new CollidableDescription(Game._PhysicsSimulation.Shapes.Add(box), 0.1f));
 
             bodyHandle = Game._PhysicsSimulation.Statics.Add(staticDescription);
-        }
+         }
 
         internal override void _Process(float deltaT, Transform parentWorldTransform)
         {
