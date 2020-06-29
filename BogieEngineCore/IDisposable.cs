@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace BogieEngineCore
+﻿namespace BogieEngineCore
 {
     ///todo: Use .nets IDisposable interface
     /// <summary>
@@ -16,7 +10,7 @@ namespace BogieEngineCore
         /// Has the object been disposed?
         /// </summary>
         bool Disposed { get; }
-        
+
         /// <summary>
         /// Dispose of the object.
         /// </summary>

@@ -1,15 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-using OpenTK;
+﻿using OpenTK;
+using System;
 namespace BogieEngineCore
 {
     public class Transform
     {
-        public Quaternion Quaternion = new Quaternion(0,0,0);
+        public Quaternion Quaternion = new Quaternion(0, 0, 0);
 
         public Vector3 Forwards
         {
@@ -130,7 +125,7 @@ namespace BogieEngineCore
             Vector3 nVector = vector.Normalized();
 
             float dot = Vector3.Dot(nVector, projVector);
-            float det = Vector3.Dot(Vector3.Cross(projVector,norm), Vector3.Cross(nVector, projVector));
+            float det = Vector3.Dot(Vector3.Cross(projVector, norm), Vector3.Cross(nVector, projVector));
             return (float)Math.Atan2(det, dot);
 
         }

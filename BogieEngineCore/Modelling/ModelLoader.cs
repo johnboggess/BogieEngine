@@ -1,12 +1,7 @@
-﻿using System;
+﻿using Assimp;
+using BogieEngineCore.Texturing;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-using Assimp;
-
-using BogieEngineCore.Texturing;
 namespace BogieEngineCore.Modelling
 {
     /// <summary>
@@ -18,7 +13,7 @@ namespace BogieEngineCore.Modelling
         static string _folder;
 
         /// <summary>
-        /// Loads the given file and assign it the given shader.
+        /// Loads the given file and assigns it the given shader.
         /// </summary>
         /// <param name="filePath">Path to the file.</param>
         /// <param name="contentManager">Content manager.</param>
@@ -27,31 +22,31 @@ namespace BogieEngineCore.Modelling
         public static Model LoadModel(string filePath, ContentManager contentManager, Shading.Shader shader)
         {
             _contentManager = contentManager;
-            _folder = filePath.Substring(0,filePath.LastIndexOf("/"));
+            _folder = filePath.Substring(0, filePath.LastIndexOf("/"));
             AssimpContext assimpContext = new AssimpContext();
             Scene scene = assimpContext.ImportFile(filePath, PostProcessSteps.Triangulate | PostProcessSteps.GenerateNormals);
 
             return new Model(_processNode(scene.RootNode, scene, shader));
         }
 
-        private static List<MeshData> _processNode(Node node, Scene scene, Shading.Shader shader)
+        private static List<MeshInstance> _processNode(Node node, Scene scene, Shading.Shader shader)
         {
-            List<MeshData> meshData = new List<MeshData>();
-            for(int i = 0; i < node.MeshCount; i++)
+            List<MeshInstance> meshes = new List<MeshInstance>();
+            for (int i = 0; i < node.MeshCount; i++)
             {
                 Assimp.Mesh aiMesh = scene.Meshes[node.MeshIndices[i]];
-                meshData.Add(ProcessMesh(aiMesh, scene, shader));
+                meshes.Add(ProcessMesh(aiMesh, scene, shader));
             }
 
-            foreach(Node child in node.Children)
+            foreach (Node child in node.Children)
             {
-                meshData.AddRange(_processNode(child, scene, shader));
+                meshes.AddRange(_processNode(child, scene, shader));
             }
-            return meshData;
+            return meshes;
 
         }
 
-        private static MeshData ProcessMesh(Assimp.Mesh aiMesh, Scene scene, Shading.Shader shader)
+        private static MeshInstance ProcessMesh(Assimp.Mesh aiMesh, Scene scene, Shading.Shader shader)
         {
             List<uint> indices = new List<uint>();
             Vertex[] vertices = new Vertex[aiMesh.VertexCount];
@@ -80,14 +75,14 @@ namespace BogieEngineCore.Modelling
             }
 
             List<Texture> textures = new List<Texture>();
-            if(aiMesh.MaterialIndex > 0)
+            if (aiMesh.MaterialIndex > 0)
             {
                 Assimp.Material material = scene.Materials[aiMesh.MaterialIndex];
 
                 string diffusePath = material.TextureDiffuse.FilePath;
                 if (diffusePath != null)
                 {
-                    textures.Add(_contentManager.LoadTexture(_folder+"/" + diffusePath, OpenTK.Graphics.OpenGL4.TextureUnit.Texture0));
+                    textures.Add(_contentManager.LoadTexture(_folder + "/" + diffusePath, OpenTK.Graphics.OpenGL4.TextureUnit.Texture0));
                 }
             }
 
@@ -99,13 +94,13 @@ namespace BogieEngineCore.Modelling
             VertexArray vertexArray = new VertexArray();
             vertexArray.Setup(vb, eb);
 
-            Mesh mesh = new Mesh(aiMesh.Name, vertexArray);
+            MeshData meshData = new MeshData(aiMesh.Name, vertexArray);
 
-            MeshData meshData = new MeshData(mesh);
-            meshData.Shader = shader;
-            meshData.Textures = textures;
+            MeshInstance mesh = new MeshInstance(meshData);
+            mesh.Shader = shader;
+            mesh.Textures = textures;
 
-            return meshData;
+            return mesh;
         }
 
     }

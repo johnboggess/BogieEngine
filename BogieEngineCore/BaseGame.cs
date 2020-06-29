@@ -1,38 +1,42 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Numerics;
+using System.Collections.Concurrent;
 
 using OpenTK;
-using OpenTK.Input;
 using OpenTK.Graphics;
 using OpenTK.Graphics.OpenGL4;
 
 using BepuPhysics;
 using BepuUtilities.Memory;
 
-using BogieEngineCore.Nodes;
+using BogieEngineCore.Components;
+using BogieEngineCore.Entities;
 using BogieEngineCore.Physics;
+using System.Collections.Generic;
 
 namespace BogieEngineCore
 {
     public class BaseGame : GameWindow
     {
+        public static BaseGame GlobalGame;
+
         public ContentManager ContentManager = new ContentManager();
         public Color4 ClearColor = Color4.CornflowerBlue;
         public Camera ActiveCamera;
-        public Root World;
+        public Entity EntityWorld;
 
         internal Simulation _PhysicsSimulation { get { return _GamePhysics._PhysicsSimulation; } }
         internal GamePhysics _GamePhysics;
 
+        internal ConcurrentDictionary<Entity, Entity> _EntitiesToMove = new ConcurrentDictionary<Entity, Entity>();
+        internal ConcurrentDictionary<Component, Entity> _ComponentsToMove = new ConcurrentDictionary<Component, Entity>();
+
+
 
         public BaseGame(int width, int height, string title, int updateRate = 60, int frameRate = 60) : base(width, height, GraphicsMode.Default, title)
         {
-            ActiveCamera = new Camera(this);
-            World = new Root(this);
+            GlobalGame = this;
+            EntityWorld = new Entity(null, this);
+            ActiveCamera = new Camera(EntityWorld, this);
 
             Simulation simulation = Simulation.Create(new BufferPool(), new NarrowPhaseCallbacks() { Game = this }, new PoseIntegratorCallbacks() { Game = this });
             SimpleThreadDispatcher threadDispatcher = new SimpleThreadDispatcher(Environment.ProcessorCount);
@@ -53,10 +57,44 @@ namespace BogieEngineCore
 
         protected override void OnUpdateFrame(FrameEventArgs e)
         {
+            foreach (KeyValuePair<Entity, Entity> keyValue in _EntitiesToMove)
+            {
+                if (keyValue.Value != null)
+                    keyValue.Value.ForceAddChild(keyValue.Key);
+                else
+                    keyValue.Key.Parent = null;
+            }
+
+            foreach (KeyValuePair<Component, Entity> keyValue in _ComponentsToMove)
+            {
+                if (keyValue.Value != null)
+                    keyValue.Value.ForceAddComponent(keyValue.Key);
+                else
+                    keyValue.Key.ForceDetachFromEntity();
+            }
+
+            foreach (KeyValuePair<Entity, Entity> keyValue in _EntitiesToMove)
+            {
+                if (keyValue.Value != null)
+                {
+                    keyValue.Key.ParentChanged();
+                    if (!keyValue.Key._FirstTimeSetup)
+                    {
+                        keyValue.Key._FirstTimeSetup = true;
+                        keyValue.Key.EntitySetup();
+                        keyValue.Key.InstanceSetup.DynamicInvoke();
+                    }
+                }
+            }
+
+
+            _EntitiesToMove.Clear();
+            _ComponentsToMove.Clear();
+
             PreUpdateFrame(e);
 
             _GamePhysics._Timestep((float)e.Time);
-            World.Process((float)e.Time, new Transform());
+            EntityWorld.InvokeEvent(Component.UpdateEvent, true, e.Time);
 
             PostUpdateFrame(e);
             base.OnUpdateFrame(e);
@@ -69,7 +107,7 @@ namespace BogieEngineCore
             GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
 
             PreRenderFrame(e);
-            World.Draw((float)e.Time, new Transform());
+            EntityWorld.InvokeEvent(Component.RenderEvent, true, null);
             PostRenderFrame(e);
 
             Context.SwapBuffers();

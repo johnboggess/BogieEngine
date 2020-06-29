@@ -1,9 +1,8 @@
-﻿using BepuPhysics;
+﻿using BepuUtilities;
+using BepuUtilities.Memory;
 using System;
 using System.Diagnostics;
 using System.Threading;
-using BepuUtilities.Memory;
-using BepuUtilities;
 
 namespace BogieEngineCore.Physics
 {

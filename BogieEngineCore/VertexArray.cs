@@ -1,13 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using OpenTK;
+﻿using BogieEngineCore.Shading;
 using OpenTK.Graphics.OpenGL4;
-
-using BogieEngineCore.Shading;
-using BogieEngineCore.Texturing;
 
 namespace BogieEngineCore
 {

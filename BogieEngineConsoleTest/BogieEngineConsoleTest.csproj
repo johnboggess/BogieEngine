@@ -78,13 +78,16 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Block.cs" />
-    <Compile Include="FPSCamera.cs" />
+    <Compile Include="Components\FPSCameraScript.cs" />
+    <Compile Include="Components\GravityScript.cs" />
+    <Compile Include="Components\PlayerMovmentScript.cs" />
+    <Compile Include="Components\ShootScript.cs" />
+    <Compile Include="Entities\Player.cs" />
+    <Compile Include="Entities\Box.cs" />
+    <Compile Include="Entities\Samus.cs" />
     <Compile Include="Game.cs" />
-    <Compile Include="Player.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="StaticBlock.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

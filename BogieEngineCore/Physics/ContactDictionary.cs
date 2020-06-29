@@ -1,9 +1,5 @@
-﻿using System;
+﻿using System.Collections.Concurrent;
 using System.Collections.Generic;
-using System.Collections.Concurrent;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace BogieEngineCore.Physics
 {
@@ -23,12 +19,12 @@ namespace BogieEngineCore.Physics
 
         internal void _Clear()
         {
-            foreach(KeyValuePair<ContactInfo, List<ContactInfo>> info in _contacts)
+            foreach (KeyValuePair<ContactInfo, List<ContactInfo>> info in _contacts)
             {
                 _contacts[info.Key].Clear();
             }
         }
-        
+
         internal void _Clear(ContactInfo info)
         {
             _contacts[info].Clear();
@@ -45,7 +41,7 @@ namespace BogieEngineCore.Physics
             ContactInfo co2 = new ContactInfo(ref2.Handle, ref2.Mobility);
             if (_AreContactsRecorded(co1))
             {
-                if(!_contacts[co1].Contains(co2))
+                if (!_contacts[co1].Contains(co2))
                 {
                     _contacts[co1].Add(co2);
                 }
