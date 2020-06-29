@@ -1,54 +1,77 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
+﻿using BogieEngineCore.Texturing;
 using OpenTK;
-
-using BogieEngineCore.Texturing;
+using System.Collections.Generic;
 namespace BogieEngineCore.Modelling
 {
     public class Model
     {
-        public Matrix4 Transform;
-        public List<MeshData> MeshData = new List<MeshData>();
+        /// <summary>
+        /// The meshes that make up the model.
+        /// </summary>
+        public List<MeshInstance> Meshes = new List<MeshInstance>();
 
-        public Model(List<MeshData> meshData)
+        public Model(List<MeshInstance> meshes)
         {
-            MeshData = meshData;
+            Meshes = meshes;
         }
 
+        /// <summary>
+        /// Create a new model that is a clone of the given model.
+        /// </summary>
+        /// <param name="model">The model to clone</param>
         public Model(Model model)
         {
-            foreach(MeshData meshData in model.MeshData)
+            foreach (MeshInstance mesh in model.Meshes)
             {
-                MeshData newMeshData = new MeshData(meshData._Mesh);
-                newMeshData.Shader = meshData.Shader;
-                newMeshData.Textures = new List<Texture>(meshData.Textures);
-                MeshData.Add(newMeshData);
+                MeshInstance newMesh = new MeshInstance(mesh._MeshData);
+                newMesh.Shader = mesh.Shader;
+                newMesh.Textures = new List<Texture>(mesh.Textures);
+                Meshes.Add(newMesh);
             }
         }
 
-        public List<MeshData> GetMeshWithName(string name)
+        /// <summary>
+        /// Find meshes with the given name.
+        /// </summary>
+        /// <param name="name">The name of the meshes to search for.</param>
+        /// <returns>All the meshes matching the given name.</returns>
+        public List<MeshInstance> GetMeshWithName(string name)
         {
-            List<MeshData> result = new List<MeshData>();
-            foreach(MeshData meshData in MeshData)
+            List<MeshInstance> result = new List<MeshInstance>();
+            foreach (MeshInstance mesh in Meshes)
             {
-                if(meshData.Name == name) { result.Add(meshData); }
+                if (mesh.Name == name) { result.Add(mesh); }
             }
             return result;
         }
 
+        /// <summary>
+        /// Find the mesh with the given index.
+        /// </summary>
+        /// <param name="index">Index of the mesh</param>
+        /// <returns>Mesh at the index</returns>
+        public MeshInstance GetMesh(int index)
+        {
+            return Meshes[index];
+        }
+
+        /// <summary>
+        /// Sets the given shader to all the meshes for this model.
+        /// </summary>
+        /// <param name="shader">The shader to assign to each mesh.</param>
         public void SetShader(Shading.Shader shader)
         {
-            foreach (MeshData meshData in MeshData)
+            foreach (MeshInstance meshData in Meshes)
                 meshData.Shader = shader;
         }
 
+        /// <summary>
+        /// Draw the model with the given transform.
+        /// </summary>
+        /// <param name="Transform">How to transform the model.</param>
         public void Draw(Matrix4 Transform)
         {
-            foreach(MeshData mesh in MeshData)
+            foreach (MeshInstance mesh in Meshes)
             {
                 if (mesh.Visible)
                 {

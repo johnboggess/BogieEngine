@@ -1,22 +1,30 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-using OpenTK;
+﻿using OpenTK;
+using System;
 namespace BogieEngineCore
 {
     public class Transform
     {
-        public Vector3 Forwards = Vector3.UnitZ;
-        public Vector3 Up = Vector3.UnitY;
-        public Vector3 Right = Vector3.UnitX;
-        public Vector3 Position = Vector3.Zero;
+        public Quaternion Quaternion = new Quaternion(0, 0, 0);
 
-        public Vector3 XAxis { get => Right; set => Right = value; }
-        public Vector3 YAxis { get => Up; set => Up = value; }
-        public Vector3 ZAxis { get => Forwards; set => Forwards = value; }
+        public Vector3 Forwards
+        {
+            get { return (Quaternion * Vector3.UnitZ) * Scale.Z; }
+        }
+        public Vector3 Up
+        {
+            get { return (Quaternion * Vector3.UnitY) * Scale.Y; }
+        }
+        public Vector3 Right
+        {
+            get { return (Quaternion * Vector3.UnitX) * Scale.X; }
+        }
+
+        public Vector3 XAxis { get => Right; }
+        public Vector3 YAxis { get => Up; }
+        public Vector3 ZAxis { get => Forwards; }
+
+        public Vector3 Position = Vector3.Zero;
+        public Vector3 Scale = new Vector3(1);
 
         public Matrix4 GetMatrix4()
         {
@@ -25,88 +33,52 @@ namespace BogieEngineCore
 
         public void FromMatrix4(Matrix4 matrix)
         {
-            Right = matrix.Row0.Xyz;
-            Up = matrix.Row1.Xyz;
-            Forwards = matrix.Row2.Xyz;
-            Position = matrix.Row3.Xyz;
+            Scale = matrix.ExtractScale();
+            Position = matrix.ExtractTranslation();
+            Quaternion = matrix.ExtractRotation();
+
+            //Right = matrix.Row0.Xyz;
+            //Up = matrix.Row1.Xyz;
+            //Forwards = matrix.Row2.Xyz;
         }
 
         /// <summary>
-        /// To rotate the transform about an arbitrary axis.
+        /// Set the rotation of the transform.
+        /// </summary>
+        /// <param name="eulerAngles">The rotation about the X, Y, and Z axis.</param>
+        public void SetRotation(Vector3 eulerAngles)
+        {
+            Quaternion = new Quaternion(eulerAngles);
+        }
+
+        /// <summary>
+        /// Rotate the transform by the given Euler angles.
+        /// </summary>
+        /// <param name="eulerAngles">The amount to rotate around the X, Y, and Z axis by </param>
+        public void Rotate(Vector3 eulerAngles)
+        {
+            Quaternion = new Quaternion(eulerAngles) * Quaternion;
+        }
+
+        /// <summary>
+        /// Rotate the transform about an arbitrary axis.
         /// </summary>
         /// <param name="axis">The axis to rotate the transform round.</param>
         /// <param name="radians"> How far to rotate the transform.</param>
         public void Rotate(Vector3 axis, float radians)
         {
-            Matrix3 rot = Matrix3.CreateFromAxisAngle(axis, -radians);
-            Forwards = rot * Forwards;
-            Up = rot * Up;
-            Right = rot * Right;
+            Quaternion = Quaternion.FromAxisAngle(axis, radians) * Quaternion;
         }
 
         /// <summary>
         /// Scales the transform by the given scale vector.
         /// </summary>
-        /// <param name="Scale">Multiples the X, Y and Z axis of the transform by the X, Y and Z elements of the Scale.</param>
-        public void Scale(Vector3 Scale)
+        /// <param name="scale">Multiples the X, Y and Z axis of the transform by the X, Y and Z elements of the scale.</param>
+        public void ScaleBy(Vector3 scale)
         {
-            Forwards = Forwards * Scale.Z;
-            Up = Up * Scale.Y;
-            Right = Right * Scale.X;
-        }
-
-        public Vector3 GetRotation()
-        {
-            float _00 = XAxis.X;
-            float _01 = YAxis.X;
-            float _02 = ZAxis.X;
-
-            float _10 = XAxis.Y;
-            float _11 = YAxis.Y;
-            float _12 = ZAxis.Y;
-
-            float _20 = XAxis.Z;
-            float _21 = YAxis.Z;
-            float _22 = ZAxis.Z;
-
-            if(_02 < 1.0f)
-            {
-                if(_02 > -1.0f)
-                {
-                    if(_10 == 0.0f && _01 == 0.0f && _12 == 0.0f && _21 == 0.0f && _11 == 1f)
-                    {
-                        Vector3 result = new Vector3();
-                        result.X = 0f;
-                        result.Y = (float)Math.Atan2(_02, _00);
-                        result.Z = 0f;
-                        return result;
-                    }
-                    else
-                    {
-                        Vector3 result = new Vector3();
-                        result.X = (float)Math.Atan2(-_12, _22);
-                        result.Y = (float)Math.Asin(_02);
-                        result.Z = (float)Math.Atan2(-_01, _00);
-                        return result;
-                    }
-                }
-                else
-                {
-                    Vector3 result = new Vector3();
-                    result.X = (float)-Math.Atan2(_01, _11);
-                    result.Y = (float)-Math.PI / 2.0f;
-                    result.Z = 0.0f;
-                    return result;
-                }
-            }
-            else
-            {
-                Vector3 result = new Vector3();
-                result.X = (float)Math.Atan2(_01, _11);
-                result.Y = (float)Math.PI / 2.0f;
-                result.Z = 0.0f;
-                return result;
-            }
+            Scale.Z = Scale.Z * scale.Z;
+            Scale.Y = Scale.Y * scale.Y;
+            Scale.X = Scale.X * scale.X;
         }
 
         /// <summary>
@@ -153,7 +125,7 @@ namespace BogieEngineCore
             Vector3 nVector = vector.Normalized();
 
             float dot = Vector3.Dot(nVector, projVector);
-            float det = Vector3.Dot(Vector3.Cross(projVector,norm), Vector3.Cross(nVector, projVector));
+            float det = Vector3.Dot(Vector3.Cross(projVector, norm), Vector3.Cross(nVector, projVector));
             return (float)Math.Atan2(det, dot);
 
         }

@@ -24,6 +24,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -36,6 +37,12 @@
   <ItemGroup>
     <Reference Include="AssimpNet, Version=4.1.0.0, Culture=neutral, PublicKeyToken=0d51b391f59f42a6, processorArchitecture=MSIL">
       <HintPath>..\packages\AssimpNet.4.1.0\lib\net40\AssimpNet.dll</HintPath>
+    </Reference>
+    <Reference Include="BepuPhysics, Version=2.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\BepuPhysics.2.1.0\lib\netstandard2.0\BepuPhysics.dll</HintPath>
+    </Reference>
+    <Reference Include="BepuUtilities, Version=2.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\BepuUtilities.2.1.0\lib\netstandard2.0\BepuUtilities.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Win32.SystemEvents, Version=4.0.1.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Win32.SystemEvents.4.6.0-preview.19073.11\lib\net461\Microsoft.Win32.SystemEvents.dll</HintPath>
@@ -76,26 +83,37 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Nodes\Camera.cs" />
+    <Compile Include="BaseGame.cs" />
+    <Compile Include="Components\Component.cs" />
+    <Compile Include="Components\Model.cs" />
+    <Compile Include="Components\RigidBody.cs" />
+    <Compile Include="Components\RigidBox.cs" />
+    <Compile Include="Components\StaticBody.cs" />
+    <Compile Include="Entities\Camera.cs" />
+    <Compile Include="Entities\Entity.cs" />
     <Compile Include="ContentManager.cs" />
     <Compile Include="ElementBuffer.cs" />
     <Compile Include="GPUBuffer.cs" />
     <Compile Include="IDisposable.cs" />
-    <Compile Include="Modelling\Mesh.cs" />
     <Compile Include="Modelling\MeshData.cs" />
+    <Compile Include="Modelling\MeshInstance.cs" />
     <Compile Include="Modelling\Model.cs" />
     <Compile Include="Modelling\ModelLoader.cs" />
-    <Compile Include="Nodes\ModelNode.cs" />
-    <Compile Include="Nodes\Node.cs" />
-    <Compile Include="Nodes\Root.cs" />
+    <Compile Include="Physics\ContactInfo.cs" />
+    <Compile Include="Physics\ContactDictionary.cs" />
+    <Compile Include="Physics\GamePhysics.cs" />
+    <Compile Include="Physics\NarrowPhaseCallbacks.cs" />
+    <Compile Include="Physics\PoseIntegratorCallbacks.cs" />
+    <Compile Include="Physics\Shapes\Shape.cs" />
+    <Compile Include="Physics\SimpleThreadDispatcher.cs" />
     <Compile Include="Shading\Shader.cs" />
     <Compile Include="Texturing\Texture.cs" />
     <Compile Include="Texturing\TextureData.cs" />
     <Compile Include="Transform.cs" />
+    <Compile Include="Utilities.cs" />
     <Compile Include="Vertex.cs" />
     <Compile Include="VertexArray.cs" />
     <Compile Include="VertexBuffer.cs" />
-    <Compile Include="TestGame.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

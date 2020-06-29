@@ -1,14 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-using OpenTK.Graphics.OpenGL4;
-
+﻿using BogieEngineCore.Modelling;
 using BogieEngineCore.Shading;
-using BogieEngineCore.Modelling;
 using BogieEngineCore.Texturing;
+using OpenTK.Graphics.OpenGL4;
+using System.Collections.Generic;
 namespace BogieEngineCore
 {
     /// <summary>
@@ -21,7 +15,7 @@ namespace BogieEngineCore
 
         public Texture LoadTexture(string filePath, TextureUnit textureUnit)
         {
-            if(_pathToTextureData.ContainsKey(filePath))
+            if (_pathToTextureData.ContainsKey(filePath))
             {
                 return new Texture(_pathToTextureData[filePath]);
             }
@@ -32,7 +26,7 @@ namespace BogieEngineCore
 
         public Model LoadModel(string filePath, Shader shader)
         {
-            if(_pathToModel.ContainsKey(filePath))
+            if (_pathToModel.ContainsKey(filePath))
             {
                 Model mdl = new Model(_pathToModel[filePath]);
                 mdl.SetShader(shader);

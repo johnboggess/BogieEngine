@@ -36,6 +36,12 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="BepuPhysics, Version=2.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\BepuPhysics.2.1.0\lib\netstandard2.0\BepuPhysics.dll</HintPath>
+    </Reference>
+    <Reference Include="BepuUtilities, Version=2.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\BepuUtilities.2.1.0\lib\netstandard2.0\BepuUtilities.dll</HintPath>
+    </Reference>
     <Reference Include="OpenTK, Version=3.1.0.0, Culture=neutral, PublicKeyToken=bad199fe84eb3df4, processorArchitecture=MSIL">
       <HintPath>..\packages\OpenTK.3.1.0\lib\net20\OpenTK.dll</HintPath>
     </Reference>
@@ -72,7 +78,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="FPSCamera.cs" />
+    <Compile Include="Components\FPSCameraScript.cs" />
+    <Compile Include="Components\GravityScript.cs" />
+    <Compile Include="Components\PlayerMovmentScript.cs" />
+    <Compile Include="Components\ShootScript.cs" />
+    <Compile Include="Entities\Player.cs" />
+    <Compile Include="Entities\Box.cs" />
+    <Compile Include="Entities\Samus.cs" />
     <Compile Include="Game.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -93,7 +105,7 @@
     <None Include="Resources\Models\VariaSuit\DolBarriersuit.obj">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="Resources\Shaders\maskCube.frag">
+    <None Include="Resources\Shaders\repeatTexture.frag">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>

@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.IO;
-
-using OpenTK;
+﻿using OpenTK;
 using OpenTK.Graphics.OpenGL4;
+using System.IO;
 
 namespace BogieEngineCore.Shading
 {
@@ -76,7 +70,7 @@ namespace BogieEngineCore.Shading
             //Compile the shaders and display any log information
             GL.CompileShader(vertexHandle);
             string log = GL.GetShaderInfoLog(vertexHandle);
-            if(log != System.String.Empty) { System.Console.WriteLine("Vertex Shader:\n"+log); }
+            if (log != System.String.Empty) { System.Console.WriteLine("Vertex Shader:\n" + log); }
 
             GL.CompileShader(fragHandle);
             log = GL.GetShaderInfoLog(fragHandle);
@@ -99,14 +93,14 @@ namespace BogieEngineCore.Shading
             int uniformCount;
             int samplersFound = 0;
             GL.GetProgram(_handle, GetProgramParameterName.ActiveUniforms, out uniformCount);
-            for(int i = 0; i < uniformCount; i++)
+            for (int i = 0; i < uniformCount; i++)
             {
                 int nameLength;
                 int size;
                 ActiveUniformType activeUniformType;
                 string name;
                 GL.GetActiveUniform(_handle, i, 100, out nameLength, out size, out activeUniformType, out name);
-                if(activeUniformType == ActiveUniformType.Sampler2D)
+                if (activeUniformType == ActiveUniformType.Sampler2D)
                 {
                     int location = GL.GetUniformLocation(_handle, name);
                     GL.Uniform1(location, samplersFound);
