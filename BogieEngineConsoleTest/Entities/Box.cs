@@ -37,6 +37,5 @@ namespace BogieEngineConsoleTest.Entities
             blockModel.GetMesh(0).Textures.Add(((Game)BaseGame.GlobalGame).CubeTex);
             ForceAddComponent(blockModel);
         }
-
     }
 }

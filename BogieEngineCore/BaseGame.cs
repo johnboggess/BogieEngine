@@ -62,7 +62,7 @@ namespace BogieEngineCore
                 if (keyValue.Value != null)
                     keyValue.Value.ForceAddChild(keyValue.Key);
                 else
-                    keyValue.Key.Parent = null;
+                    keyValue.Key.Parent.ForceRemoveChild(keyValue.Key);
             }
 
             foreach (KeyValuePair<Component, Entity> keyValue in _ComponentsToMove)

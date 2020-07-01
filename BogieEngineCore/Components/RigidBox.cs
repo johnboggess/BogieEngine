@@ -9,7 +9,7 @@ using BepuPhysics.Collidables;
 namespace BogieEngineCore.Components
 {
     public class RigidBox : Component
-    {//todo: need resize method
+    {//todo: need resize method, rigid body needs to be removed from simulation if the entity is removed
 
         public BodyReference BodyReference { get { return _bodyReference; } }//todo: Used for applying force, use methods instead
 
@@ -46,9 +46,16 @@ namespace BogieEngineCore.Components
 
         public override void EventInvoked(string evnt, params object[] eventArgs)
         {
+            if (Destroyed)
+                return;
+
             if (evnt == Component.UpdateEvent)
             {
                 _localTransformMatchRigidBody();
+            }
+            else if(evnt == Component.DestroyEvent)
+            {
+                _bodyReference.Bodies.Remove(_bodyReference.Handle);
             }
         }
 

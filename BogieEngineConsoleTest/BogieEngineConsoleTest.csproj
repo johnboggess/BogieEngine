@@ -82,6 +82,7 @@
     <Compile Include="Components\GravityScript.cs" />
     <Compile Include="Components\PlayerMovmentScript.cs" />
     <Compile Include="Components\ShootScript.cs" />
+    <Compile Include="Components\LifeTime.cs" />
     <Compile Include="Entities\Player.cs" />
     <Compile Include="Entities\Box.cs" />
     <Compile Include="Entities\Samus.cs" />

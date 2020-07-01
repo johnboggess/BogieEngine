@@ -43,6 +43,10 @@ namespace BogieEngineConsoleTest.Components
                 {
                     timer = timerMax;
                     Box box = new Box(Entity.Game.EntityWorld, false, Origin.LocalTransform.Position, new OpenTK.Vector3(1, 1, 1), (Game)Entity.Game);
+                    
+                    LifeTime lifeTime = new LifeTime(60);
+                    box.ForceAddComponent(lifeTime);
+                    
                     box.InstanceSetup = new Action(() =>
                     {
                         box.GetComponet<GravityScript>(nameof(GravityScript)).Gravity = Game.Gravity;
