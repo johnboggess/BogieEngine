@@ -27,10 +27,15 @@ namespace BogieEngineCore
             Bind();
 
             vbo.Bind();
+
             GL.VertexAttribPointer(Shader.VertexPositionLocation, 3, VertexAttribPointerType.Float, false, Vertex.Size, 0);
             GL.EnableVertexAttribArray(Shader.VertexPositionLocation);
+
             GL.VertexAttribPointer(Shader.VertexUVLocation, 2, VertexAttribPointerType.Float, false, Vertex.Size, 3 * sizeof(float));
             GL.EnableVertexAttribArray(Shader.VertexUVLocation);
+            
+            GL.VertexAttribPointer(Shader.VertexNormalLocation, 3, VertexAttribPointerType.Float, false, Vertex.Size, 5 * sizeof(float));
+            GL.EnableVertexAttribArray(Shader.VertexNormalLocation);
 
             ebo.Bind();
 

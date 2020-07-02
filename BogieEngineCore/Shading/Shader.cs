@@ -8,9 +8,11 @@ namespace BogieEngineCore.Shading
     {
         public static readonly int VertexPositionLocation = 0;
         public static readonly int VertexUVLocation = 1;
+        public static readonly int VertexNormalLocation = 2;
 
         public string VertexShaderName { get { return _vertexShaderName; } }
         public string FragmentShaderName { get { return _fragmentShaderName; } }
+
         public Matrix4 Projection
         {
             get { return _projection; }

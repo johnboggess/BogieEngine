@@ -50,5 +50,9 @@ namespace BogieEngineCore.Components
         {
             return _model.GetMesh(index);
         }
+
+        public Shader GetShader(int meshIndex) { return GetMesh(meshIndex).Shader; }
+        public void SetShader(Shader shader) { _model.SetShader(shader); }
+        public void SetShader(Shader shader, int meshIndex) { GetMesh(meshIndex).Shader = shader; }
     }
 }

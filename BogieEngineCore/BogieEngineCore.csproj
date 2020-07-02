@@ -120,6 +120,9 @@
     <None Include="app.config" />
     <None Include="OpenTK.dll.config" />
     <None Include="packages.config" />
+    <None Include="Resources\Shaders\AmbientLight.frag">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="Resources\Shaders\default.frag">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

@@ -61,7 +61,7 @@ namespace BogieEngineCore.Modelling
                     indices.Add((uint)index);
 
                     Vector3D pos = aiMesh.Vertices[index];
-                    //Vector3D norm = aiMesh.Normals[index];
+                    Vector3D norm = aiMesh.Normals[index];
                     Vector3D UV = new Vector3D(0, 0, 0);
 
                     if (aiMesh.HasTextureCoords(0))
@@ -69,7 +69,7 @@ namespace BogieEngineCore.Modelling
                         UV = aiMesh.TextureCoordinateChannels[0][index];
                     }
 
-                    Vertex vertex = new Vertex(new OpenTK.Vector3(pos.X, pos.Y, pos.Z), new OpenTK.Vector2(UV.X, UV.Y));
+                    Vertex vertex = new Vertex(new OpenTK.Vector3(pos.X, pos.Y, pos.Z), new OpenTK.Vector2(UV.X, UV.Y), new OpenTK.Vector3(norm.X, norm.Y, norm.Z));
                     vertices[index] = vertex;
                 }
             }

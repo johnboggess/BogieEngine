@@ -27,6 +27,7 @@ namespace BogieEngineConsoleTest
 
         public Shader DefaultShader;
         public Shader MaskCubeShader;
+        public Shader AmbientShader;
         public Texture CubeTex;
 
         public Samus _Samus;
@@ -48,6 +49,7 @@ namespace BogieEngineConsoleTest
         {
             DefaultShader = new Shader("Resources/Shaders/default.vert", "Resources/Shaders/default.frag");
             MaskCubeShader = new Shader("Resources/Shaders/default.vert", "Resources/Shaders/repeatTexture.frag");
+            AmbientShader = new Shader("Resources/Shaders/default.vert", "Resources/Shaders/AmbientLight.frag");
 
             CubeTex = ContentManager.LoadTexture("Resources/Textures/Brick.jpg", TextureUnit.Texture0);
 
@@ -76,6 +78,7 @@ namespace BogieEngineConsoleTest
                 FallingBlock.GetComponet<GravityScript>(nameof(GravityScript)).Gravity = Gravity;
                 FallingBlock.RigidBox.AngularVelocity= new System.Numerics.Vector3(1);
                 FallingBlock.RigidBox.Velocity = new System.Numerics.Vector3(1);
+                FallingBlock.SetShader(AmbientShader);
             });
 
 
@@ -113,6 +116,9 @@ namespace BogieEngineConsoleTest
 
             MaskCubeShader.Projection = ActiveCamera.Projection;
             MaskCubeShader.View = ActiveCamera.View;
+
+            AmbientShader.Projection = ActiveCamera.Projection;
+            AmbientShader.View = ActiveCamera.View;
 
             _Samus.LocalTransform.Rotate(_Samus.LocalTransform.Up, -.01f);
             _SamusNoVisor.LocalTransform.Rotate(_SamusNoVisor.LocalTransform.Up, -.01f);
