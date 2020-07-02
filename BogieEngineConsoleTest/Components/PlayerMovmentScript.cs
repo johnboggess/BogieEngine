@@ -66,6 +66,16 @@ namespace BogieEngineConsoleTest.Components
             }
 
             _playerBody.Velocity += BogieEngineConsoleTest.Game.Gravity * (float)deltaT;
+
+            if(ks.IsKeyDown(Key.L))
+            {
+                ((Game)Game.GlobalGame).DiffuseShader.LightPosition = Entity.GlobalTransform.Position;
+                ((Game)Game.GlobalGame).SpecularShader.LightPosition = Entity.GlobalTransform.Position;
+                ((Game)Game.GlobalGame).PhongShader.LightPosition = Entity.GlobalTransform.Position;
+            }
+
+            ((Game)Game.GlobalGame).SpecularShader.ViewPosition = _camera.GlobalTransform.Position;
+            ((Game)Game.GlobalGame).PhongShader.ViewPosition = _camera.GlobalTransform.Position;
         }
     }
 }

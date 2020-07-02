@@ -25,9 +25,12 @@ namespace BogieEngineConsoleTest
     {
         public static System.Numerics.Vector3 Gravity = new System.Numerics.Vector3(0, -10, 0);
 
-        public Shader DefaultShader;
-        public Shader MaskCubeShader;
-        public Shader AmbientShader;
+        public DefaultShader DefaultShader;
+        public AmbientShader AmbientShader;
+        public DiffuseShader DiffuseShader;
+        public SpecularShader SpecularShader;
+        public PhongShader PhongShader;
+
         public Texture CubeTex;
 
         public Samus _Samus;
@@ -47,9 +50,11 @@ namespace BogieEngineConsoleTest
 
         protected override void Loading(EventArgs e)
         {
-            DefaultShader = new Shader("Resources/Shaders/default.vert", "Resources/Shaders/default.frag");
-            MaskCubeShader = new Shader("Resources/Shaders/default.vert", "Resources/Shaders/repeatTexture.frag");
-            AmbientShader = new Shader("Resources/Shaders/default.vert", "Resources/Shaders/AmbientLight.frag");
+            DefaultShader = new DefaultShader();
+            AmbientShader = new AmbientShader();
+            DiffuseShader = new DiffuseShader();
+            SpecularShader = new SpecularShader();
+            PhongShader = new PhongShader();
 
             CubeTex = ContentManager.LoadTexture("Resources/Textures/Brick.jpg", TextureUnit.Texture0);
 
@@ -70,6 +75,7 @@ namespace BogieEngineConsoleTest
             {
                 List<MeshInstance> meshData = _SamusNoVisor.Model.GetMeshWithName("polygon6");
                 if (meshData.Count > 0) { meshData[0].Visible = false; }
+                _SamusNoVisor.Model.SetShader(PhongShader);
             });
 
             FallingBlock = new Box(EntityWorld, false, new Vector3(0, 0, -5), new Vector3(1, 3.5f, 1), this);
@@ -78,7 +84,7 @@ namespace BogieEngineConsoleTest
                 FallingBlock.GetComponet<GravityScript>(nameof(GravityScript)).Gravity = Gravity;
                 FallingBlock.RigidBox.AngularVelocity= new System.Numerics.Vector3(1);
                 FallingBlock.RigidBox.Velocity = new System.Numerics.Vector3(1);
-                FallingBlock.SetShader(AmbientShader);
+                FallingBlock.SetShader(PhongShader);
             });
 
 
@@ -114,11 +120,17 @@ namespace BogieEngineConsoleTest
             DefaultShader.Projection = ActiveCamera.Projection;
             DefaultShader.View = ActiveCamera.View;
 
-            MaskCubeShader.Projection = ActiveCamera.Projection;
-            MaskCubeShader.View = ActiveCamera.View;
-
             AmbientShader.Projection = ActiveCamera.Projection;
             AmbientShader.View = ActiveCamera.View;
+
+            DiffuseShader.Projection = ActiveCamera.Projection;
+            DiffuseShader.View = ActiveCamera.View;
+
+            SpecularShader.Projection = ActiveCamera.Projection;
+            SpecularShader.View = ActiveCamera.View;
+
+            PhongShader.Projection = ActiveCamera.Projection;
+            PhongShader.View = ActiveCamera.View;
 
             _Samus.LocalTransform.Rotate(_Samus.LocalTransform.Up, -.01f);
             _SamusNoVisor.LocalTransform.Rotate(_SamusNoVisor.LocalTransform.Up, -.01f);

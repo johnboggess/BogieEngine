@@ -13,43 +13,14 @@ namespace BogieEngineCore.Shading
         public string VertexShaderName { get { return _vertexShaderName; } }
         public string FragmentShaderName { get { return _fragmentShaderName; } }
 
-        public Matrix4 Projection
-        {
-            get { return _projection; }
-            set
-            {
-                _projection = value;
-                GL.UseProgram(_handle);
-                GL.UniformMatrix4(projectionLocation, false, ref _projection);
-
-            }
-        }
-
-        public Matrix4 View
-        {
-            get { return _view; }
-            set
-            {
-                _view = value;
-                GL.UseProgram(_handle);
-                GL.UniformMatrix4(viewLocation, false, ref _view);
-
-            }
-        }
-
         public bool Disposed { get { return _disposed; } }
 
 
         int _handle;
         public string _vertexShaderName;
         public string _fragmentShaderName;
-        Matrix4 _projection;
-        Matrix4 _view;
-        private bool _disposed = false;
 
-        int projectionLocation;
-        int viewLocation;
-        int modelLocation;
+        private bool _disposed = false;
 
         public Shader(string vertexPath, string fragmentPath)
         {
@@ -109,22 +80,115 @@ namespace BogieEngineCore.Shading
                     samplersFound += 1;
                 }
             }
-
-            projectionLocation = GL.GetUniformLocation(_handle, "projection");
-            viewLocation = GL.GetUniformLocation(_handle, "view");
-            modelLocation = GL.GetUniformLocation(_handle, "model");
         }
 
-        public void Use(Matrix4 model)
+        public virtual void Use(params object[] values)
         {
-            GL.UseProgram(_handle);
-            GL.UniformMatrix4(modelLocation, false, ref model);
+            _Use();
         }
 
         public void Dispose()
         {
             _disposed = true;
             GL.DeleteProgram(_handle);
+        }
+
+        /// <summary>
+        /// Set a uniform.
+        /// </summary>
+        /// <param name="name">The name of the uniform.</param>
+        /// <param name="value">The value of a uniform. Must be a double, float, int, or uint.</param>
+        public void SetUniform1(string name, object value)
+        {
+            int location = GL.GetUniformLocation(_handle, name);
+            GL.UseProgram(_handle);
+            if(value is double)
+                GL.Uniform1(location, (double)value);
+            if (value is float)
+                GL.Uniform1(location, (float)value);
+            if (value is int)
+                GL.Uniform1(location, (int)value);
+            if (value is uint)
+                GL.Uniform1(location, (uint)value);
+        }
+
+        /// <summary>
+        /// Set a vector2 uniform.
+        /// </summary>
+        /// <param name="name">The name of the uniform.</param>
+        /// <param name="value">The value of a uniform.</param>
+        public void SetUniform2(string name, Vector2 value)
+        {
+            int location = GL.GetUniformLocation(_handle, name);
+            GL.UseProgram(_handle);
+            GL.Uniform2(location, value);
+        }
+
+        /// <summary>
+        /// Set a vector3 uniform.
+        /// </summary>
+        /// <param name="name">The name of the uniform.</param>
+        /// <param name="value">The value of a uniform.</param>
+        public void SetUniform3(string name, Vector3 value)
+        {
+            int location = GL.GetUniformLocation(_handle, name);
+            GL.UseProgram(_handle);
+            GL.Uniform3(location, value);
+        }
+
+        /// <summary>
+        /// Set a vector4 uniform.
+        /// </summary>
+        /// <param name="name">The name of the uniform.</param>
+        /// <param name="value">The value of a uniform.</param>
+        public void SetUniform4(string name, Vector4 value)
+        {
+            int location = GL.GetUniformLocation(_handle, name);
+            GL.UseProgram(_handle);
+            GL.Uniform4(location, value);
+        }
+
+        /// <summary>
+        /// Set a quaternion uniform.
+        /// </summary>
+        /// <param name="name">The name of the uniform.</param>
+        /// <param name="value">The value of a uniform.</param>
+        public void SetUniform4(string name, Quaternion value)
+        {
+            int location = GL.GetUniformLocation(_handle, name);
+            GL.UseProgram(_handle);
+            GL.Uniform4(location, value);
+        }
+
+        /// <summary>
+        /// Set a quaternion uniform.
+        /// </summary>
+        /// <param name="name">The name of the uniform.</param>
+        /// <param name="value">The value of a uniform. Must be Matrix2, Matrix3, Matrix4</param>
+        public void SetUniformMatrix(string name, bool transpose, object value)
+        {
+            int location = GL.GetUniformLocation(_handle, name);
+            GL.UseProgram(_handle);
+            if (value is Matrix2)
+            {
+                Matrix2 matrix = (Matrix2)value;
+                GL.UniformMatrix2(location, transpose, ref matrix);
+            }
+            else if (value is Matrix3)
+            {
+                Matrix3 matrix = (Matrix3)value;
+                GL.UniformMatrix3(location, transpose, ref matrix);
+            }
+            else if (value is Matrix4)
+            {
+                Matrix4 matrix = (Matrix4)value;
+                GL.UniformMatrix4(location, transpose, ref matrix);
+            }
+        }
+
+        internal void _Use()
+        {
+            GL.UseProgram(_handle);
         }
     }
 }
