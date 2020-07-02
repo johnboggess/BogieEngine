@@ -50,7 +50,7 @@ namespace BogieEngineConsoleTest.Components
                     box.InstanceSetup = new Action(() =>
                     {
                         box.GetComponet<GravityScript>(nameof(GravityScript)).Gravity = Game.Gravity;
-                        box.RigidBox.BodyReference.Velocity.Linear = Utilities.ConvertVector3Type(Origin.LocalTransform.Forwards * -50);
+                        box.RigidBox.Velocity = Utilities.ConvertVector3Type(Origin.LocalTransform.Forwards * -50);
                     });
                 }
                 else if (ms.RightButton == ButtonState.Pressed)

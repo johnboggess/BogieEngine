@@ -74,8 +74,8 @@ namespace BogieEngineConsoleTest
             FallingBlock.InstanceSetup = new Action(() =>
             {
                 FallingBlock.GetComponet<GravityScript>(nameof(GravityScript)).Gravity = Gravity;
-                FallingBlock.RigidBox.BodyReference.Velocity.Angular = new System.Numerics.Vector3(1);
-                FallingBlock.RigidBox.BodyReference.Velocity.Linear = new System.Numerics.Vector3(1);
+                FallingBlock.RigidBox.AngularVelocity= new System.Numerics.Vector3(1);
+                FallingBlock.RigidBox.Velocity = new System.Numerics.Vector3(1);
             });
 
 

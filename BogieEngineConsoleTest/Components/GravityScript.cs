@@ -21,7 +21,7 @@ namespace BogieEngineConsoleTest.Components
 
         public void Update(double deltaT)
         {
-            Entity.GetComponet<RigidBox>(nameof(RigidBox)).BodyReference.Velocity.Linear += Gravity * (float)deltaT;
+            Entity.GetComponet<RigidBox>(nameof(RigidBox)).Velocity += Gravity * (float)deltaT;
         }
     }
 }
