@@ -22,6 +22,8 @@ using BogieEngineConsoleTest.Components;
 
 namespace BogieEngineConsoleTest
 {
+    //varia suit from https://sketchfab.com/3d-models/varia-suit-79c802129f9a4945aba62a607892ac31
+    //xenomorph from https://sketchfab.com/3d-models/xeno-raven-e444a88e999549d99eacb1ea0f8e04e4
     class Game : BaseGame
     {
         public static System.Numerics.Vector3 Gravity = new System.Numerics.Vector3(0, -10, 0);
@@ -33,6 +35,9 @@ namespace BogieEngineConsoleTest
         public PhongShader PhongShader;
 
         public Texture CubeTex;
+        public Texture ContainerTex;
+        public Texture ContainerSpecularTex;
+
         public PhongMaterial CubeMaterial;
 
         public Samus _Samus;
@@ -59,20 +64,20 @@ namespace BogieEngineConsoleTest
             PhongShader = new PhongShader();
 
             CubeTex = ContentManager.LoadTexture("Resources/Textures/Brick.jpg", TextureUnit.Texture0);
-            
+            ContainerTex = ContentManager.LoadTexture("Resources/Textures/container.png", TextureUnit.Texture0);
+            ContainerSpecularTex = ContentManager.LoadTexture("Resources/Textures/container_specular.png", TextureUnit.Texture1);
+
             CubeMaterial = new PhongMaterial();
-            CubeMaterial.Texture = CubeTex;
+            CubeMaterial.DiffuseTexture = ContainerTex;
+            CubeMaterial.SpecularTexture = ContainerSpecularTex;
             CubeMaterial.Shininess = 32f;
-            CubeMaterial.SpecularColor = new Vector3(0);
-            CubeMaterial.DiffuseColor = new Vector3(.2f);
-            CubeMaterial.AmbientColor = new Vector3(.2f);
 
             ActiveCamera.LocalTransform.Position = new Vector3(0, 0, 3);
             ActiveCamera.ForceAddComponent(new FPSCameraScript(ActiveCamera));
 
             Player = new Player(EntityWorld, this, ActiveCamera);
 
-            //downloaded from https://sketchfab.com/3d-models/varia-suit-79c802129f9a4945aba62a607892ac31
+            
             _Samus = new Samus(EntityWorld, this);
             _Samus.LocalTransform.ScaleBy(new Vector3(.1f, .1f, .1f));
             _Samus.LocalTransform.Position = new Vector3(-.5f, -8, 0);

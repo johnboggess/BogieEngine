@@ -80,11 +80,12 @@ namespace BogieEngineCore.Modelling
                 }
             }
 
-            Texture diffuseTexture = null;
             BogieEngineCore.Materials.Material meshMaterial = null;
 
             if (aiMesh.MaterialIndex > 0)
             {
+                Texture diffuseTexture = null;
+
                 Assimp.Material material = scene.Materials[aiMesh.MaterialIndex];
                 string diffusePath = material.TextureDiffuse.FilePath;
                 if (diffusePath != null)
@@ -93,10 +94,8 @@ namespace BogieEngineCore.Modelling
                 }
 
                 meshMaterial = new PhongMaterial();
-                ((PhongMaterial)meshMaterial).Texture = diffuseTexture;
-                ((PhongMaterial)meshMaterial).AmbientColor = new OpenTK.Vector3(material.ColorAmbient.R, material.ColorAmbient.G, material.ColorAmbient.B);
-                ((PhongMaterial)meshMaterial).DiffuseColor = new OpenTK.Vector3(material.ColorDiffuse.R, material.ColorDiffuse.G, material.ColorDiffuse.B);
-                ((PhongMaterial)meshMaterial).SpecularColor = new OpenTK.Vector3(material.ColorSpecular.R, material.ColorSpecular.G, material.ColorSpecular.B);
+                ((PhongMaterial)meshMaterial).DiffuseTexture = diffuseTexture;
+                ((PhongMaterial)meshMaterial).SpecularTexture = diffuseTexture;//todo: load specular texture.
                 ((PhongMaterial)meshMaterial).Shininess = material.Shininess;
             }
 

@@ -10,12 +10,14 @@ using OpenTK;
 using BogieEngineCore;
 using BogieEngineCore.Components;
 using BogieEngineCore.Entities;
+using BogieEngineCore.Lighting;
 using BogieEngineConsoleTest.Entities;
 
 namespace BogieEngineConsoleTest.Components
 {
     class PlayerMovmentScript : Component
     {
+        BasicLight basicLight = new BasicLight();
         Camera _camera;
         RigidBox _playerBody;
 
@@ -69,12 +71,9 @@ namespace BogieEngineConsoleTest.Components
 
             if(ks.IsKeyDown(Key.L))
             {
-                ((Game)Game.GlobalGame).DiffuseShader.LightPosition = Entity.GlobalTransform.Position;
-                ((Game)Game.GlobalGame).SpecularShader.LightPosition = Entity.GlobalTransform.Position;
-                ((Game)Game.GlobalGame).PhongShader.LightPosition = Entity.GlobalTransform.Position;
+                ((Game)Game.GlobalGame).PhongShader.BasicLight.Position = Entity.GlobalTransform.Position;
             }
 
-            ((Game)Game.GlobalGame).SpecularShader.ViewPosition = _camera.GlobalTransform.Position;
             ((Game)Game.GlobalGame).PhongShader.ViewPosition = _camera.GlobalTransform.Position;
         }
     }

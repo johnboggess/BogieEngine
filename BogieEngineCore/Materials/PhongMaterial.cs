@@ -8,34 +8,33 @@ using OpenTK;
 
 using BogieEngineCore.Shading;
 using BogieEngineCore.Texturing;
+using OpenTK.Graphics.ES10;
 
 namespace BogieEngineCore.Materials
 {
     public class PhongMaterial : Material
     {
-        public Vector3 AmbientColor = new Vector3(1);
-        public Vector3 DiffuseColor = new Vector3(1);
-        public Vector3 SpecularColor = new Vector3(1);
+        public Texture DiffuseTexture;
+        public Texture SpecularTexture;
         public float Shininess = 32;
-        public Texture Texture;
 
         public override void SetMaterialUniform(string materialName, Shader shader)
         {
-            Texture.Bind();
-            shader.SetUniform3(materialName + ".ambient", AmbientColor);
-            shader.SetUniform3(materialName + ".diffuse", DiffuseColor);
-            shader.SetUniform3(materialName + ".specular", SpecularColor);
+            shader.SetUniform1(materialName + ".diffuse", (int)DiffuseTexture.TextureUnit - (int)TextureUnit.Texture0);
+            shader.SetUniform1(materialName + ".specular", (int)SpecularTexture.TextureUnit - (int)TextureUnit.Texture0);
             shader.SetUniform1(materialName + ".shininess", Shininess);
+
+            DiffuseTexture.Bind();
+            SpecularTexture.Bind();
         }
 
         public override Material Clone()
         {
             PhongMaterial material = new PhongMaterial();
-            material.AmbientColor = this.AmbientColor;
-            material.DiffuseColor = this.DiffuseColor;
-            material.SpecularColor = this.SpecularColor;
-            material.Shininess = this.Shininess;
-            material.Texture = this.Texture;
+            material.DiffuseTexture = DiffuseTexture;
+            material.SpecularTexture = SpecularTexture;
+            material.Shininess = Shininess;
+
             return material;
         }
     }

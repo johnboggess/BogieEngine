@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+using BogieEngineCore.Lighting;
+
 using OpenTK;
 using OpenTK.Graphics.ES10;
 
@@ -11,6 +13,13 @@ namespace BogieEngineCore.Shading
 {
     public class PhongShader : Shader
     {
+        public BasicLight BasicLight = new BasicLight()
+        {
+            AmbientColor = new Vector3(.1f, .1f, .1f),
+            DiffuseColor = new Vector3(.4f, .4f, .4f),
+            SpecularColor = new Vector3(1, 1, 1),
+        };
+
         public PhongShader() : base("Resources/Shaders/default.vert", "Resources/Shaders/PhongLight.frag") { }
 
         public Matrix4 Projection
@@ -37,14 +46,6 @@ namespace BogieEngineCore.Shading
             }
         }
 
-        public Vector3 LightPosition
-        {
-            set
-            {
-                SetUniform3(nameof(LightPosition), value);
-            }
-        }
-
         public Vector3 ViewPosition
         {
             set
@@ -55,6 +56,7 @@ namespace BogieEngineCore.Shading
 
         public override void Use(params object[] values)
         {
+            BasicLight.SetLightUniform("light", this);
             Model = (Matrix4)values[0];
         }
     }

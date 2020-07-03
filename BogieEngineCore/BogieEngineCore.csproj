@@ -95,6 +95,8 @@
     <Compile Include="ElementBuffer.cs" />
     <Compile Include="GPUBuffer.cs" />
     <Compile Include="IDisposable.cs" />
+    <Compile Include="Lighting\BasicLight.cs" />
+    <Compile Include="Lighting\Light.cs" />
     <Compile Include="Materials\PhongMaterial.cs" />
     <Compile Include="Materials\TextureMaterial.cs" />
     <Compile Include="Materials\Material.cs" />
