@@ -1,6 +1,9 @@
-﻿using BogieEngineCore.Shading;
+﻿using System.Collections.Generic;
+
+using BogieEngineCore.Materials;
+using BogieEngineCore.Shading;
 using BogieEngineCore.Texturing;
-using System.Collections.Generic;
+
 namespace BogieEngineCore.Modelling
 {
     /// <summary>
@@ -25,9 +28,9 @@ namespace BogieEngineCore.Modelling
         /// </summary>
         public bool Disposed => ((IDisposable)_MeshData).Disposed;
         /// <summary>
-        /// The textures for this mesh instance.
+        /// The material of this mesh instance.
         /// </summary>
-        public List<Texture> Textures = new List<Texture>();
+        public Material Material;
 
         internal MeshData _MeshData;
 
@@ -46,8 +49,9 @@ namespace BogieEngineCore.Modelling
         public void Draw()
         {
             _MeshData._BindVertexArray();
-            foreach (Texture texture in Textures)
-                texture.Bind();
+            Material.SetMaterialUniform("material", Shader);
+            /*foreach (Texture texture in Textures)
+                texture.Bind();*/
             _MeshData._Draw();
         }
 

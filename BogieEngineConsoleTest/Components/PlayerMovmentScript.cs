@@ -10,12 +10,14 @@ using OpenTK;
 using BogieEngineCore;
 using BogieEngineCore.Components;
 using BogieEngineCore.Entities;
+using BogieEngineCore.Lighting;
 using BogieEngineConsoleTest.Entities;
 
 namespace BogieEngineConsoleTest.Components
 {
     class PlayerMovmentScript : Component
     {
+        BasicLight basicLight = new BasicLight();
         Camera _camera;
         RigidBox _playerBody;
 
@@ -36,36 +38,43 @@ namespace BogieEngineConsoleTest.Components
             KeyboardState ks = Keyboard.GetState();
 
             _camera.LocalTransform.Position = _playerBody.Entity.LocalTransform.Position;
-            _playerBody.BodyReference.Pose.Orientation = new BepuUtilities.Quaternion(0, 0, 0, 1);
+            _playerBody.Orientation = new BepuUtilities.Quaternion(0, 0, 0, 1);
 
             if (ks.IsKeyDown(Key.W))
             {
                 _playerBody.IsAwake(true);
                 Vector3 vector = _camera.LocalTransform.Forwards.Normalized();
                 vector.Y = 0;
-                System.Numerics.Vector3 vel = _playerBody.BodyReference.Velocity.Linear;
+                System.Numerics.Vector3 vel = _playerBody.Velocity;
                 vel.Y = 0;
                 if (vel.LengthSquared() < 25)
                 {
-                    _playerBody.BodyReference.Velocity.Linear -= Utilities.ConvertVector3Type(vector);
+                    _playerBody.Velocity -= Utilities.ConvertVector3Type(vector);
                 }
             }
             if (ks.IsKeyDown(Key.Space) && _playerBody.IsColliding())
             {
-                _playerBody.BodyReference.Velocity.Linear += new System.Numerics.Vector3(0, 6, 0);
+                _playerBody.Velocity += new System.Numerics.Vector3(0, 6, 0);
             }
 
-            Vector3 velocity = Utilities.ConvertVector3Type(_playerBody.BodyReference.Velocity.Linear);
+            Vector3 velocity = Utilities.ConvertVector3Type(_playerBody.Velocity);
             Vector3 friction = -velocity.Normalized();
-            friction = friction * Math.Min(_playerBody.BodyReference.Velocity.Linear.Length(), .2f);
+            friction = friction * Math.Min(_playerBody.Velocity.Length(), .2f);
             friction.Y = 0;
 
             if (!float.IsNaN(friction.X))
             {
-                _playerBody.BodyReference.Velocity.Linear += Utilities.ConvertVector3Type(friction);
+                _playerBody.Velocity += Utilities.ConvertVector3Type(friction);
             }
 
-            _playerBody.BodyReference.Velocity.Linear += BogieEngineConsoleTest.Game.Gravity * (float)deltaT;
+            _playerBody.Velocity += BogieEngineConsoleTest.Game.Gravity * (float)deltaT;
+
+            if(ks.IsKeyDown(Key.L))
+            {
+                ((Game)Game.GlobalGame).PhongShader.BasicLight.Position = Entity.GlobalTransform.Position;
+            }
+
+            ((Game)Game.GlobalGame).PhongShader.ViewPosition = _camera.GlobalTransform.Position;
         }
     }
 }

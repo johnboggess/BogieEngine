@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -9,9 +10,7 @@ using BepuPhysics.Collidables;
 namespace BogieEngineCore.Components
 {
     public class RigidBox : Component
-    {//todo: need resize method
-
-        public BodyReference BodyReference { get { return _bodyReference; } }//todo: Used for applying force, use methods instead
+    {//todo: should have resize method?
 
         float _x;
         float _y;
@@ -46,9 +45,16 @@ namespace BogieEngineCore.Components
 
         public override void EventInvoked(string evnt, params object[] eventArgs)
         {
+            if (Destroyed)
+                return;
+
             if (evnt == Component.UpdateEvent)
             {
                 _localTransformMatchRigidBody();
+            }
+            else if(evnt == Component.DestroyEvent)
+            {
+                _bodyReference.Bodies.Remove(_bodyReference.Handle);
             }
         }
 
@@ -62,6 +68,55 @@ namespace BogieEngineCore.Components
         {
             _bodyReference.Awake = value;
         }
+
+        #region Pose
+        /// <summary>
+        /// Sets the position of the rigid body. Updates attached entity.
+        /// </summary>
+        public Vector3 Position
+        {
+            get { return _bodyReference.Pose.Position; }
+            set { _bodyReference.Pose.Position = value; _localTransformMatchRigidBody(); }
+        }
+
+        /// <summary>
+        /// Sets the orientation of the rigid body. Updates attached entity.
+        /// </summary>
+        public BepuUtilities.Quaternion Orientation
+        {
+            get { return _bodyReference.Pose.Orientation; }
+            set { _bodyReference.Pose.Orientation = value; _localTransformMatchRigidBody(); }
+        }
+        #endregion
+
+        #region Physics
+        public Vector3 Velocity
+        {
+            get { return _bodyReference.Velocity.Linear; }
+            set { _bodyReference.Velocity.Linear = value; }
+        }
+
+        public Vector3 AngularVelocity
+        {
+            get { return _bodyReference.Velocity.Angular; }
+            set { _bodyReference.Velocity.Angular = value; }
+        }
+
+        public void ApplyImpulse(Vector3 impluse, Vector3 impulseOffset)
+        {
+            _bodyReference.ApplyImpulse(in impluse, in impulseOffset);
+        }
+
+        public void ApplyAngularImpulse(Vector3 impluse)
+        {
+            _bodyReference.ApplyAngularImpulse(in impluse);
+        }
+
+        public void ApplyLinearImpulse(Vector3 impluse)
+        {
+            _bodyReference.ApplyLinearImpulse(in impluse);
+        }
+        #endregion
 
         private void _setupBox()
         {

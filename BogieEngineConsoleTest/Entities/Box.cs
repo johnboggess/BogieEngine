@@ -9,6 +9,7 @@ using BogieEngineCore;
 using BogieEngineCore.Entities;
 using BogieEngineCore.Components;
 using BogieEngineConsoleTest.Components;
+using BogieEngineCore.Shading;
 
 namespace BogieEngineConsoleTest.Entities
 {
@@ -17,6 +18,7 @@ namespace BogieEngineConsoleTest.Entities
         public RigidBox RigidBox;
 
         private bool _reportContacts;
+        private Model _model;
 
         public Box(Entity parent, bool reportContacts, OpenTK.Vector3 position, OpenTK.Vector3 scale, BaseGame game) : base(parent, game)
         {
@@ -33,10 +35,13 @@ namespace BogieEngineConsoleTest.Entities
             GravityScript gravityScript = new GravityScript();
             ForceAddComponent(gravityScript);
 
-            Model blockModel = Model.CreateModel("Resources/Models/Cube.obj", ((Game)BaseGame.GlobalGame).ContentManager, ((Game)BaseGame.GlobalGame).DefaultShader);
-            blockModel.GetMesh(0).Textures.Add(((Game)BaseGame.GlobalGame).CubeTex);
-            ForceAddComponent(blockModel);
+            _model = Model.CreateModel("Resources/Models/Cube.obj", ((Game)BaseGame.GlobalGame).ContentManager, ((Game)BaseGame.GlobalGame).DefaultShader);
+            _model.GetMesh(0).Material = ((Game)BaseGame.GlobalGame).CubeMaterial;
+            ForceAddComponent(_model);
         }
 
+        public Shader GetShader(int meshIndex) { return _model.GetMesh(meshIndex).Shader; }
+        public void SetShader(Shader shader) { _model.SetShader(shader); }
+        public void SetShader(Shader shader, int meshIndex) { _model.GetMesh(meshIndex).Shader = shader; }
     }
 }

@@ -10,15 +10,17 @@ namespace BogieEngineCore
         /// <summary>
         /// Size in bytes of the vertex
         /// </summary>
-        public static readonly int Size = 5 * sizeof(float);
+        public static readonly int Size = 8 * sizeof(float);
 
         internal Vector3 _Position;
         internal Vector2 _UV;
+        internal Vector3 _Normal;
 
-        public Vertex(Vector3 position, Vector2 uv)
+        public Vertex(Vector3 position, Vector2 uv, Vector3 _normal)
         {
             _Position = position;
             _UV = uv;
+            _Normal = _normal;
         }
     }
 }

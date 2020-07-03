@@ -82,6 +82,7 @@
     <Compile Include="Components\GravityScript.cs" />
     <Compile Include="Components\PlayerMovmentScript.cs" />
     <Compile Include="Components\ShootScript.cs" />
+    <Compile Include="Components\LifeTime.cs" />
     <Compile Include="Entities\Player.cs" />
     <Compile Include="Entities\Box.cs" />
     <Compile Include="Entities\Samus.cs" />
@@ -177,6 +178,15 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Resources\Textures\Circle.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Textures\container.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Textures\container_specular.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Textures\tile.jpg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>

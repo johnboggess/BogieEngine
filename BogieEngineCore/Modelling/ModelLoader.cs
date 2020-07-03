@@ -1,7 +1,13 @@
-﻿using Assimp;
-using BogieEngineCore.Texturing;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
+
+using Assimp;
+
+using BogieEngineCore.Texturing;
+using BogieEngineCore.Materials;
+using System.ComponentModel;
+using OpenTK.Graphics.OpenGL;
+
 namespace BogieEngineCore.Modelling
 {
     /// <summary>
@@ -61,7 +67,7 @@ namespace BogieEngineCore.Modelling
                     indices.Add((uint)index);
 
                     Vector3D pos = aiMesh.Vertices[index];
-                    //Vector3D norm = aiMesh.Normals[index];
+                    Vector3D norm = aiMesh.Normals[index];
                     Vector3D UV = new Vector3D(0, 0, 0);
 
                     if (aiMesh.HasTextureCoords(0))
@@ -69,21 +75,28 @@ namespace BogieEngineCore.Modelling
                         UV = aiMesh.TextureCoordinateChannels[0][index];
                     }
 
-                    Vertex vertex = new Vertex(new OpenTK.Vector3(pos.X, pos.Y, pos.Z), new OpenTK.Vector2(UV.X, UV.Y));
+                    Vertex vertex = new Vertex(new OpenTK.Vector3(pos.X, pos.Y, pos.Z), new OpenTK.Vector2(UV.X, UV.Y), new OpenTK.Vector3(norm.X, norm.Y, norm.Z));
                     vertices[index] = vertex;
                 }
             }
 
-            List<Texture> textures = new List<Texture>();
+            BogieEngineCore.Materials.Material meshMaterial = null;
+
             if (aiMesh.MaterialIndex > 0)
             {
-                Assimp.Material material = scene.Materials[aiMesh.MaterialIndex];
+                Texture diffuseTexture = null;
 
+                Assimp.Material material = scene.Materials[aiMesh.MaterialIndex];
                 string diffusePath = material.TextureDiffuse.FilePath;
                 if (diffusePath != null)
                 {
-                    textures.Add(_contentManager.LoadTexture(_folder + "/" + diffusePath, OpenTK.Graphics.OpenGL4.TextureUnit.Texture0));
+                    diffuseTexture = _contentManager.LoadTexture(_folder + "/" + diffusePath, OpenTK.Graphics.OpenGL4.TextureUnit.Texture0);
                 }
+
+                meshMaterial = new PhongMaterial();
+                ((PhongMaterial)meshMaterial).DiffuseTexture = diffuseTexture;
+                ((PhongMaterial)meshMaterial).SpecularTexture = diffuseTexture;//todo: load specular texture.
+                ((PhongMaterial)meshMaterial).Shininess = material.Shininess;
             }
 
             VertexBuffer vb = new VertexBuffer();
@@ -98,7 +111,8 @@ namespace BogieEngineCore.Modelling
 
             MeshInstance mesh = new MeshInstance(meshData);
             mesh.Shader = shader;
-            mesh.Textures = textures;
+
+            mesh.Material = meshMaterial;
 
             return mesh;
         }

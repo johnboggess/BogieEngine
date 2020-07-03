@@ -42,8 +42,11 @@ namespace BogieEngineCore.Entities
             }
         }
 
+        public bool Destroyed { get { return _destoryed; } }
+
         internal bool _FirstTimeSetup = false;
 
+        bool _destoryed = false;
         Entity _parent = null;
         List<Entity> _childern = new List<Entity>();
         Guid _instanceID = Guid.NewGuid();
@@ -166,9 +169,42 @@ namespace BogieEngineCore.Entities
             _components.Remove(component);
         }
 
+        /// <summary>
+        /// Queue the entity to be destroyed at the beginning of the next update loop. Should not be used during entity setup or at the beginning of the update loop.
+        /// Notifies all components and childern
+        /// </summary>
+        public void QueueDestroy()
+        {
+            if (Parent != null)
+                Parent.QueueRemoveChild(this);
+
+            _components.ForEach(c => c.QueueDestroy());
+            _childern.ForEach(e => e.QueueDestroy());
+
+            _destoryed = true;
+        }
+
+        /// <summary>
+        /// Force the entity to be destroyed immediately. Should only be used during entity setup, or at the beginning of the update loop.
+        /// Notifies all components and childern
+        /// </summary>
+        public void ForceDestroy()
+        {
+            if (Parent != null)
+                Parent.ForceAddChild(this);
+
+            _components.ForEach(c => c.ForceDestroy());
+            _childern.ForEach(e => e.ForceDestroy());
+
+            _destoryed = true;
+        }
+
         public void InvokeEvent(string evnt, bool invokeChildern, params object[] eventArgs)
         {
-            _components.ForEach(c => c.EventInvoked(evnt, eventArgs));
+            if (Destroyed)
+                return;
+
+            _components.ForEach(c => c._EventInvoked(evnt, eventArgs));
             if (invokeChildern)
                 _childern.ForEach(e => e.InvokeEvent(evnt, invokeChildern, eventArgs));
         }
