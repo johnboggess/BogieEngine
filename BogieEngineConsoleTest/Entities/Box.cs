@@ -36,7 +36,7 @@ namespace BogieEngineConsoleTest.Entities
             ForceAddComponent(gravityScript);
 
             _model = Model.CreateModel("Resources/Models/Cube.obj", ((Game)BaseGame.GlobalGame).ContentManager, ((Game)BaseGame.GlobalGame).DefaultShader);
-            _model.GetMesh(0).Textures.Add(((Game)BaseGame.GlobalGame).CubeTex);
+            _model.GetMesh(0).Material = ((Game)BaseGame.GlobalGame).CubeMaterial;
             ForceAddComponent(_model);
         }
 

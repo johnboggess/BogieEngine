@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Threading;
 
 using OpenTK;
 using OpenTK.Input;
@@ -14,10 +15,10 @@ using BogieEngineCore.Shading;
 using BogieEngineCore.Modelling;
 using BogieEngineCore.Texturing;
 using BogieEngineCore.Entities;
+using BogieEngineCore.Materials;
 
 using BogieEngineConsoleTest.Entities;
 using BogieEngineConsoleTest.Components;
-using System.Threading;
 
 namespace BogieEngineConsoleTest
 {
@@ -32,6 +33,7 @@ namespace BogieEngineConsoleTest
         public PhongShader PhongShader;
 
         public Texture CubeTex;
+        public PhongMaterial CubeMaterial;
 
         public Samus _Samus;
         public Samus _SamusNoVisor;
@@ -57,6 +59,13 @@ namespace BogieEngineConsoleTest
             PhongShader = new PhongShader();
 
             CubeTex = ContentManager.LoadTexture("Resources/Textures/Brick.jpg", TextureUnit.Texture0);
+            
+            CubeMaterial = new PhongMaterial();
+            CubeMaterial.Texture = CubeTex;
+            CubeMaterial.Shininess = 32f;
+            CubeMaterial.SpecularColor = new Vector3(0);
+            CubeMaterial.DiffuseColor = new Vector3(.2f);
+            CubeMaterial.AmbientColor = new Vector3(.2f);
 
             ActiveCamera.LocalTransform.Position = new Vector3(0, 0, 3);
             ActiveCamera.ForceAddComponent(new FPSCameraScript(ActiveCamera));
@@ -90,7 +99,7 @@ namespace BogieEngineConsoleTest
 
             _SamusRelativeCube = new Entity(_Samus, this);
             BogieEngineCore.Components.Model model = BogieEngineCore.Components.Model.CreateModel("Resources/Models/Cube.obj", ContentManager, DefaultShader);
-            model.GetMesh(0).Textures.Add(CubeTex);
+            model.GetMesh(0).Material = CubeMaterial;
             _SamusRelativeCube.QueueAddComponent(model);
 
             _MiniSamus = new Samus(_SamusRelativeCube, this); 
@@ -104,7 +113,7 @@ namespace BogieEngineConsoleTest
             FloorEntity.InstanceSetup = new Action(() =>
             {
                 FloorEntity.ForceAddComponent(BogieEngineCore.Components.StaticBody.CreateStaticBody(FloorEntity, new BogieEngineCore.Physics.Shapes.Box(), false));
-                ((BogieEngineCore.Components.Model)FloorEntity.GetComponent("Model")).GetMesh(0).Textures.Add(CubeTex);
+                ((BogieEngineCore.Components.Model)FloorEntity.GetComponent("Model")).GetMesh(0).Material = CubeMaterial;
             });
 
         }

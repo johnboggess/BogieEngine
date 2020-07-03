@@ -1,7 +1,13 @@
-﻿using Assimp;
-using BogieEngineCore.Texturing;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
+
+using Assimp;
+
+using BogieEngineCore.Texturing;
+using BogieEngineCore.Materials;
+using System.ComponentModel;
+using OpenTK.Graphics.OpenGL;
+
 namespace BogieEngineCore.Modelling
 {
     /// <summary>
@@ -74,16 +80,24 @@ namespace BogieEngineCore.Modelling
                 }
             }
 
-            List<Texture> textures = new List<Texture>();
+            Texture diffuseTexture = null;
+            BogieEngineCore.Materials.Material meshMaterial = null;
+
             if (aiMesh.MaterialIndex > 0)
             {
                 Assimp.Material material = scene.Materials[aiMesh.MaterialIndex];
-
                 string diffusePath = material.TextureDiffuse.FilePath;
                 if (diffusePath != null)
                 {
-                    textures.Add(_contentManager.LoadTexture(_folder + "/" + diffusePath, OpenTK.Graphics.OpenGL4.TextureUnit.Texture0));
+                    diffuseTexture = _contentManager.LoadTexture(_folder + "/" + diffusePath, OpenTK.Graphics.OpenGL4.TextureUnit.Texture0);
                 }
+
+                meshMaterial = new PhongMaterial();
+                ((PhongMaterial)meshMaterial).Texture = diffuseTexture;
+                ((PhongMaterial)meshMaterial).AmbientColor = new OpenTK.Vector3(material.ColorAmbient.R, material.ColorAmbient.G, material.ColorAmbient.B);
+                ((PhongMaterial)meshMaterial).DiffuseColor = new OpenTK.Vector3(material.ColorDiffuse.R, material.ColorDiffuse.G, material.ColorDiffuse.B);
+                ((PhongMaterial)meshMaterial).SpecularColor = new OpenTK.Vector3(material.ColorSpecular.R, material.ColorSpecular.G, material.ColorSpecular.B);
+                ((PhongMaterial)meshMaterial).Shininess = material.Shininess;
             }
 
             VertexBuffer vb = new VertexBuffer();
@@ -98,7 +112,8 @@ namespace BogieEngineCore.Modelling
 
             MeshInstance mesh = new MeshInstance(meshData);
             mesh.Shader = shader;
-            mesh.Textures = textures;
+
+            mesh.Material = meshMaterial;
 
             return mesh;
         }

@@ -25,7 +25,7 @@ namespace BogieEngineCore.Modelling
             {
                 MeshInstance newMesh = new MeshInstance(mesh._MeshData);
                 newMesh.Shader = mesh.Shader;
-                newMesh.Textures = new List<Texture>(mesh.Textures);
+                newMesh.Material = mesh.Material.Clone();
                 Meshes.Add(newMesh);
             }
         }
