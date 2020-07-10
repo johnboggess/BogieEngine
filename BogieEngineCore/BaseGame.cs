@@ -20,7 +20,7 @@ namespace BogieEngineCore
         public static BaseGame GlobalGame;
 
         public ContentManager ContentManager = new ContentManager();
-        public Color4 ClearColor = Color4.CornflowerBlue;
+        public Color4 ClearColor;
         public Camera ActiveCamera;
         public Entity EntityWorld;
 

@@ -13,6 +13,8 @@ namespace BogieEngineCore.Shading
         public string VertexShaderName { get { return _vertexShaderName; } }
         public string FragmentShaderName { get { return _fragmentShaderName; } }
 
+        public BaseGame Game;
+
         public bool Disposed { get { return _disposed; } }
 
 
@@ -22,8 +24,10 @@ namespace BogieEngineCore.Shading
 
         private bool _disposed = false;
 
-        public Shader(string vertexPath, string fragmentPath)
+        public Shader(BaseGame game, string vertexPath, string fragmentPath)
         {
+            Game = game;
+
             //Read source code from file
             int vertexHandle;
             string vertexSource = File.ReadAllText(vertexPath);

@@ -1,46 +1,23 @@
 ﻿using BogieEngineCore.Shading;
+using BogieEngineCore.Vertices;
 using OpenTK.Graphics.OpenGL4;
+using System;
 
 namespace BogieEngineCore
 {
-    /// <summary>
-    /// GPU array representing the vertices for a mesh, attributes of each vertex, and the order the vertices should be rendered in
-    /// </summary>
-    class VertexArray : IDisposable
+    internal class BaseVertexArray
     {
         public bool Disposed { get { return _disposed; } }
-        private bool _disposed = false;
+        public Type VertexType { get { return vertexType; } }
 
+        protected Type vertexType;
+
+        bool _disposed = false;
         int _handle;
-        VertexBuffer _vbo;
-        ElementBuffer _ebo;
-
-        public VertexArray()
+        
+        public BaseVertexArray()
         {
             _handle = GL.GenVertexArray();
-        }
-
-        public void Setup(VertexBuffer vbo, ElementBuffer ebo)
-        {
-            _ebo = ebo;
-            _vbo = vbo;
-            Bind();
-
-            vbo.Bind();
-
-            GL.VertexAttribPointer(Shader.VertexPositionLocation, 3, VertexAttribPointerType.Float, false, Vertex.Size, 0);
-            GL.EnableVertexAttribArray(Shader.VertexPositionLocation);
-
-            GL.VertexAttribPointer(Shader.VertexUVLocation, 2, VertexAttribPointerType.Float, false, Vertex.Size, 3 * sizeof(float));
-            GL.EnableVertexAttribArray(Shader.VertexUVLocation);
-            
-            GL.VertexAttribPointer(Shader.VertexNormalLocation, 3, VertexAttribPointerType.Float, false, Vertex.Size, 5 * sizeof(float));
-            GL.EnableVertexAttribArray(Shader.VertexNormalLocation);
-
-            ebo.Bind();
-
-            UnBind();
-
         }
 
         public void Bind()
@@ -53,16 +30,49 @@ namespace BogieEngineCore
             GL.BindVertexArray(0);
         }
 
-        public void Draw()
-        {
-            GL.DrawElements(PrimitiveType.Triangles, _ebo.Indices.Length, DrawElementsType.UnsignedInt, 0);
-        }
+        public virtual void Draw() { }
 
         public void Dispose()
         {
             _disposed = true;
             GL.DeleteBuffer(_handle);
         }
+    }
 
+    /// <summary>
+    /// GPU array representing the vertices for a mesh, attributes of each vertex, and the order the vertices should be rendered in
+    /// </summary>
+    internal class VertexArray<T> : BaseVertexArray, IDisposable where T : struct, Vertex
+    {
+        int _handle;
+        VertexBuffer<T> _vbo;
+        ElementBuffer _ebo;
+
+        public VertexArray()
+        {
+            _handle = GL.GenVertexArray();
+            vertexType = typeof(T);
+        }
+
+        public void Setup(VertexBuffer<T> vbo, ElementBuffer ebo)
+        {
+            _ebo = ebo;
+            _vbo = vbo;
+            Bind();
+
+            vbo.Bind();
+
+            vbo.SetUpVertexAttributePointers();
+
+            ebo.Bind();
+
+            UnBind();
+
+        }
+
+        public override void Draw()
+        {
+            GL.DrawElements(PrimitiveType.Triangles, _ebo.Indices.Length, DrawElementsType.UnsignedInt, 0);
+        }
     }
 }

@@ -1,4 +1,6 @@
-﻿namespace BogieEngineCore.Modelling
+﻿using BogieEngineCore.Vertices;
+
+namespace BogieEngineCore.Modelling
 {
     /// <summary>
     /// Collections of vertices representing a shape.
@@ -18,14 +20,14 @@
         /// <summary>
         /// The vertices that define the mesh
         /// </summary>
-        internal VertexArray _VertexArray;
+        internal BaseVertexArray _VertexArray;
 
         /// <summary>
         /// Creates a mesh
         /// </summary>
         /// <param name="name">Name of the mesh.</param>
         /// <param name="vertexArray">The vertices that define the mesh.</param>
-        internal MeshData(string name, VertexArray vertexArray)
+        internal MeshData(string name, BaseVertexArray vertexArray)
         {
             Name = name;
             _VertexArray = vertexArray;

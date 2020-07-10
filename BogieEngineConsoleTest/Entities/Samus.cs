@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using BogieEngineCore;
 using BogieEngineCore.Entities;
 using BogieEngineCore.Components;
+using BogieEngineCore.Vertices;
 
 namespace BogieEngineConsoleTest.Entities
 {
@@ -20,7 +21,7 @@ namespace BogieEngineConsoleTest.Entities
 
         public override void EntitySetup()
         {
-            Model = Model.CreateModel("Resources/Models/VariaSuit/DolBarriersuit.obj", Game.ContentManager, ((Game)Game).DefaultShader);
+            Model = Model.CreateModel("Resources/Models/VariaSuit/DolBarriersuit.obj", Game.ContentManager, ((Game)Game).PhongShader, typeof(DefaultVertex));
             this.ForceAddComponent(Model);
         }
     }

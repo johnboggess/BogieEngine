@@ -11,7 +11,7 @@ namespace BogieEngineCore.Shading
 {
     public class DefaultShader : Shader
     {
-        public DefaultShader() : base("Resources/Shaders/default.vert", "Resources/Shaders/default.frag") { }
+        public DefaultShader(BaseGame game) : base(game, "Resources/Shaders/default.vert", "Resources/Shaders/default.frag") { }
 
         public Matrix4 Projection
         {

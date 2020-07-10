@@ -1,7 +1,9 @@
 ﻿using BogieEngineCore.Modelling;
 using BogieEngineCore.Shading;
 using BogieEngineCore.Texturing;
+using BogieEngineCore.Vertices;
 using OpenTK.Graphics.OpenGL4;
+using System;
 using System.Collections.Generic;
 namespace BogieEngineCore
 {
@@ -24,7 +26,7 @@ namespace BogieEngineCore
             return new Texture(textureData);
         }
 
-        public Model LoadModel(string filePath, Shader shader)
+        public Model LoadModel(string filePath, Shader shader, Type vertexType)
         {
             if (_pathToModel.ContainsKey(filePath))
             {
@@ -32,7 +34,7 @@ namespace BogieEngineCore
                 mdl.SetShader(shader);
                 return mdl;
             }
-            Model model = ModelLoader.LoadModel(filePath, this, shader);
+            Model model = ModelLoader.LoadModel(filePath, this, shader, vertexType);
             _pathToModel.Add(filePath, model);
             return new Model(model);
         }

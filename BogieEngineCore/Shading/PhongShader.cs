@@ -13,14 +13,14 @@ namespace BogieEngineCore.Shading
 {
     public class PhongShader : Shader
     {
+        public PhongShader(BaseGame game) : base(game, "Resources/Shaders/default.vert", "Resources/Shaders/PhongLight.frag") { }
+
         public BasicLight BasicLight = new BasicLight()
         {
-            AmbientColor = new Vector3(.1f, .1f, .1f),
-            DiffuseColor = new Vector3(.4f, .4f, .4f),
-            SpecularColor = new Vector3(1, 1, 1),
+            AmbientColor = new Vector3(.3f, .3f, .3f),
+            DiffuseColor = new Vector3(.5f, .5f, .5f),
+            SpecularColor = new Vector3(.5f, .5f, .5f),
         };
-
-        public PhongShader() : base("Resources/Shaders/default.vert", "Resources/Shaders/PhongLight.frag") { }
 
         public Matrix4 Projection
         {

@@ -11,7 +11,7 @@ namespace BogieEngineCore.Shading
 {
     public class DiffuseShader : Shader
     {
-        public DiffuseShader() : base("Resources/Shaders/default.vert", "Resources/Shaders/DiffuseLight.frag") 
+        public DiffuseShader(BaseGame game) : base(game, "Resources/Shaders/default.vert", "Resources/Shaders/DiffuseLight.frag") 
         {
             LightPosition = new Vector3(0, 0, 0);
         }

@@ -1,11 +1,14 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.ComponentModel;
 
 using Assimp;
 
 using BogieEngineCore.Texturing;
 using BogieEngineCore.Materials;
-using System.ComponentModel;
+using BogieEngineCore.Vertices;
+
 using OpenTK.Graphics.OpenGL;
 
 namespace BogieEngineCore.Modelling
@@ -25,7 +28,7 @@ namespace BogieEngineCore.Modelling
         /// <param name="contentManager">Content manager.</param>
         /// <param name="shader">The shader to assign to the model.</param>
         /// <returns>The loaded model.</returns>
-        public static Model LoadModel(string filePath, ContentManager contentManager, Shading.Shader shader)
+        public static Model LoadModel(string filePath, ContentManager contentManager, Shading.Shader shader, Type vertexType)
         {
             _contentManager = contentManager;
             _folder = filePath.Substring(0, filePath.LastIndexOf("/"));
@@ -55,7 +58,7 @@ namespace BogieEngineCore.Modelling
         private static MeshInstance ProcessMesh(Assimp.Mesh aiMesh, Scene scene, Shading.Shader shader)
         {
             List<uint> indices = new List<uint>();
-            Vertex[] vertices = new Vertex[aiMesh.VertexCount];
+            DefaultVertex[] vertices = new DefaultVertex[aiMesh.VertexCount];
 
             for (int i = 0; i < aiMesh.FaceCount; i++)
             {
@@ -64,25 +67,17 @@ namespace BogieEngineCore.Modelling
                 for (int j = 0; j < face.IndexCount; j++)
                 {
                     int index = face.Indices[j];
+                    DefaultVertex defaultVertex = new DefaultVertex();
+                    defaultVertex.FillData(aiMesh, index);
+
+                    vertices[index] = defaultVertex;
                     indices.Add((uint)index);
-
-                    Vector3D pos = aiMesh.Vertices[index];
-                    Vector3D norm = aiMesh.Normals[index];
-                    Vector3D UV = new Vector3D(0, 0, 0);
-
-                    if (aiMesh.HasTextureCoords(0))
-                    {
-                        UV = aiMesh.TextureCoordinateChannels[0][index];
-                    }
-
-                    Vertex vertex = new Vertex(new OpenTK.Vector3(pos.X, pos.Y, pos.Z), new OpenTK.Vector2(UV.X, UV.Y), new OpenTK.Vector3(norm.X, norm.Y, norm.Z));
-                    vertices[index] = vertex;
                 }
             }
 
             BogieEngineCore.Materials.Material meshMaterial = null;
 
-            if (aiMesh.MaterialIndex > 0)
+            if (aiMesh.MaterialIndex > -1)
             {
                 Texture diffuseTexture = null;
 
@@ -99,12 +94,12 @@ namespace BogieEngineCore.Modelling
                 ((PhongMaterial)meshMaterial).Shininess = material.Shininess;
             }
 
-            VertexBuffer vb = new VertexBuffer();
+            VertexBuffer<DefaultVertex> vb = new VertexBuffer<DefaultVertex>();
             vb.SetVertices(vertices.ToArray());
             ElementBuffer eb = new ElementBuffer();
             eb.SetIndices(indices.ToArray());
 
-            VertexArray vertexArray = new VertexArray();
+            VertexArray<DefaultVertex> vertexArray = new VertexArray<DefaultVertex>();
             vertexArray.Setup(vb, eb);
 
             MeshData meshData = new MeshData(aiMesh.Name, vertexArray);

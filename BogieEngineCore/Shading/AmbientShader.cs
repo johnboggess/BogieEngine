@@ -11,7 +11,7 @@ namespace BogieEngineCore.Shading
 {
     public class AmbientShader : Shader
     {
-        public AmbientShader() : base("Resources/Shaders/default.vert", "Resources/Shaders/AmbientLight.frag") { }
+        public AmbientShader(BaseGame game) : base(game, "Resources/Shaders/default.vert", "Resources/Shaders/AmbientLight.frag") { }
 
         public Matrix4 Projection
         {

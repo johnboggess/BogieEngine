@@ -11,7 +11,7 @@ namespace BogieEngineCore.Shading
 {
     public class SpecularShader : Shader
     {
-        public SpecularShader() : base("Resources/Shaders/default.vert", "Resources/Shaders/SpecularLight.frag") { }
+        public SpecularShader(BaseGame game) : base(game, "Resources/Shaders/default.vert", "Resources/Shaders/SpecularLight.frag") { }
 
         public Matrix4 Projection
         {

@@ -3,6 +3,7 @@
 using BogieEngineCore.Materials;
 using BogieEngineCore.Shading;
 using BogieEngineCore.Texturing;
+using BogieEngineCore.Vertices;
 
 namespace BogieEngineCore.Modelling
 {

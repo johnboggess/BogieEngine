@@ -83,8 +83,10 @@
     <Compile Include="Components\PlayerMovmentScript.cs" />
     <Compile Include="Components\ShootScript.cs" />
     <Compile Include="Components\LifeTime.cs" />
+    <Compile Include="Entities\NormalTest.cs" />
     <Compile Include="Entities\Player.cs" />
     <Compile Include="Entities\Box.cs" />
+    <Compile Include="Entities\Xeno.cs" />
     <Compile Include="Entities\Samus.cs" />
     <Compile Include="Game.cs" />
     <Compile Include="Program.cs" />
@@ -104,6 +106,27 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="Resources\Models\VariaSuit\DolBarriersuit.obj">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\Models\xeno-raven\Maps\XenoRaven_Body_D.tga">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\Models\xeno-raven\Maps\XenoRaven_body_N.tga">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\Models\xeno-raven\Maps\XenoRaven_Body_S.tga">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\Models\xeno-raven\Maps\XenoRaven_Head_D.tga">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\Models\xeno-raven\Maps\XenoRaven_head_N.tga">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\Models\xeno-raven\Maps\XenoRaven_Head_S.tga">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\Models\xeno-raven\source\XenoRaven.fbx">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="Resources\Shaders\repeatTexture.frag">
@@ -174,7 +197,16 @@
     <Content Include="Resources\Models\VariaSuit\Samus_Varia_High_reflected.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="Resources\Textures\Blank.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Resources\Textures\Brick.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Textures\brick2.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Textures\brick2N.jpg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Resources\Textures\Circle.png">

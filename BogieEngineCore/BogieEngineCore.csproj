@@ -97,6 +97,7 @@
     <Compile Include="IDisposable.cs" />
     <Compile Include="Lighting\BasicLight.cs" />
     <Compile Include="Lighting\Light.cs" />
+    <Compile Include="Materials\NormalMaterial.cs" />
     <Compile Include="Materials\PhongMaterial.cs" />
     <Compile Include="Materials\TextureMaterial.cs" />
     <Compile Include="Materials\Material.cs" />
@@ -111,6 +112,7 @@
     <Compile Include="Physics\PoseIntegratorCallbacks.cs" />
     <Compile Include="Physics\Shapes\Shape.cs" />
     <Compile Include="Physics\SimpleThreadDispatcher.cs" />
+    <Compile Include="Shading\NormalShader.cs" />
     <Compile Include="Shading\PhongShader.cs" />
     <Compile Include="Shading\SpecularShader.cs" />
     <Compile Include="Shading\DiffuseShader.cs" />
@@ -121,15 +123,19 @@
     <Compile Include="Texturing\TextureData.cs" />
     <Compile Include="Transform.cs" />
     <Compile Include="Utilities.cs" />
-    <Compile Include="Vertex.cs" />
     <Compile Include="VertexArray.cs" />
     <Compile Include="VertexBuffer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Vertices\DefaultVertex.cs" />
+    <Compile Include="Vertices\Vertex.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
     <None Include="OpenTK.dll.config" />
     <None Include="packages.config" />
+    <None Include="Resources\Shaders\NormalLight.frag">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="Resources\Shaders\PhongLight.frag">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>

@@ -40,10 +40,10 @@ namespace BogieEngineConsoleTest.Components
             _camera.LocalTransform.Position = _playerBody.Entity.LocalTransform.Position;
             _playerBody.Orientation = new BepuUtilities.Quaternion(0, 0, 0, 1);
 
-            if (ks.IsKeyDown(Key.W))
+            if (ks.IsKeyDown(Key.W) || ks.IsKeyDown(Key.S))
             {
                 _playerBody.IsAwake(true);
-                Vector3 vector = _camera.LocalTransform.Forwards.Normalized();
+                Vector3 vector = _camera.LocalTransform.Forwards.Normalized() * (ks.IsKeyDown(Key.S) ? -1 : 1);
                 vector.Y = 0;
                 System.Numerics.Vector3 vel = _playerBody.Velocity;
                 vel.Y = 0;
@@ -52,6 +52,19 @@ namespace BogieEngineConsoleTest.Components
                     _playerBody.Velocity -= Utilities.ConvertVector3Type(vector);
                 }
             }
+            else if(ks.IsKeyDown(Key.A) || ks.IsKeyDown(Key.D))
+            {
+                _playerBody.IsAwake(true);
+                Vector3 vector = _camera.LocalTransform.Right.Normalized() * (ks.IsKeyDown(Key.A) ? -1 : 1);
+                vector.Y = 0;
+                System.Numerics.Vector3 vel = _playerBody.Velocity;
+                vel.Y = 0;
+                if (vel.LengthSquared() < 10)
+                {
+                    _playerBody.Velocity += Utilities.ConvertVector3Type(vector)*.5f;
+                }
+            }
+
             if (ks.IsKeyDown(Key.Space) && _playerBody.IsColliding())
             {
                 _playerBody.Velocity += new System.Numerics.Vector3(0, 6, 0);
@@ -72,9 +85,11 @@ namespace BogieEngineConsoleTest.Components
             if(ks.IsKeyDown(Key.L))
             {
                 ((Game)Game.GlobalGame).PhongShader.BasicLight.Position = Entity.GlobalTransform.Position;
+                ((Game)Game.GlobalGame).NormalShader.BasicLight.Position = Entity.GlobalTransform.Position;
             }
 
             ((Game)Game.GlobalGame).PhongShader.ViewPosition = _camera.GlobalTransform.Position;
+            ((Game)Game.GlobalGame).NormalShader.ViewPosition = _camera.GlobalTransform.Position;
         }
     }
 }

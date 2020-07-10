@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using BogieEngineCore.Entities;
 using BogieEngineCore.Modelling;
 using BogieEngineCore.Shading;
+using BogieEngineCore.Vertices;
 using SixLabors.ImageSharp.Metadata.Profiles.Icc;
 
 namespace BogieEngineCore.Components
@@ -15,11 +16,11 @@ namespace BogieEngineCore.Components
         Modelling.Model _model;
         public Model() { }
 
-        public static Model CreateModel(string filePath, ContentManager contentManager, Shader shader, string name = nameof(Model), Entity entity = null)
+        public static Model CreateModel(string filePath, ContentManager contentManager, Shader shader, Type vertexType, string name = nameof(Model), Entity entity = null)
         {
             Model modelComponent = new Model();
             modelComponent.Name = name;
-            modelComponent._model = contentManager.LoadModel(filePath, shader);
+            modelComponent._model = contentManager.LoadModel(filePath, shader, vertexType);
             if (entity != null)
                 modelComponent.QueueAttachToEntity(entity);
             return modelComponent;
