@@ -26,7 +26,7 @@ namespace BogieEngineCore
             return new Texture(textureData);
         }
 
-        public Model LoadModel(string filePath, Shader shader, Type vertexType)
+        public Model LoadModel(string filePath, Shader shader, VertexDefinition vertexDefinition)
         {
             if (_pathToModel.ContainsKey(filePath))
             {
@@ -34,7 +34,7 @@ namespace BogieEngineCore
                 mdl.SetShader(shader);
                 return mdl;
             }
-            Model model = ModelLoader.LoadModel(filePath, this, shader, vertexType);
+            Model model = ModelLoader.LoadModel(filePath, this, shader, vertexDefinition);
             _pathToModel.Add(filePath, model);
             return new Model(model);
         }

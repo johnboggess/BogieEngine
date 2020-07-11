@@ -83,13 +83,10 @@ namespace BogieEngineConsoleTest
             CubeTex = ContentManager.LoadTexture("Resources/Textures/Brick.jpg", TextureUnit.Texture0);
             ContainerTex = ContentManager.LoadTexture("Resources/Textures/container.png", TextureUnit.Texture0);
             ContainerSpecularTex = ContentManager.LoadTexture("Resources/Textures/container_specular.png", TextureUnit.Texture1);
-            BlankSpecular = ContentManager.LoadTexture("Resources/Textures/Blank.png", TextureUnit.Texture1);
+            BlankSpecular = ContentManager.LoadTexture("Resources/Textures/BlankWhite.png", TextureUnit.Texture1);
 
             XenoHeadS = ContentManager.LoadTexture("Resources/Models/Xeno-raven/Maps/XenoRaven_Head_S.tga", TextureUnit.Texture1);
             XenoBodyS = ContentManager.LoadTexture("Resources/Models/Xeno-raven/Maps/XenoRaven_Body_S.tga", TextureUnit.Texture1);
-
-            XenoHeadN = ContentManager.LoadTexture("Resources/Models/Xeno-raven/Maps/XenoRaven_head_N.tga", TextureUnit.Texture2);
-            XenoBodyN = ContentManager.LoadTexture("Resources/Models/Xeno-raven/Maps/XenoRaven_body_N.tga", TextureUnit.Texture2);
 
             XenoHeadN = ContentManager.LoadTexture("Resources/Models/Xeno-raven/Maps/XenoRaven_head_N.tga", TextureUnit.Texture2);
             XenoBodyN = ContentManager.LoadTexture("Resources/Models/Xeno-raven/Maps/XenoRaven_body_N.tga", TextureUnit.Texture2);
@@ -135,7 +132,7 @@ namespace BogieEngineConsoleTest
 
 
             _SamusRelativeCube = new Entity(_Samus, this);
-            BogieEngineCore.Components.Model model = BogieEngineCore.Components.Model.CreateModel("Resources/Models/Cube.obj", ContentManager, DefaultShader, typeof(DefaultVertex));
+            BogieEngineCore.Components.Model model = BogieEngineCore.Components.Model.CreateModel("Resources/Models/Cube.obj", ContentManager, DefaultShader, new TangetSpaceVertexDefinition());
             model.GetMesh(0).Material = CubeMaterial;
             model.SetShader(PhongShader);
             _SamusRelativeCube.QueueAddComponent(model);
@@ -147,7 +144,7 @@ namespace BogieEngineConsoleTest
             FloorEntity = new Entity(EntityWorld, this);
             FloorEntity.LocalTransform.Position = new Vector3(0, -10, 0);
             FloorEntity.LocalTransform.Scale = new Vector3(20, 3, 20);
-            FloorEntity.ForceAddComponent(BogieEngineCore.Components.Model.CreateModel("Resources/Models/Cube.obj", ContentManager, DefaultShader, typeof(DefaultVertex)));
+            FloorEntity.ForceAddComponent(BogieEngineCore.Components.Model.CreateModel("Resources/Models/Cube.obj", ContentManager, DefaultShader, new TangetSpaceVertexDefinition()));
             FloorEntity.InstanceSetup = new Action(() =>
             {
                 FloorEntity.ForceAddComponent(BogieEngineCore.Components.StaticBody.CreateStaticBody(FloorEntity, new BogieEngineCore.Physics.Shapes.Box(), false));
@@ -155,9 +152,8 @@ namespace BogieEngineConsoleTest
                 ((BogieEngineCore.Components.Model)FloorEntity.GetComponent("Model")).SetShader(PhongShader);
             });
 
-            NormalTest nt = new NormalTest(EntityWorld, this);
-            nt.LocalTransform.Rotate(nt.LocalTransform.Right, 1.57f);
-            nt.LocalTransform.Position = new Vector3(-5, -8, 0);
+            NormalTest normalTest = new NormalTest(EntityWorld, this);
+            normalTest.LocalTransform.Position = new Vector3(-5, -8, 0);
         }
 
         protected override void OnResize(EventArgs e)

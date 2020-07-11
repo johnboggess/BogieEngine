@@ -16,11 +16,11 @@ namespace BogieEngineCore.Components
         Modelling.Model _model;
         public Model() { }
 
-        public static Model CreateModel(string filePath, ContentManager contentManager, Shader shader, Type vertexType, string name = nameof(Model), Entity entity = null)
+        public static Model CreateModel(string filePath, ContentManager contentManager, Shader shader, VertexDefinition vertexDefinition, string name = nameof(Model), Entity entity = null)
         {
             Model modelComponent = new Model();
             modelComponent.Name = name;
-            modelComponent._model = contentManager.LoadModel(filePath, shader, vertexType);
+            modelComponent._model = contentManager.LoadModel(filePath, shader, vertexDefinition);
             if (entity != null)
                 modelComponent.QueueAttachToEntity(entity);
             return modelComponent;

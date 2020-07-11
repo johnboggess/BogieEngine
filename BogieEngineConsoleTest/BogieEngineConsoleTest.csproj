@@ -197,7 +197,10 @@
     <Content Include="Resources\Models\VariaSuit\Samus_Varia_High_reflected.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Resources\Textures\Blank.png">
+    <Content Include="Resources\Textures\BlankBlack.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Textures\BlankWhite.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Resources\Textures\Brick.jpg">

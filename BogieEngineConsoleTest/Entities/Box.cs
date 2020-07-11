@@ -36,7 +36,7 @@ namespace BogieEngineConsoleTest.Entities
             GravityScript gravityScript = new GravityScript();
             ForceAddComponent(gravityScript);
 
-            _model = Model.CreateModel("Resources/Models/Cube.obj", ((Game)BaseGame.GlobalGame).ContentManager, ((Game)BaseGame.GlobalGame).PhongShader, typeof(DefaultVertex));
+            _model = Model.CreateModel("Resources/Models/Cube.obj", ((Game)BaseGame.GlobalGame).ContentManager, ((Game)BaseGame.GlobalGame).PhongShader, new TangetSpaceVertexDefinition());
             _model.GetMesh(0).Material = ((Game)BaseGame.GlobalGame).CubeMaterial;
             ForceAddComponent(_model);
         }

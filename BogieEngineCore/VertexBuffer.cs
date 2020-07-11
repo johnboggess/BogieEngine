@@ -11,37 +11,39 @@ namespace BogieEngineCore
     /// <summary>
     /// Represents a buffer of vertices on the GPU.
     /// </summary>
-    internal class VertexBuffer<T> : GPUBuffer where T : struct, Vertex
+    internal class VertexBuffer : GPUBuffer
     {
+
         /// <summary>
         /// The vertices stored in the buffer.
         /// </summary>
-        public T[] Vertices { get { return _vertices; } }
+        public float[] Vertices { get { return _vertices; } }
+        private VertexDefinition VertexDefinition { get { return _vertexDefinition; } }
 
-        private T[] _vertices;
-
-        public VertexBuffer() : base(BufferTarget.ArrayBuffer, BufferUsageHint.StaticDraw) { }
+        private float[] _vertices;
+        private VertexDefinition _vertexDefinition;
 
         /// <summary>
         /// Populates the GPU buffer with a set of vertices.
         /// </summary>
         /// <param name="vertices"></param>
-        public void SetVertices(T[] vertices)
+        public VertexBuffer(float[] vertices, VertexDefinition vertexDefinition) : base(BufferTarget.ArrayBuffer, BufferUsageHint.StaticDraw)
         {
+            _vertexDefinition = vertexDefinition;
             _vertices = vertices;
             Bind();
-            GL.BufferData(bufferTarget, vertices.Length * vertices[0].GetSize(), _vertices, bufferUsageHint);
+            GL.BufferData(bufferTarget, vertices.Length * sizeof(float), _vertices, bufferUsageHint);
             UnBind();
         }
 
         public int GetVertexSize()
         {
-            return Vertices[0].GetSize();
+            return VertexDefinition.GetVertexSizeInBytes();
         }
 
         public void SetUpVertexAttributePointers()
         {
-            Vertices[0].SetUpVertexAttributePointers();
+            VertexDefinition.SetUpVertexAttributePointers();
         }
     }
 }

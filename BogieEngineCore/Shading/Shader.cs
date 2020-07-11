@@ -6,6 +6,7 @@ namespace BogieEngineCore.Shading
 {
     public class Shader : IDisposable
     {
+        //todo: move this into vertex definition
         public static readonly int VertexPositionLocation = 0;
         public static readonly int VertexUVLocation = 1;
         public static readonly int VertexNormalLocation = 2;

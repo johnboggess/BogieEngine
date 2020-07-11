@@ -20,14 +20,14 @@ namespace BogieEngineCore.Modelling
         /// <summary>
         /// The vertices that define the mesh
         /// </summary>
-        internal BaseVertexArray _VertexArray;
+        internal VertexArray _VertexArray;
 
         /// <summary>
         /// Creates a mesh
         /// </summary>
         /// <param name="name">Name of the mesh.</param>
         /// <param name="vertexArray">The vertices that define the mesh.</param>
-        internal MeshData(string name, BaseVertexArray vertexArray)
+        internal MeshData(string name, VertexArray vertexArray)
         {
             Name = name;
             _VertexArray = vertexArray;

@@ -126,13 +126,17 @@
     <Compile Include="VertexArray.cs" />
     <Compile Include="VertexBuffer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Vertices\DefaultVertex.cs" />
-    <Compile Include="Vertices\Vertex.cs" />
+    <Compile Include="Vertices\TangetSpaceVertexDefinition.cs" />
+    <Compile Include="Vertices\DefaultVertexDefinition.cs" />
+    <Compile Include="Vertices\VertexDefinition.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
     <None Include="OpenTK.dll.config" />
     <None Include="packages.config" />
+    <None Include="Resources\Shaders\NormalLight.vert">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="Resources\Shaders\NormalLight.frag">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>

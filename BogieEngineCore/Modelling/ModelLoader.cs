@@ -20,6 +20,7 @@ namespace BogieEngineCore.Modelling
     {
         static ContentManager _contentManager;
         static string _folder;
+        static VertexDefinition _vertexDefinition;
 
         /// <summary>
         /// Loads the given file and assigns it the given shader.
@@ -28,12 +29,13 @@ namespace BogieEngineCore.Modelling
         /// <param name="contentManager">Content manager.</param>
         /// <param name="shader">The shader to assign to the model.</param>
         /// <returns>The loaded model.</returns>
-        public static Model LoadModel(string filePath, ContentManager contentManager, Shading.Shader shader, Type vertexType)
+        public static Model LoadModel(string filePath, ContentManager contentManager, Shading.Shader shader, VertexDefinition vertexDefinition)
         {
             _contentManager = contentManager;
             _folder = filePath.Substring(0, filePath.LastIndexOf("/"));
+            _vertexDefinition = vertexDefinition;
             AssimpContext assimpContext = new AssimpContext();
-            Scene scene = assimpContext.ImportFile(filePath, PostProcessSteps.Triangulate | PostProcessSteps.GenerateNormals);
+            Scene scene = assimpContext.ImportFile(filePath, PostProcessSteps.Triangulate | PostProcessSteps.GenerateNormals | PostProcessSteps.CalculateTangentSpace);
 
             return new Model(_processNode(scene.RootNode, scene, shader));
         }
@@ -58,7 +60,7 @@ namespace BogieEngineCore.Modelling
         private static MeshInstance ProcessMesh(Assimp.Mesh aiMesh, Scene scene, Shading.Shader shader)
         {
             List<uint> indices = new List<uint>();
-            DefaultVertex[] vertices = new DefaultVertex[aiMesh.VertexCount];
+            float[] vertices = new float[aiMesh.VertexCount * _vertexDefinition.GetVertexSizeInBytes()];
 
             for (int i = 0; i < aiMesh.FaceCount; i++)
             {
@@ -67,10 +69,9 @@ namespace BogieEngineCore.Modelling
                 for (int j = 0; j < face.IndexCount; j++)
                 {
                     int index = face.Indices[j];
-                    DefaultVertex defaultVertex = new DefaultVertex();
-                    defaultVertex.FillData(aiMesh, index);
+                    float[] vertex = _vertexDefinition.CreateVertex(aiMesh, index);
 
-                    vertices[index] = defaultVertex;
+                    Array.Copy(vertex, 0, vertices, index * _vertexDefinition.GetVertexSizeInFloats(), vertex.Length);
                     indices.Add((uint)index);
                 }
             }
@@ -94,12 +95,11 @@ namespace BogieEngineCore.Modelling
                 ((PhongMaterial)meshMaterial).Shininess = material.Shininess;
             }
 
-            VertexBuffer<DefaultVertex> vb = new VertexBuffer<DefaultVertex>();
-            vb.SetVertices(vertices.ToArray());
+            VertexBuffer vb = new VertexBuffer(vertices.ToArray(), _vertexDefinition);
             ElementBuffer eb = new ElementBuffer();
             eb.SetIndices(indices.ToArray());
 
-            VertexArray<DefaultVertex> vertexArray = new VertexArray<DefaultVertex>();
+            VertexArray vertexArray = new VertexArray();
             vertexArray.Setup(vb, eb);
 
             MeshData meshData = new MeshData(aiMesh.Name, vertexArray);
