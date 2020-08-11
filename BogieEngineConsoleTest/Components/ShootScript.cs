@@ -45,6 +45,8 @@ namespace BogieEngineConsoleTest.Components
                     Box box = new Box(Entity.Game.EntityWorld, false, Origin.LocalTransform.Position, new OpenTK.Vector3(1, 1, 1), (Game)Entity.Game);
                     
                     LifeTime lifeTime = new LifeTime(60);
+                    lifeTime.Name = nameof(LifeTime);
+
                     box.ForceAddComponent(lifeTime);
                     
                     box.InstanceSetup = new Action(() =>

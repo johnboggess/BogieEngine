@@ -29,6 +29,11 @@ namespace BogieEngineCore.Components
                 _draw(Entity.GlobalTransform.GetMatrix4());
         }
 
+        public List<MeshInstance> GetMeshWithName(string name)
+        {
+            return _modelInstance.GetMeshWithName(name);
+        }
+
         private void _draw(Matrix4 matrix)
         {
             _modelInstance.Draw(matrix);

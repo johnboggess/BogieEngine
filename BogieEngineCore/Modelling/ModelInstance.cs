@@ -23,6 +23,8 @@ namespace BogieEngineCore.Modelling
         {
             foreach (MeshInstance meshInstance in Meshes)
             {
+                if (!meshInstance.Visible)
+                    continue;
                 meshInstance.Shader.Use(matrix);
                 meshInstance.Draw();
             }

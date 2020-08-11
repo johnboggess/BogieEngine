@@ -21,16 +21,8 @@ namespace BogieEngineConsoleTest.Entities
 
         public override void EntitySetup()
         {
-            /*NormalMaterial normalMaterial = new NormalMaterial();
-            normalMaterial.DiffuseTexture = ((Game)Game).Brick2Tex;
-            normalMaterial.NormalTexture = ((Game)Game).Brick2Norm;
-            normalMaterial.SpecularTexture = ((Game)Game).BlankSpecular;
-
-            model = Model.CreateModel("Resources/Models/Cube.obj", Game.ContentManager, ((Game)Game).NormalShader, new TangetSpaceVertexDefinition());
-
-            model.GetMesh(0).Material = normalMaterial;
-
-            ForceAddComponent(model);*/
+            model = new Model(((Game)Game).NormalCubeInstance);
+            ForceAddComponent(model);
         }
     }
 }

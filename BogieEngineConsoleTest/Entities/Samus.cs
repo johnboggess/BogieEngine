@@ -21,8 +21,9 @@ namespace BogieEngineConsoleTest.Entities
 
         public override void EntitySetup()
         {
-            //Model = Model.CreateModel("Resources/Models/VariaSuit/DolBarriersuit.obj", Game.ContentManager, ((Game)Game).PhongShader, new DefaultVertexDefinition());
-            //this.ForceAddComponent(Model);
+            Model = new Model(((Game)Game).SamusInstance);
+            //Model.CreateModel("Resources/Models/VariaSuit/DolBarriersuit.obj", Game.ContentManager, ((Game)Game).PhongShader, new DefaultVertexDefinition());
+            this.ForceAddComponent(Model);
         }
     }
 }
