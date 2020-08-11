@@ -31,6 +31,9 @@ namespace BogieEngineConsoleTest
     {
         public static System.Numerics.Vector3 Gravity = new System.Numerics.Vector3(0, -10, 0);
 
+        public ModelData CubeModel;
+        public ModelInstance CubeInstance;
+
         public DefaultShader DefaultShader;
         public AmbientShader AmbientShader;
         public DiffuseShader DiffuseShader;
@@ -80,6 +83,7 @@ namespace BogieEngineConsoleTest
             PhongShader = new PhongShader(this);
             NormalShader = new NormalShader(this);
 
+
             CubeTex = ContentManager.LoadTexture("Resources/Textures/Brick.jpg", TextureUnit.Texture0);
             ContainerTex = ContentManager.LoadTexture("Resources/Textures/container.png", TextureUnit.Texture0);
             ContainerSpecularTex = ContentManager.LoadTexture("Resources/Textures/container_specular.png", TextureUnit.Texture1);
@@ -98,13 +102,17 @@ namespace BogieEngineConsoleTest
             CubeMaterial.DiffuseTexture = ContainerTex;
             CubeMaterial.SpecularTexture = ContainerSpecularTex;
             CubeMaterial.Shininess = 32f;
+            
+            CubeModel = ContentManager.LoadModel("Resources/Models/Cube.obj", PhongShader, new DefaultVertexDefinition());
+
+            CubeInstance = CubeModel.CreateInstance(CubeMaterial, PhongShader);
 
             ActiveCamera.LocalTransform.Position = new Vector3(0, 0, 3);
             ActiveCamera.ForceAddComponent(new FPSCameraScript(ActiveCamera));
 
             Player = new Player(EntityWorld, this, ActiveCamera);
 
-            _Xeno = new Xeno(EntityWorld, this);
+            /*_Xeno = new Xeno(EntityWorld, this);
             _Xeno.LocalTransform.ScaleBy(new Vector3(.01f, .01f, .01f));
             _Xeno.LocalTransform.Position = new Vector3(5, -9, 0);
             _Xeno.LocalTransform.Rotate(_Xeno.LocalTransform.Right, -1.57f);
@@ -120,7 +128,7 @@ namespace BogieEngineConsoleTest
             {
                 List<MeshInstance> meshData = _SamusNoVisor.Model.GetMeshWithName("polygon6");
                 if (meshData.Count > 0) { meshData[0].Visible = false; }
-            });
+            });*/
 
             FallingBlock = new Box(EntityWorld, false, new Vector3(0, 0, -5), new Vector3(1, 3.5f, 1), this);
             FallingBlock.InstanceSetup = new Action(() =>
@@ -131,29 +139,29 @@ namespace BogieEngineConsoleTest
             });
 
 
-            _SamusRelativeCube = new Entity(_Samus, this);
+            /*_SamusRelativeCube = new Entity(_Samus, this);
             BogieEngineCore.Components.Model model = BogieEngineCore.Components.Model.CreateModel("Resources/Models/Cube.obj", ContentManager, DefaultShader, new TangetSpaceVertexDefinition());
             model.GetMesh(0).Material = CubeMaterial;
-            model.SetShader(PhongShader);
+            model.GetMesh(0).Shader = (PhongShader);
             _SamusRelativeCube.QueueAddComponent(model);
 
             _MiniSamus = new Samus(_SamusRelativeCube, this); 
-            _MiniSamus.LocalTransform.ScaleBy(new Vector3(.1f, .1f, .1f));
+            _MiniSamus.LocalTransform.ScaleBy(new Vector3(.1f, .1f, .1f));*/
 
 
             FloorEntity = new Entity(EntityWorld, this);
             FloorEntity.LocalTransform.Position = new Vector3(0, -10, 0);
             FloorEntity.LocalTransform.Scale = new Vector3(20, 3, 20);
-            FloorEntity.ForceAddComponent(BogieEngineCore.Components.Model.CreateModel("Resources/Models/Cube.obj", ContentManager, DefaultShader, new TangetSpaceVertexDefinition()));
+            FloorEntity.ForceAddComponent(new BogieEngineCore.Components.Model(CubeInstance));
             FloorEntity.InstanceSetup = new Action(() =>
             {
                 FloorEntity.ForceAddComponent(BogieEngineCore.Components.StaticBody.CreateStaticBody(FloorEntity, new BogieEngineCore.Physics.Shapes.Box(), false));
-                ((BogieEngineCore.Components.Model)FloorEntity.GetComponent("Model")).GetMesh(0).Material = CubeMaterial;
-                ((BogieEngineCore.Components.Model)FloorEntity.GetComponent("Model")).SetShader(PhongShader);
+                //((BogieEngineCore.Components.Model)FloorEntity.GetComponent("Model")).GetMesh(0).Material = CubeMaterial;
+                //((BogieEngineCore.Components.Model)FloorEntity.GetComponent("Model")).GetMesh(0).Shader = (PhongShader);
             });
 
-            NormalTest normalTest = new NormalTest(EntityWorld, this);
-            normalTest.LocalTransform.Position = new Vector3(-5, -8, 0);
+            /*NormalTest normalTest = new NormalTest(EntityWorld, this);
+            normalTest.LocalTransform.Position = new Vector3(-5, -8, 0);*/
         }
 
         protected override void OnResize(EventArgs e)
@@ -182,10 +190,10 @@ namespace BogieEngineConsoleTest
             NormalShader.Projection = ActiveCamera.Projection;
             NormalShader.View = ActiveCamera.View;
 
-            _Samus.LocalTransform.Rotate(_Samus.LocalTransform.Up, -.01f);
+            /*_Samus.LocalTransform.Rotate(_Samus.LocalTransform.Up, -.01f);
             _SamusNoVisor.LocalTransform.Rotate(_SamusNoVisor.LocalTransform.Up, -.01f);
             _SamusRelativeCube.LocalTransform.Rotate(_SamusRelativeCube.LocalTransform.Right, -.01f);
-            _MiniSamus.LocalTransform.Position = new Vector3(0, (float)Math.Sin(frame / 100f), 0);
+            _MiniSamus.LocalTransform.Position = new Vector3(0, (float)Math.Sin(frame / 100f), 0);*/
             Console.WriteLine("Player y " + Player.GlobalTransform.Position.Y);
             Console.WriteLine();
             frame += 1;

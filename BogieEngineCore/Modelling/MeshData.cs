@@ -1,11 +1,13 @@
 ﻿using BogieEngineCore.Vertices;
+using BogieEngineCore.Materials;
+using BogieEngineCore.Shading;
 
 namespace BogieEngineCore.Modelling
 {
     /// <summary>
     /// Collections of vertices representing a shape.
     /// </summary>
-    internal class MeshData : IDisposable
+    public class MeshData : IDisposable
     {
         /// <summary>
         /// Has the object been disposed?
@@ -40,6 +42,14 @@ namespace BogieEngineCore.Modelling
         public void Dispose()
         {
             ((IDisposable)_VertexArray).Dispose();
+        }
+
+        public MeshInstance CreateInstance(Material material, Shader shader)
+        {
+            MeshInstance meshInstance = new MeshInstance(this);
+            meshInstance.Material = material;
+            meshInstance.Shader = shader;
+            return meshInstance;
         }
 
         /// <summary>

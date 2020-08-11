@@ -25,7 +25,7 @@ namespace BogieEngineConsoleTest.Entities
         {
             //mesh 0: body
             //mesh 1: head
-            Model = Model.CreateModel("Resources/Models/xeno-raven/source/XenoRaven.fbx", Game.ContentManager, ((Game)Game).NormalShader, new TangetSpaceVertexDefinition());
+            /*Model = Model.CreateModel("Resources/Models/xeno-raven/source/XenoRaven.fbx", Game.ContentManager, ((Game)Game).NormalShader, new TangetSpaceVertexDefinition());
             this.ForceAddComponent(Model);
 
             Texture body = ((PhongMaterial)Model.GetMesh(0).Material).DiffuseTexture;
@@ -45,7 +45,7 @@ namespace BogieEngineConsoleTest.Entities
             ((NormalMaterial)Model.GetMesh(1).Material).NormalTexture = ((Game)Game).XenoHeadN;
 
             ((NormalMaterial)Model.GetMesh(0).Material).Shininess = 32f;//1.8f;
-            ((NormalMaterial)Model.GetMesh(1).Material).Shininess = 32f; //1.8f;
+            ((NormalMaterial)Model.GetMesh(1).Material).Shininess = 32f; //1.8f;*/
         }
     }
 }

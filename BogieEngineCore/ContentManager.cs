@@ -13,7 +13,6 @@ namespace BogieEngineCore
     public class ContentManager
     {
         Dictionary<string, TextureData> _pathToTextureData = new Dictionary<string, TextureData>();
-        Dictionary<string, Model> _pathToModel = new Dictionary<string, Model>();
 
         public Texture LoadTexture(string filePath, TextureUnit textureUnit)
         {
@@ -26,17 +25,10 @@ namespace BogieEngineCore
             return new Texture(textureData);
         }
 
-        public Model LoadModel(string filePath, Shader shader, VertexDefinition vertexDefinition)
+        public ModelData LoadModel(string filePath, Shader shader, VertexDefinition vertexDefinition)
         {
-            if (_pathToModel.ContainsKey(filePath))
-            {
-                Model mdl = new Model(_pathToModel[filePath]);
-                mdl.SetShader(shader);
-                return mdl;
-            }
-            Model model = ModelLoader.LoadModel(filePath, this, shader, vertexDefinition);
-            _pathToModel.Add(filePath, model);
-            return new Model(model);
+            ModelData model = ModelLoader.LoadModel(filePath, this, shader, vertexDefinition);
+            return model;
         }
     }
 }

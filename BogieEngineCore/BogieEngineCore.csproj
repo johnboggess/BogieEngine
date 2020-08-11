@@ -99,11 +99,11 @@
     <Compile Include="Lighting\Light.cs" />
     <Compile Include="Materials\NormalMaterial.cs" />
     <Compile Include="Materials\PhongMaterial.cs" />
-    <Compile Include="Materials\TextureMaterial.cs" />
     <Compile Include="Materials\Material.cs" />
     <Compile Include="Modelling\MeshData.cs" />
     <Compile Include="Modelling\MeshInstance.cs" />
-    <Compile Include="Modelling\Model.cs" />
+    <Compile Include="Modelling\ModelData.cs" />
+    <Compile Include="Modelling\ModelInstance.cs" />
     <Compile Include="Modelling\ModelLoader.cs" />
     <Compile Include="Physics\ContactInfo.cs" />
     <Compile Include="Physics\ContactDictionary.cs" />

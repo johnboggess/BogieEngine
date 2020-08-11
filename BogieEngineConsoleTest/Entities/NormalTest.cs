@@ -21,7 +21,7 @@ namespace BogieEngineConsoleTest.Entities
 
         public override void EntitySetup()
         {
-            NormalMaterial normalMaterial = new NormalMaterial();
+            /*NormalMaterial normalMaterial = new NormalMaterial();
             normalMaterial.DiffuseTexture = ((Game)Game).Brick2Tex;
             normalMaterial.NormalTexture = ((Game)Game).Brick2Norm;
             normalMaterial.SpecularTexture = ((Game)Game).BlankSpecular;
@@ -30,7 +30,7 @@ namespace BogieEngineConsoleTest.Entities
 
             model.GetMesh(0).Material = normalMaterial;
 
-            ForceAddComponent(model);
+            ForceAddComponent(model);*/
         }
     }
 }

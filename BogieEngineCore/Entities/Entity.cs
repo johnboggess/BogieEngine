@@ -154,7 +154,7 @@ namespace BogieEngineCore.Entities
         {
             component.ForceDetachFromEntity();
             if (_components.Any(c => c.Name == component.Name))
-                throw new Exception("Component with name " + component.Name + "already exists");
+                throw new Exception("Component with name " + component.Name + " already exists");
             _components.Add(component);
             component._Entity = this;
         }

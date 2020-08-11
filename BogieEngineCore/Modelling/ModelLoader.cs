@@ -29,7 +29,7 @@ namespace BogieEngineCore.Modelling
         /// <param name="contentManager">Content manager.</param>
         /// <param name="shader">The shader to assign to the model.</param>
         /// <returns>The loaded model.</returns>
-        public static Model LoadModel(string filePath, ContentManager contentManager, Shading.Shader shader, VertexDefinition vertexDefinition)
+        public static ModelData LoadModel(string filePath, ContentManager contentManager, Shading.Shader shader, VertexDefinition vertexDefinition)
         {
             _contentManager = contentManager;
             _folder = filePath.Substring(0, filePath.LastIndexOf("/"));
@@ -37,12 +37,12 @@ namespace BogieEngineCore.Modelling
             AssimpContext assimpContext = new AssimpContext();
             Scene scene = assimpContext.ImportFile(filePath, PostProcessSteps.Triangulate | PostProcessSteps.GenerateNormals | PostProcessSteps.CalculateTangentSpace);
 
-            return new Model(_processNode(scene.RootNode, scene, shader));
+            return new ModelData(_processNode(scene.RootNode, scene, shader));
         }
 
-        private static List<MeshInstance> _processNode(Node node, Scene scene, Shading.Shader shader)
+        private static List<MeshData> _processNode(Node node, Scene scene, Shading.Shader shader)
         {
-            List<MeshInstance> meshes = new List<MeshInstance>();
+            List<MeshData> meshes = new List<MeshData>();
             for (int i = 0; i < node.MeshCount; i++)
             {
                 Assimp.Mesh aiMesh = scene.Meshes[node.MeshIndices[i]];
@@ -57,7 +57,7 @@ namespace BogieEngineCore.Modelling
 
         }
 
-        private static MeshInstance ProcessMesh(Assimp.Mesh aiMesh, Scene scene, Shading.Shader shader)
+        private static MeshData ProcessMesh(Assimp.Mesh aiMesh, Scene scene, Shading.Shader shader)
         {
             List<uint> indices = new List<uint>();
             float[] vertices = new float[aiMesh.VertexCount * _vertexDefinition.GetVertexSizeInBytes()];
@@ -104,13 +104,12 @@ namespace BogieEngineCore.Modelling
 
             MeshData meshData = new MeshData(aiMesh.Name, vertexArray);
 
-            MeshInstance mesh = new MeshInstance(meshData);
+            /*MeshInstance mesh = new MeshInstance(meshData);
             mesh.Shader = shader;
 
-            mesh.Material = meshMaterial;
+            mesh.Material = meshMaterial;*/
 
-            return mesh;
+            return meshData;
         }
-
     }
 }
