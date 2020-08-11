@@ -19,6 +19,9 @@ namespace BogieEngineCore.Modelling
         /// </summary>
         public readonly string Name;
 
+        public Material DefaultMaterial;
+        public Shader DefaultShader;
+
         /// <summary>
         /// The vertices that define the mesh
         /// </summary>
@@ -29,9 +32,11 @@ namespace BogieEngineCore.Modelling
         /// </summary>
         /// <param name="name">Name of the mesh.</param>
         /// <param name="vertexArray">The vertices that define the mesh.</param>
-        internal MeshData(string name, VertexArray vertexArray)
+        internal MeshData(string name, VertexArray vertexArray, Material defaultMaterial, Shader defaultShader)
         {
             Name = name;
+            DefaultMaterial = defaultMaterial;
+            DefaultShader = defaultShader;
             _VertexArray = vertexArray;
         }
 
@@ -42,6 +47,11 @@ namespace BogieEngineCore.Modelling
         public void Dispose()
         {
             ((IDisposable)_VertexArray).Dispose();
+        }
+
+        public MeshInstance CreateInstance()
+        {
+            return CreateInstance(DefaultMaterial, DefaultShader);
         }
 
         public MeshInstance CreateInstance(Material material, Shader shader)

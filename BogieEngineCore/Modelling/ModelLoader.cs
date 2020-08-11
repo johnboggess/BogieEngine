@@ -29,7 +29,7 @@ namespace BogieEngineCore.Modelling
         /// <param name="contentManager">Content manager.</param>
         /// <param name="shader">The shader to assign to the model.</param>
         /// <returns>The loaded model.</returns>
-        public static ModelData LoadModel(string filePath, ContentManager contentManager, Shading.Shader shader, VertexDefinition vertexDefinition)
+        public static ModelData LoadModel<T>(string filePath, ContentManager contentManager, Shading.Shader shader, VertexDefinition vertexDefinition) where T : Materials.Material, new()
         {
             _contentManager = contentManager;
             _folder = filePath.Substring(0, filePath.LastIndexOf("/"));
@@ -37,27 +37,27 @@ namespace BogieEngineCore.Modelling
             AssimpContext assimpContext = new AssimpContext();
             Scene scene = assimpContext.ImportFile(filePath, PostProcessSteps.Triangulate | PostProcessSteps.GenerateNormals | PostProcessSteps.CalculateTangentSpace);
 
-            return new ModelData(_processNode(scene.RootNode, scene, shader));
+            return new ModelData(_processNode<T>(scene.RootNode, scene, shader));
         }
 
-        private static List<MeshData> _processNode(Node node, Scene scene, Shading.Shader shader)
+        private static List<MeshData> _processNode<T>(Node node, Scene scene, Shading.Shader shader) where T : Materials.Material, new()
         {
             List<MeshData> meshes = new List<MeshData>();
             for (int i = 0; i < node.MeshCount; i++)
             {
                 Assimp.Mesh aiMesh = scene.Meshes[node.MeshIndices[i]];
-                meshes.Add(ProcessMesh(aiMesh, scene, shader));
+                meshes.Add(ProcessMesh<T>(aiMesh, scene, shader));
             }
 
             foreach (Node child in node.Children)
             {
-                meshes.AddRange(_processNode(child, scene, shader));
+                meshes.AddRange(_processNode<T>(child, scene, shader));
             }
             return meshes;
 
         }
 
-        private static MeshData ProcessMesh(Assimp.Mesh aiMesh, Scene scene, Shading.Shader shader)
+        private static MeshData ProcessMesh<T>(Assimp.Mesh aiMesh, Scene scene, Shading.Shader shader) where T : Materials.Material, new()
         {
             List<uint> indices = new List<uint>();
             float[] vertices = new float[aiMesh.VertexCount * _vertexDefinition.GetVertexSizeInBytes()];
@@ -75,9 +75,7 @@ namespace BogieEngineCore.Modelling
                     indices.Add((uint)index);
                 }
             }
-
-            BogieEngineCore.Materials.Material meshMaterial = null;
-
+            
             if (aiMesh.MaterialIndex > -1)
             {
                 Texture diffuseTexture = null;
@@ -88,12 +86,10 @@ namespace BogieEngineCore.Modelling
                 {
                     diffuseTexture = _contentManager.LoadTexture(_folder + "/" + diffusePath, OpenTK.Graphics.OpenGL4.TextureUnit.Texture0);
                 }
-
-                meshMaterial = new PhongMaterial();
-                ((PhongMaterial)meshMaterial).DiffuseTexture = diffuseTexture;
-                ((PhongMaterial)meshMaterial).SpecularTexture = diffuseTexture;//todo: load specular texture.
-                ((PhongMaterial)meshMaterial).Shininess = material.Shininess;
             }
+
+            Materials.Material meshMaterial = new T();
+            meshMaterial.LoadFromMesh(aiMesh, scene, _contentManager, _folder);
 
             VertexBuffer vb = new VertexBuffer(vertices.ToArray(), _vertexDefinition);
             ElementBuffer eb = new ElementBuffer();
@@ -102,13 +98,7 @@ namespace BogieEngineCore.Modelling
             VertexArray vertexArray = new VertexArray();
             vertexArray.Setup(vb, eb);
 
-            MeshData meshData = new MeshData(aiMesh.Name, vertexArray);
-
-            /*MeshInstance mesh = new MeshInstance(meshData);
-            mesh.Shader = shader;
-
-            mesh.Material = meshMaterial;*/
-
+            MeshData meshData = new MeshData(aiMesh.Name, vertexArray, meshMaterial, shader);
             return meshData;
         }
     }

@@ -8,9 +8,10 @@ using System.Runtime.CompilerServices;
 using BogieEngineCore;
 using BogieEngineCore.Entities;
 using BogieEngineCore.Components;
-using BogieEngineConsoleTest.Components;
 using BogieEngineCore.Shading;
 using BogieEngineCore.Vertices;
+
+using BogieEngineConsoleTest.Components;
 
 namespace BogieEngineConsoleTest.Entities
 {
@@ -36,7 +37,7 @@ namespace BogieEngineConsoleTest.Entities
             GravityScript gravityScript = new GravityScript();
             ForceAddComponent(gravityScript);
 
-            _model = new Model(((Game)Game).CubeInstance);
+            _model = new Model(((Game)Game).CubeModel.CreateInstance());
             ForceAddComponent(_model);
         }
     }

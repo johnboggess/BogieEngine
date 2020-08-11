@@ -97,15 +97,12 @@ namespace BogieEngineConsoleTest
 
             Brick2Tex = ContentManager.LoadTexture("Resources/Textures/brick2.jpg", TextureUnit.Texture0);
             Brick2Norm = ContentManager.LoadTexture("Resources/Textures/brick2N.jpg", TextureUnit.Texture2);
-
-            CubeMaterial = new PhongMaterial();
-            CubeMaterial.DiffuseTexture = ContainerTex;
-            CubeMaterial.SpecularTexture = ContainerSpecularTex;
-            CubeMaterial.Shininess = 32f;
             
-            CubeModel = ContentManager.LoadModel("Resources/Models/Cube.obj", PhongShader, new DefaultVertexDefinition());
+            CubeModel = ContentManager.LoadModel<PhongMaterial>("Resources/Models/Cube.obj", PhongShader, new TangetSpaceVertexDefinition());
+            CubeModel.Meshes[0].DefaultMaterial = new PhongMaterial() { DiffuseTexture = ContainerTex, SpecularTexture = ContainerSpecularTex, Shininess = 32f };
+            CubeModel.Meshes[0].DefaultShader = PhongShader;
 
-            CubeInstance = CubeModel.CreateInstance(CubeMaterial, PhongShader);
+            CubeInstance = CubeModel.CreateInstance();//(new NormalMaterial { DiffuseTexture = Brick2Tex, SpecularTexture = BlankSpecular, NormalTexture = Brick2Norm, Shininess=32f }, NormalShader);
 
             ActiveCamera.LocalTransform.Position = new Vector3(0, 0, 3);
             ActiveCamera.ForceAddComponent(new FPSCameraScript(ActiveCamera));
@@ -156,8 +153,6 @@ namespace BogieEngineConsoleTest
             FloorEntity.InstanceSetup = new Action(() =>
             {
                 FloorEntity.ForceAddComponent(BogieEngineCore.Components.StaticBody.CreateStaticBody(FloorEntity, new BogieEngineCore.Physics.Shapes.Box(), false));
-                //((BogieEngineCore.Components.Model)FloorEntity.GetComponent("Model")).GetMesh(0).Material = CubeMaterial;
-                //((BogieEngineCore.Components.Model)FloorEntity.GetComponent("Model")).GetMesh(0).Shader = (PhongShader);
             });
 
             /*NormalTest normalTest = new NormalTest(EntityWorld, this);

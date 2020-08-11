@@ -16,7 +16,17 @@ namespace BogieEngineCore.Modelling
         {
             Meshes = meshes;
         }
-        
+
+        public ModelInstance CreateInstance()
+        {
+            List<MeshInstance> meshInstances = new List<MeshInstance>();
+            foreach (MeshData mesh in Meshes)
+            {
+                meshInstances.Add(mesh.CreateInstance());
+            }
+            return new ModelInstance(meshInstances);
+        }
+
         public ModelInstance CreateInstance(Material material, Shader shader)
         {
             List<MeshInstance> meshInstances = new List<MeshInstance>();

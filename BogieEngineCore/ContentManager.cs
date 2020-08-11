@@ -25,9 +25,9 @@ namespace BogieEngineCore
             return new Texture(textureData);
         }
 
-        public ModelData LoadModel(string filePath, Shader shader, VertexDefinition vertexDefinition)
+        public ModelData LoadModel<T>(string filePath, Shader shader, VertexDefinition vertexDefinition) where T : Materials.Material, new()
         {
-            ModelData model = ModelLoader.LoadModel(filePath, this, shader, vertexDefinition);
+            ModelData model = ModelLoader.LoadModel<T>(filePath, this, shader, vertexDefinition);
             return model;
         }
     }
