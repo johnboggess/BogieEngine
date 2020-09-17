@@ -15,9 +15,23 @@ namespace BogieEngineCore.Shading
     {
         public PhongShader(BaseGame game) : base(game, "Resources/Shaders/default.vert", "Resources/Shaders/PhongLight.frag") { }
 
-        public BasicLight BasicLight = new BasicLight()
+        public DirectionalLight DirLight = new DirectionalLight()
         {
-            AmbientColor = new Vector3(.3f, .3f, .3f),
+            AmbientColor = new Vector3(.1f, .1f, .1f),
+            DiffuseColor = new Vector3(.1f, .1f, .1f),
+            SpecularColor = new Vector3(.1f, .1f, .1f),
+        };
+
+        public PointLight PointLight = new PointLight()
+        {
+            AmbientColor = new Vector3(0f, 0f, 0f),
+            DiffuseColor = new Vector3(.5f, .5f, .5f),
+            SpecularColor = new Vector3(.5f, .5f, .5f),
+        };
+
+        public SpotLight SpotLight = new SpotLight()
+        {
+            AmbientColor = new Vector3(0f, 0f, 0f),
             DiffuseColor = new Vector3(.5f, .5f, .5f),
             SpecularColor = new Vector3(.5f, .5f, .5f),
         };
@@ -56,7 +70,9 @@ namespace BogieEngineCore.Shading
 
         public override void Use(params object[] values)
         {
-            BasicLight.SetLightUniform("light", this);
+            DirLight.SetLightUniform("dirLight", this);
+            PointLight.SetLightUniform("ptLight", this);
+            SpotLight.SetLightUniform("spotLight", this);
             Model = (Matrix4)values[0];
         }
     }

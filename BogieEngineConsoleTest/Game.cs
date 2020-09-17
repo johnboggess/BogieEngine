@@ -92,7 +92,6 @@ namespace BogieEngineConsoleTest
             PhongShader = new PhongShader(this);
             NormalShader = new NormalShader(this);
 
-
             CubeTex = ContentManager.LoadTexture("Resources/Textures/Brick.jpg", TextureUnit.Texture0);
             ContainerTex = ContentManager.LoadTexture("Resources/Textures/container.png", TextureUnit.Texture0); 
             WhiteTex = ContentManager.LoadTexture("Resources/Textures/BlankWhite.png", TextureUnit.Texture0);
@@ -136,7 +135,7 @@ namespace BogieEngineConsoleTest
 
             SamusInstance = SamusModel.CreateInstance();
             CubeInstance = CubeModel.CreateInstance();
-            NormalCubeInstance = CubeModel.CreateInstance(new NormalMaterial() { DiffuseTexture = Brick2Tex, NormalTexture = Brick2Norm, SpecularTexture = WhiteSpecular, Shininess = 32f }, NormalShader);
+            NormalCubeInstance = CubeModel.CreateInstance(new NormalMaterial() { DiffuseTexture = Brick2Tex, NormalTexture = Brick2Norm, SpecularTexture = WhiteSpecular, Shininess = 32f }, PhongShader);
             XenoInstance = XenoModel.CreateInstance();
 
             ActiveCamera.LocalTransform.Position = new Vector3(0, 0, 3);
@@ -221,14 +220,13 @@ namespace BogieEngineConsoleTest
             PhongShader.View = ActiveCamera.View;
 
             NormalShader.Projection = ActiveCamera.Projection;
-            NormalShader.View = ActiveCamera.View;
+            NormalShader.View = ActiveCamera.View;//todo: track all shaders and have the cameras auto these values
 
             _Samus.LocalTransform.Rotate(_Samus.LocalTransform.Up, -.01f);
             _SamusNoVisor.LocalTransform.Rotate(_SamusNoVisor.LocalTransform.Up, -.01f);
             _SamusRelativeCube.LocalTransform.Rotate(_SamusRelativeCube.LocalTransform.Right, -.01f);
             _MiniSamus.LocalTransform.Position = new Vector3(0, (float)Math.Sin(frame / 100f), 0);
-            Console.WriteLine("Player y " + Player.GlobalTransform.Position.Y);
-            Console.WriteLine();
+
             frame += 1;
         }
 

@@ -22,6 +22,9 @@ namespace BogieEngineConsoleTest.Components
         BasicLight basicLight = new BasicLight();
         Camera _camera;
         RigidBox _playerBody;
+        bool flashLight = false;
+
+        bool _fUp = true;
 
         public PlayerMovmentScript(Camera camera, RigidBox playerBody)
         {
@@ -91,11 +94,29 @@ namespace BogieEngineConsoleTest.Components
 
             if(ks.IsKeyDown(Key.L))
             {
-                ((Game)Game.GlobalGame).PhongShader.BasicLight.Position = Entity.GlobalTransform.Position;
                 ((Game)Game.GlobalGame).NormalShader.BasicLight.Position = Entity.GlobalTransform.Position;
+
+                ((Game)Game.GlobalGame).PhongShader.DirLight.Direction = Entity.GlobalTransform.Position;
+                ((Game)Game.GlobalGame).PhongShader.PointLight.Position = Entity.GlobalTransform.Position;
             }
 
-            ((Game)Game.GlobalGame).PhongShader.ViewPosition = _camera.GlobalTransform.Position;
+            if (_fUp && ks.IsKeyDown(Key.F))
+                flashLight = !flashLight;
+            _fUp = ks.IsKeyUp(Key.F);
+
+            if (!flashLight)
+            {
+                ((Game)Game.GlobalGame).PhongShader.SpotLight.Position = new Vector3(0, 0, 0);
+                ((Game)Game.GlobalGame).PhongShader.SpotLight.Direction = new Vector3(0, 1, 0);
+            }
+            else
+            {
+                ((Game)Game.GlobalGame).PhongShader.SpotLight.Position = Entity.GlobalTransform.Position;
+                ((Game)Game.GlobalGame).PhongShader.SpotLight.Direction = -_camera.GlobalTransform.Forwards;
+            }
+
+
+            ((Game)Game.GlobalGame).PhongShader.ViewPosition = _camera.GlobalTransform.Position;//todo: track all shaders and have the cameras auto update view pos
             ((Game)Game.GlobalGame).NormalShader.ViewPosition = _camera.GlobalTransform.Position;
         }
     }

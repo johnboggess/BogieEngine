@@ -98,7 +98,10 @@
     <Compile Include="ElementBuffer.cs" />
     <Compile Include="GPUBuffer.cs" />
     <Compile Include="IDisposable.cs" />
+    <Compile Include="Lighting\SpotLight.cs" />
+    <Compile Include="Lighting\PointLight.cs" />
     <Compile Include="Lighting\BasicLight.cs" />
+    <Compile Include="Lighting\DirectionalLight.cs" />
     <Compile Include="Lighting\Light.cs" />
     <Compile Include="Materials\NormalMaterial.cs" />
     <Compile Include="Materials\PhongMaterial.cs" />
@@ -146,7 +149,7 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="Resources\Shaders\PhongLight.frag">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="Resources\Shaders\SpecularLight.frag">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
