@@ -86,6 +86,7 @@
     <Compile Include="Entities\NormalTest.cs" />
     <Compile Include="Entities\Player.cs" />
     <Compile Include="Entities\Box.cs" />
+    <Compile Include="Entities\Suzanne.cs" />
     <Compile Include="Entities\Xeno.cs" />
     <Compile Include="Entities\Samus.cs" />
     <Compile Include="Game.cs" />

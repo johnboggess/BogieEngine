@@ -84,11 +84,14 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BaseGame.cs" />
+    <Compile Include="BEPUTriangleExt.cs" />
     <Compile Include="Components\Component.cs" />
     <Compile Include="Components\Model.cs" />
     <Compile Include="Components\RigidBody.cs" />
     <Compile Include="Components\RigidBox.cs" />
+    <Compile Include="Components\RigidMesh.cs" />
     <Compile Include="Components\StaticBody.cs" />
+    <Compile Include="Components\StaticBox.cs" />
     <Compile Include="Entities\Camera.cs" />
     <Compile Include="Entities\Entity.cs" />
     <Compile Include="ContentManager.cs" />
@@ -108,8 +111,11 @@
     <Compile Include="Physics\ContactInfo.cs" />
     <Compile Include="Physics\ContactDictionary.cs" />
     <Compile Include="Physics\GamePhysics.cs" />
+    <Compile Include="Physics\PhysicsHandle.cs" />
     <Compile Include="Physics\NarrowPhaseCallbacks.cs" />
+    <Compile Include="Components\PhysicsObject.cs" />
     <Compile Include="Physics\PoseIntegratorCallbacks.cs" />
+    <Compile Include="Physics\Ray.cs" />
     <Compile Include="Physics\Shapes\Shape.cs" />
     <Compile Include="Physics\SimpleThreadDispatcher.cs" />
     <Compile Include="Shading\NormalShader.cs" />

@@ -18,6 +18,7 @@ using BogieEngineCore.Entities;
 using BogieEngineCore.Materials;
 using BogieEngineCore.Lighting;
 using BogieEngineCore.Vertices;
+using BogieEngineCore.Components;
 using BogieEngineConsoleTest.Entities;
 using BogieEngineConsoleTest.Components;
 
@@ -34,6 +35,7 @@ namespace BogieEngineConsoleTest
         public ModelData CubeModel;
         public ModelData XenoModel;
         public ModelData SamusModel;
+        public ModelData SuzanneModel;
         public ModelInstance CubeInstance;
         public ModelInstance NormalCubeInstance;
         public ModelInstance XenoInstance;
@@ -48,8 +50,11 @@ namespace BogieEngineConsoleTest
 
         public Texture CubeTex;
         public Texture ContainerTex;
+        public Texture WhiteTex;
+        public Texture BlackTex;
         public Texture ContainerSpecularTex;
-        public Texture BlankSpecular;
+        public Texture WhiteSpecular;
+        public Texture BlackSpecular;
 
         public Texture XenoHeadS;
         public Texture XenoBodyS;
@@ -59,14 +64,13 @@ namespace BogieEngineConsoleTest
         public Texture Brick2Tex;
         public Texture Brick2Norm;
 
-        public PhongMaterial CubeMaterial;
-
         public Samus _Samus;
         public Samus _SamusNoVisor;
         public Entity _SamusRelativeCube;
         public Samus _MiniSamus;
         public Xeno _Xeno;
         public Player Player;
+        public Suzanne Suzanne;
 
         public Box FallingBlock;
         public Entity FloorEntity;
@@ -90,9 +94,13 @@ namespace BogieEngineConsoleTest
 
 
             CubeTex = ContentManager.LoadTexture("Resources/Textures/Brick.jpg", TextureUnit.Texture0);
-            ContainerTex = ContentManager.LoadTexture("Resources/Textures/container.png", TextureUnit.Texture0);
+            ContainerTex = ContentManager.LoadTexture("Resources/Textures/container.png", TextureUnit.Texture0); 
+            WhiteTex = ContentManager.LoadTexture("Resources/Textures/BlankWhite.png", TextureUnit.Texture0);
+            BlackTex = ContentManager.LoadTexture("Resources/Textures/BlankBlack.png", TextureUnit.Texture0);
+
             ContainerSpecularTex = ContentManager.LoadTexture("Resources/Textures/container_specular.png", TextureUnit.Texture1);
-            BlankSpecular = ContentManager.LoadTexture("Resources/Textures/BlankWhite.png", TextureUnit.Texture1);
+            WhiteSpecular = ContentManager.LoadTexture("Resources/Textures/BlankWhite.png", TextureUnit.Texture1);
+            BlackSpecular = ContentManager.LoadTexture("Resources/Textures/BlankBlack.png", TextureUnit.Texture1);
 
             XenoHeadS = ContentManager.LoadTexture("Resources/Models/Xeno-raven/Maps/XenoRaven_Head_S.tga", TextureUnit.Texture1);
             XenoBodyS = ContentManager.LoadTexture("Resources/Models/Xeno-raven/Maps/XenoRaven_Body_S.tga", TextureUnit.Texture1);
@@ -119,11 +127,16 @@ namespace BogieEngineConsoleTest
 
             SamusModel = ContentManager.LoadModel<PhongMaterial>("Resources/Models/VariaSuit/DolBarriersuit.obj", PhongShader, new DefaultVertexDefinition());
             foreach (MeshData meshData in SamusModel.Meshes)
-                ((PhongMaterial)meshData.DefaultMaterial).SpecularTexture = BlankSpecular;
+                ((PhongMaterial)meshData.DefaultMaterial).SpecularTexture = WhiteSpecular;
+
+            SuzanneModel = ContentManager.LoadModel<PhongMaterial>("Resources/Models/Monkey.obj", PhongShader, new DefaultVertexDefinition());
+            ((PhongMaterial)SuzanneModel.Meshes[0].DefaultMaterial).DiffuseTexture = WhiteTex;
+            ((PhongMaterial)SuzanneModel.Meshes[0].DefaultMaterial).SpecularTexture = WhiteSpecular;
+            ((PhongMaterial)SuzanneModel.Meshes[0].DefaultMaterial).Shininess = 128;
 
             SamusInstance = SamusModel.CreateInstance();
             CubeInstance = CubeModel.CreateInstance();
-            NormalCubeInstance = CubeModel.CreateInstance(new NormalMaterial() { DiffuseTexture = Brick2Tex, NormalTexture = Brick2Norm, SpecularTexture = BlankSpecular, Shininess = 32f }, NormalShader);
+            NormalCubeInstance = CubeModel.CreateInstance(new NormalMaterial() { DiffuseTexture = Brick2Tex, NormalTexture = Brick2Norm, SpecularTexture = WhiteSpecular, Shininess = 32f }, NormalShader);
             XenoInstance = XenoModel.CreateInstance();
 
             ActiveCamera.LocalTransform.Position = new Vector3(0, 0, 3);
@@ -177,8 +190,13 @@ namespace BogieEngineConsoleTest
             FloorEntity.ForceAddComponent(new BogieEngineCore.Components.Model(CubeInstance));
             FloorEntity.InstanceSetup = new Action(() =>
             {
-                FloorEntity.ForceAddComponent(BogieEngineCore.Components.StaticBody.CreateStaticBody(FloorEntity, new BogieEngineCore.Physics.Shapes.Box(), false));
+                FloorEntity.ForceAddComponent(new StaticBox(FloorEntity.GlobalTransform));
             });
+
+            //Suzanne = new Suzanne(EntityWorld, this);
+            //Suzanne.LocalTransform.Position = new Vector3(-5, -7, 5);
+            //Suzanne.LocalTransform.ScaleBy(new Vector3(.5f));
+            
 
             NormalTest normalTest = new NormalTest(EntityWorld, this);
             normalTest.LocalTransform.Position = new Vector3(-5, -8, 0);

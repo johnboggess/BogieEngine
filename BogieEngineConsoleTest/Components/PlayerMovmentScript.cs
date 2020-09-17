@@ -11,6 +11,8 @@ using BogieEngineCore;
 using BogieEngineCore.Components;
 using BogieEngineCore.Entities;
 using BogieEngineCore.Lighting;
+using BogieEngineCore.Physics;
+
 using BogieEngineConsoleTest.Entities;
 
 namespace BogieEngineConsoleTest.Components
@@ -35,6 +37,7 @@ namespace BogieEngineConsoleTest.Components
 
         public void Update(double deltaT)
         {
+            _playerBody.IsAwake(true);
             KeyboardState ks = Keyboard.GetState();
 
             _camera.LocalTransform.Position = _playerBody.Entity.LocalTransform.Position;
@@ -42,7 +45,6 @@ namespace BogieEngineConsoleTest.Components
 
             if (ks.IsKeyDown(Key.W) || ks.IsKeyDown(Key.S))
             {
-                _playerBody.IsAwake(true);
                 Vector3 vector = _camera.LocalTransform.Forwards.Normalized() * (ks.IsKeyDown(Key.S) ? -1 : 1);
                 vector.Y = 0;
                 System.Numerics.Vector3 vel = _playerBody.Velocity;
@@ -54,7 +56,6 @@ namespace BogieEngineConsoleTest.Components
             }
             else if(ks.IsKeyDown(Key.A) || ks.IsKeyDown(Key.D))
             {
-                _playerBody.IsAwake(true);
                 Vector3 vector = _camera.LocalTransform.Right.Normalized() * (ks.IsKeyDown(Key.A) ? -1 : 1);
                 vector.Y = 0;
                 System.Numerics.Vector3 vel = _playerBody.Velocity;
@@ -65,9 +66,15 @@ namespace BogieEngineConsoleTest.Components
                 }
             }
 
-            if (ks.IsKeyDown(Key.Space) && _playerBody.IsColliding())
+            if (ks.IsKeyDown(Key.Space))
             {
-                _playerBody.Velocity += new System.Numerics.Vector3(0, 6, 0);
+                Ray ray = new Ray(_playerBody.Position, new System.Numerics.Vector3(0, -1, 0));
+                float dist = 0;
+                if (ray.Cast(new List<PhysicsObject>() { _playerBody }, out dist) != null && dist <= .5)
+                {
+                    _playerBody.Velocity += new System.Numerics.Vector3(0, 6, 0);
+                }
+
             }
 
             Vector3 velocity = Utilities.ConvertVector3Type(_playerBody.Velocity);

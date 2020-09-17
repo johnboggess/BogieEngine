@@ -18,7 +18,6 @@ namespace BogieEngineConsoleTest.Entities
     class Box : Entity
     {
         public RigidBox RigidBox;
-
         private bool _reportContacts;
         private Model _model;
 
@@ -31,14 +30,14 @@ namespace BogieEngineConsoleTest.Entities
 
         public override void EntitySetup()
         {
+            _model = new Model(((Game)Game).CubeModel.CreateInstance());
+            ForceAddComponent(_model);
+
             RigidBox = new RigidBox(LocalTransform.Position.X, LocalTransform.Position.Y, LocalTransform.Position.Z, LocalTransform.Scale.X, LocalTransform.Scale.Y, LocalTransform.Scale.Z, _reportContacts);
             RigidBox.Name = nameof(RigidBox);
             ForceAddComponent(RigidBox);
-            GravityScript gravityScript = new GravityScript();
+            GravityScript gravityScript = new GravityScript(nameof(RigidBox));
             ForceAddComponent(gravityScript);
-
-            _model = new Model(((Game)Game).CubeModel.CreateInstance());
-            ForceAddComponent(_model);
         }
     }
 }

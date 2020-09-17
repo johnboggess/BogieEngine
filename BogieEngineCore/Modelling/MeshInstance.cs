@@ -33,6 +33,7 @@ namespace BogieEngineCore.Modelling
         /// </summary>
         public Material Material;
 
+        public MeshData MeshData { get { return _MeshData; } }
         internal MeshData _MeshData;
 
         /// <summary>

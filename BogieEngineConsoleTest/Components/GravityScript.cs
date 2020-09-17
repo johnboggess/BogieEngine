@@ -11,7 +11,14 @@ namespace BogieEngineConsoleTest.Components
     class GravityScript : Component
     {
         public System.Numerics.Vector3 Gravity = System.Numerics.Vector3.Zero;
-        public GravityScript() { Name = nameof(GravityScript); }
+
+        private string _rigidBodyName;
+
+        public GravityScript(string rigidBodyName) 
+        { 
+            Name = nameof(GravityScript);
+            _rigidBodyName = rigidBodyName;
+        }
 
         public override void EventInvoked(string evnt, params object[] eventArgs)
         {
@@ -21,7 +28,8 @@ namespace BogieEngineConsoleTest.Components
 
         public void Update(double deltaT)
         {
-            Entity.GetComponet<RigidBox>(nameof(RigidBox)).Velocity += Gravity * (float)deltaT;
+            Entity.GetComponet<RigidBody>(_rigidBodyName).IsAwake(true);
+            Entity.GetComponet<RigidBody>(_rigidBodyName).Velocity += Gravity * (float)deltaT;
         }
     }
 }

@@ -1,10 +1,11 @@
 ﻿using System.Diagnostics.CodeAnalysis;
+using System.Numerics;
+using System;
+using System.Runtime.InteropServices;
 
 using OpenTK.Graphics.OpenGL4;
 
 using BogieEngineCore.Vertices;
-using System;
-using System.Runtime.InteropServices;
 
 namespace BogieEngineCore
 {
@@ -44,6 +45,11 @@ namespace BogieEngineCore
         public void SetUpVertexAttributePointers()
         {
             VertexDefinition.SetUpVertexAttributePointers();
+        }
+
+        internal Vector3 GetPosition(int vertexIndex)
+        {
+            return _vertexDefinition._GetPosition(_vertices, vertexIndex);
         }
     }
 }

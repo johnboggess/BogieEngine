@@ -59,5 +59,15 @@ namespace BogieEngineCore.Vertices
 
             return result;
         }
+
+        internal override System.Numerics.Vector3 _GetPosition(float[] vertices, int vertexIndex)
+        {
+            int i = GetVertexSizeInFloats() * vertexIndex;
+            System.Numerics.Vector3 v = new System.Numerics.Vector3();
+            v.X = vertices[i + 0];
+            v.Y = vertices[i + 1];
+            v.Z = vertices[i + 2];
+            return v;
+        }
     }
 }

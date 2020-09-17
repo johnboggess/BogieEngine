@@ -17,7 +17,9 @@ namespace BogieEngineCore.Components
 {
     public class Model : Component
     {
+        public ModelInstance ModelInstance { get { return _modelInstance; } }
         ModelInstance _modelInstance;
+
         public Model(ModelInstance modelInstance)
         {
             _modelInstance = modelInstance;

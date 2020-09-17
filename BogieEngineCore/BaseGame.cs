@@ -93,7 +93,8 @@ namespace BogieEngineCore
 
             PreUpdateFrame(e);
 
-            _GamePhysics._Timestep((float)e.Time);
+            Console.WriteLine(e.Time);
+            _GamePhysics._Timestep(1f/60f);//(float)e.Time);
             EntityWorld.InvokeEvent(Component.UpdateEvent, true, e.Time);
 
             PostUpdateFrame(e);
