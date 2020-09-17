@@ -111,7 +111,6 @@
     <Compile Include="Physics\ContactInfo.cs" />
     <Compile Include="Physics\ContactDictionary.cs" />
     <Compile Include="Physics\GamePhysics.cs" />
-    <Compile Include="Physics\PhysicsHandle.cs" />
     <Compile Include="Physics\NarrowPhaseCallbacks.cs" />
     <Compile Include="Components\PhysicsObject.cs" />
     <Compile Include="Physics\PoseIntegratorCallbacks.cs" />

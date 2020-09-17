@@ -18,11 +18,11 @@ namespace BogieEngineCore
         {
             if (_pathToTextureData.ContainsKey(filePath))
             {
-                return new Texture(_pathToTextureData[filePath]);
+                return new Texture(_pathToTextureData[filePath], textureUnit);
             }
-            TextureData textureData = new TextureData(filePath, textureUnit);
+            TextureData textureData = new TextureData(filePath);
             _pathToTextureData.Add(filePath, textureData);
-            return new Texture(textureData);
+            return new Texture(textureData, textureUnit);
         }
 
         public ModelData LoadModel<T>(string filePath, Shader shader, VertexDefinition vertexDefinition) where T : Materials.Material, new()

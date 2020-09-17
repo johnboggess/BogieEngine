@@ -193,11 +193,6 @@ namespace BogieEngineConsoleTest
                 FloorEntity.ForceAddComponent(new StaticBox(FloorEntity.GlobalTransform));
             });
 
-            //Suzanne = new Suzanne(EntityWorld, this);
-            //Suzanne.LocalTransform.Position = new Vector3(-5, -7, 5);
-            //Suzanne.LocalTransform.ScaleBy(new Vector3(.5f));
-            
-
             NormalTest normalTest = new NormalTest(EntityWorld, this);
             normalTest.LocalTransform.Position = new Vector3(-5, -8, 0);
         }

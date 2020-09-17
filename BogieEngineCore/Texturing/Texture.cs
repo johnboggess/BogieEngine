@@ -5,14 +5,14 @@ namespace BogieEngineCore.Texturing
     public class Texture : IDisposable
     {
         public bool Disposed { get { return _textureData.Disposed; } }
-        public TextureUnit TextureUnit { get { return _textureData._TextureUnit; } set { _textureData._TextureUnit = value; } }
+        public TextureUnit TextureUnit;
         public TextureWrapMode WrapMode
         {
             get { return _wrapMode; }
             set
             {
                 _wrapMode = value;
-                _textureData.Bind();
+                _textureData.Bind(TextureUnit);
                 GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureWrapS, (int)_wrapMode);
                 GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureWrapT, (int)_wrapMode);
                 _textureData.UnBind();
@@ -24,7 +24,7 @@ namespace BogieEngineCore.Texturing
             set
             {
                 _textureMinFilter = value;
-                _textureData.Bind();
+                _textureData.Bind(TextureUnit);
                 GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMinFilter, (int)_textureMinFilter);
                 _textureData.UnBind();
             }
@@ -35,7 +35,7 @@ namespace BogieEngineCore.Texturing
             set
             {
                 _textureMagFilter = value;
-                _textureData.Bind();
+                _textureData.Bind(TextureUnit);
                 GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMagFilter, (int)_textureMagFilter);
                 _textureData.UnBind();
             }
@@ -47,11 +47,12 @@ namespace BogieEngineCore.Texturing
         TextureMagFilter _textureMagFilter = TextureMagFilter.Linear;
         TextureData _textureData;
 
-        internal Texture(TextureData textureData)
+        internal Texture(TextureData textureData, TextureUnit textureUnit)
         {
             _textureData = textureData;
+            TextureUnit = textureUnit;
 
-            _textureData.Bind();
+            _textureData.Bind(TextureUnit);
             GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureWrapS, (int)_wrapMode);
             GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureWrapT, (int)_wrapMode);
 
@@ -62,7 +63,7 @@ namespace BogieEngineCore.Texturing
 
         public void Bind()
         {
-            _textureData.Bind();
+            _textureData.Bind(TextureUnit);
         }
 
         public void UnBind()
