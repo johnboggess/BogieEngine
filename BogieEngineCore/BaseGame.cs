@@ -47,6 +47,7 @@ namespace BogieEngineCore
         protected override void OnLoad(EventArgs e)
         {
             GL.Enable(EnableCap.DepthTest);
+            GL.Enable(EnableCap.StencilTest);
             GL.Enable(EnableCap.FramebufferSrgb);
             GL.Enable(EnableCap.CullFace);
             GL.ClearColor(ClearColor);
@@ -105,7 +106,7 @@ namespace BogieEngineCore
 
         protected override void OnRenderFrame(FrameEventArgs e)
         {
-            GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
+            GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit | ClearBufferMask.StencilBufferBit);
 
             PreRenderFrame(e);
             EntityWorld.InvokeEvent(Component.RenderEvent, true, null);
