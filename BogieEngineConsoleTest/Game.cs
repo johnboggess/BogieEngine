@@ -42,10 +42,7 @@ namespace BogieEngineConsoleTest
         public ModelInstance SamusInstance;
 
         public DefaultShader DefaultShader;
-        public AmbientShader AmbientShader;
-        public DiffuseShader DiffuseShader;
-        public SpecularShader SpecularShader;
-        public PhongShader PhongShader;
+        public BlinnPhongShader BlinnPhongShader;
         public NormalShader NormalShader;
 
         public Texture CubeTex;
@@ -86,10 +83,7 @@ namespace BogieEngineConsoleTest
             ClearColor = System.Drawing.Color.Black;
 
             DefaultShader = new DefaultShader(this);
-            AmbientShader = new AmbientShader(this);
-            DiffuseShader = new DiffuseShader(this);
-            SpecularShader = new SpecularShader(this);
-            PhongShader = new PhongShader(this);
+            BlinnPhongShader = new BlinnPhongShader(this);
             NormalShader = new NormalShader(this);
 
             CubeTex = ContentManager.LoadTexture("Resources/Textures/Brick.jpg", TextureUnit.Texture0);
@@ -110,9 +104,9 @@ namespace BogieEngineConsoleTest
             Brick2Tex = ContentManager.LoadTexture("Resources/Textures/brick2.jpg", TextureUnit.Texture0);
             Brick2Norm = ContentManager.LoadTexture("Resources/Textures/brick2N.jpg", TextureUnit.Texture2);
             
-            CubeModel = ContentManager.LoadModel<PhongMaterial>("Resources/Models/Cube.obj", PhongShader, new TangetSpaceVertexDefinition());
-            CubeModel.Meshes[0].DefaultMaterial = new PhongMaterial() { DiffuseTexture = ContainerTex, SpecularTexture = ContainerSpecularTex, Shininess = 32f };
-            CubeModel.Meshes[0].DefaultShader = PhongShader;
+            CubeModel = ContentManager.LoadModel<PhongMaterial>("Resources/Models/Cube.obj", BlinnPhongShader, new TangetSpaceVertexDefinition());
+            CubeModel.Meshes[0].DefaultMaterial = new PhongMaterial() { DiffuseTexture = ContainerTex, SpecularTexture = ContainerSpecularTex, Shininess = 128f };
+            CubeModel.Meshes[0].DefaultShader = BlinnPhongShader;
 
             XenoModel = ContentManager.LoadModel<NormalMaterial>("Resources/Models/xeno-raven/source/XenoRaven.fbx", NormalShader, new TangetSpaceVertexDefinition());
             //mesh 0: body
@@ -124,18 +118,21 @@ namespace BogieEngineConsoleTest
             ((NormalMaterial)XenoModel.Meshes[1].DefaultMaterial).SpecularTexture = XenoHeadS;
             ((NormalMaterial)XenoModel.Meshes[1].DefaultMaterial).Shininess = 32f;
 
-            SamusModel = ContentManager.LoadModel<PhongMaterial>("Resources/Models/VariaSuit/DolBarriersuit.obj", PhongShader, new DefaultVertexDefinition());
+            SamusModel = ContentManager.LoadModel<PhongMaterial>("Resources/Models/VariaSuit/DolBarriersuit.obj", BlinnPhongShader, new DefaultVertexDefinition());
             foreach (MeshData meshData in SamusModel.Meshes)
+            {
                 ((PhongMaterial)meshData.DefaultMaterial).SpecularTexture = WhiteSpecular;
+                ((PhongMaterial)meshData.DefaultMaterial).Shininess = 256f;
+            }
 
-            SuzanneModel = ContentManager.LoadModel<PhongMaterial>("Resources/Models/Monkey.obj", PhongShader, new DefaultVertexDefinition());
+            SuzanneModel = ContentManager.LoadModel<PhongMaterial>("Resources/Models/Monkey.obj", BlinnPhongShader, new DefaultVertexDefinition());
             ((PhongMaterial)SuzanneModel.Meshes[0].DefaultMaterial).DiffuseTexture = WhiteTex;
             ((PhongMaterial)SuzanneModel.Meshes[0].DefaultMaterial).SpecularTexture = WhiteSpecular;
             ((PhongMaterial)SuzanneModel.Meshes[0].DefaultMaterial).Shininess = 128;
 
             SamusInstance = SamusModel.CreateInstance();
             CubeInstance = CubeModel.CreateInstance();
-            NormalCubeInstance = CubeModel.CreateInstance(new NormalMaterial() { DiffuseTexture = Brick2Tex, NormalTexture = Brick2Norm, SpecularTexture = WhiteSpecular, Shininess = 32f }, NormalShader);
+            NormalCubeInstance = CubeModel.CreateInstance(new NormalMaterial() { DiffuseTexture = Brick2Tex, NormalTexture = Brick2Norm, SpecularTexture = WhiteSpecular, Shininess = 16f }, NormalShader);
             XenoInstance = XenoModel.CreateInstance();
 
             ActiveCamera.LocalTransform.Position = new Vector3(0, 0, 3);
@@ -207,17 +204,8 @@ namespace BogieEngineConsoleTest
             DefaultShader.Projection = ActiveCamera.Projection;
             DefaultShader.View = ActiveCamera.View;
 
-            AmbientShader.Projection = ActiveCamera.Projection;
-            AmbientShader.View = ActiveCamera.View;
-
-            DiffuseShader.Projection = ActiveCamera.Projection;
-            DiffuseShader.View = ActiveCamera.View;
-
-            SpecularShader.Projection = ActiveCamera.Projection;
-            SpecularShader.View = ActiveCamera.View;
-
-            PhongShader.Projection = ActiveCamera.Projection;
-            PhongShader.View = ActiveCamera.View;
+            BlinnPhongShader.Projection = ActiveCamera.Projection;
+            BlinnPhongShader.View = ActiveCamera.View;
 
             NormalShader.Projection = ActiveCamera.Projection;
             NormalShader.View = ActiveCamera.View;//todo: track all shaders and have the cameras auto these values

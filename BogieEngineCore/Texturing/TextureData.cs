@@ -7,7 +7,7 @@ using System.Collections.Generic;
 
 namespace BogieEngineCore.Texturing
 {
-    public class TextureData : IDisposable
+    internal class TextureData : IDisposable
     {
         public bool Disposed { get { return _disposed; } }
 
@@ -31,7 +31,7 @@ namespace BogieEngineCore.Texturing
             }
 
             GL.BindTexture(TextureTarget.Texture2D, _handle);
-            GL.TexImage2D(TextureTarget.Texture2D, 0, PixelInternalFormat.Rgba, image.Width, image.Height, 0, PixelFormat.Rgba, PixelType.UnsignedByte, pixels.ToArray());
+            GL.TexImage2D(TextureTarget.Texture2D, 0, PixelInternalFormat.SrgbAlpha, image.Width, image.Height, 0, PixelFormat.Rgba, PixelType.UnsignedByte, pixels.ToArray());//todo: allow users to set the textures pixelformat when loading a model
             //GL.GenerateMipmaps()
             UnBind();
         }

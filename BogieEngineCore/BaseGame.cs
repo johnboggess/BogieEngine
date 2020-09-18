@@ -47,6 +47,7 @@ namespace BogieEngineCore
         protected override void OnLoad(EventArgs e)
         {
             GL.Enable(EnableCap.DepthTest);
+            GL.Enable(EnableCap.FramebufferSrgb);
             GL.Enable(EnableCap.CullFace);
             GL.ClearColor(ClearColor);
 

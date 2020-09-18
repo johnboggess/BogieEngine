@@ -97,8 +97,8 @@ namespace BogieEngineConsoleTest.Components
                 ((Game)Game.GlobalGame).NormalShader.DirLight.Direction = Entity.GlobalTransform.Position;
                 ((Game)Game.GlobalGame).NormalShader.PointLight.Position = Entity.GlobalTransform.Position;
 
-                ((Game)Game.GlobalGame).PhongShader.DirLight.Direction = Entity.GlobalTransform.Position;
-                ((Game)Game.GlobalGame).PhongShader.PointLight.Position = Entity.GlobalTransform.Position;
+                ((Game)Game.GlobalGame).BlinnPhongShader.DirLight.Direction = Entity.GlobalTransform.Position;
+                ((Game)Game.GlobalGame).BlinnPhongShader.PointLight.Position = Entity.GlobalTransform.Position;
             }
 
             if (_fUp && ks.IsKeyDown(Key.F))
@@ -110,20 +110,20 @@ namespace BogieEngineConsoleTest.Components
                 ((Game)Game.GlobalGame).NormalShader.SpotLight.Direction = new Vector3(0, 0, 0);
                 ((Game)Game.GlobalGame).NormalShader.SpotLight.Position = new Vector3(0, 1, 0);
 
-                ((Game)Game.GlobalGame).PhongShader.SpotLight.Position = new Vector3(0, 0, 0);
-                ((Game)Game.GlobalGame).PhongShader.SpotLight.Direction = new Vector3(0, 1, 0);
+                ((Game)Game.GlobalGame).BlinnPhongShader.SpotLight.Position = new Vector3(0, 0, 0);
+                ((Game)Game.GlobalGame).BlinnPhongShader.SpotLight.Direction = new Vector3(0, 1, 0);
             }
             else
             {
                 ((Game)Game.GlobalGame).NormalShader.SpotLight.Position = Entity.GlobalTransform.Position;
                 ((Game)Game.GlobalGame).NormalShader.SpotLight.Direction = -_camera.GlobalTransform.Forwards;
 
-                ((Game)Game.GlobalGame).PhongShader.SpotLight.Position = Entity.GlobalTransform.Position;
-                ((Game)Game.GlobalGame).PhongShader.SpotLight.Direction = -_camera.GlobalTransform.Forwards;
+                ((Game)Game.GlobalGame).BlinnPhongShader.SpotLight.Position = Entity.GlobalTransform.Position;
+                ((Game)Game.GlobalGame).BlinnPhongShader.SpotLight.Direction = -_camera.GlobalTransform.Forwards;
             }
 
 
-            ((Game)Game.GlobalGame).PhongShader.ViewPosition = _camera.GlobalTransform.Position;//todo: track all shaders and have the cameras auto update view pos
+            ((Game)Game.GlobalGame).BlinnPhongShader.ViewPosition = _camera.GlobalTransform.Position;//todo: track all shaders and have the cameras auto update view pos
             ((Game)Game.GlobalGame).NormalShader.ViewPosition = _camera.GlobalTransform.Position;
         }
     }

@@ -76,18 +76,6 @@ namespace BogieEngineCore.Modelling
                 }
             }
             
-            if (aiMesh.MaterialIndex > -1)
-            {
-                Texture diffuseTexture = null;
-
-                Assimp.Material material = scene.Materials[aiMesh.MaterialIndex];
-                string diffusePath = material.TextureDiffuse.FilePath;
-                if (diffusePath != null)
-                {
-                    diffuseTexture = _contentManager.LoadTexture(_folder + "/" + diffusePath, OpenTK.Graphics.OpenGL4.TextureUnit.Texture0);
-                }
-            }
-
             Materials.Material meshMaterial = new T();
             meshMaterial.LoadFromMesh(aiMesh, scene, _contentManager, _folder);
 

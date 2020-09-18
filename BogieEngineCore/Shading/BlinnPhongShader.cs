@@ -11,15 +11,15 @@ using OpenTK.Graphics.ES10;
 
 namespace BogieEngineCore.Shading
 {
-    public class PhongShader : Shader
+    public class BlinnPhongShader : Shader
     {
-        public PhongShader(BaseGame game) : base(game, "Resources/Shaders/default.vert", "Resources/Shaders/PhongLight.frag") { }
+        public BlinnPhongShader(BaseGame game) : base(game, "Resources/Shaders/default.vert", "Resources/Shaders/BlinnPhongLight.frag") { }
 
         public DirectionalLight DirLight = new DirectionalLight()
         {
-            AmbientColor = new Vector3(.1f, .1f, .1f),
-            DiffuseColor = new Vector3(.1f, .1f, .1f),
-            SpecularColor = new Vector3(.1f, .1f, .1f),
+            AmbientColor = new Vector3(.01f, .01f, .01f),
+            DiffuseColor = new Vector3(.01f, .01f, .01f),
+            SpecularColor = new Vector3(.01f, .01f, .01f),
         };
 
         public PointLight PointLight = new PointLight()

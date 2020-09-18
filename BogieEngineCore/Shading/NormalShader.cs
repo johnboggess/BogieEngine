@@ -13,14 +13,13 @@ namespace BogieEngineCore.Shading
 {
     public class NormalShader : Shader
     {
-
         public NormalShader(BaseGame game) : base(game, "Resources/Shaders/NormalLight.vert", "Resources/Shaders/NormalLight.frag") { }
 
         public DirectionalLight DirLight = new DirectionalLight()
         {
-            AmbientColor = new Vector3(.1f, .1f, .1f),
-            DiffuseColor = new Vector3(.1f, .1f, .1f),
-            SpecularColor = new Vector3(.1f, .1f, .1f),
+            AmbientColor = new Vector3(.01f, .01f, .01f),
+            DiffuseColor = new Vector3(.01f, .01f, .01f),
+            SpecularColor = new Vector3(.01f, .01f, .01f),
         };
 
         public PointLight PointLight = new PointLight()
