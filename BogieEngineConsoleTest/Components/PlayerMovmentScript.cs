@@ -94,7 +94,8 @@ namespace BogieEngineConsoleTest.Components
 
             if(ks.IsKeyDown(Key.L))
             {
-                ((Game)Game.GlobalGame).NormalShader.BasicLight.Position = Entity.GlobalTransform.Position;
+                ((Game)Game.GlobalGame).NormalShader.DirLight.Direction = Entity.GlobalTransform.Position;
+                ((Game)Game.GlobalGame).NormalShader.PointLight.Position = Entity.GlobalTransform.Position;
 
                 ((Game)Game.GlobalGame).PhongShader.DirLight.Direction = Entity.GlobalTransform.Position;
                 ((Game)Game.GlobalGame).PhongShader.PointLight.Position = Entity.GlobalTransform.Position;
@@ -106,11 +107,17 @@ namespace BogieEngineConsoleTest.Components
 
             if (!flashLight)
             {
+                ((Game)Game.GlobalGame).NormalShader.SpotLight.Direction = new Vector3(0, 0, 0);
+                ((Game)Game.GlobalGame).NormalShader.SpotLight.Position = new Vector3(0, 1, 0);
+
                 ((Game)Game.GlobalGame).PhongShader.SpotLight.Position = new Vector3(0, 0, 0);
                 ((Game)Game.GlobalGame).PhongShader.SpotLight.Direction = new Vector3(0, 1, 0);
             }
             else
             {
+                ((Game)Game.GlobalGame).NormalShader.SpotLight.Position = Entity.GlobalTransform.Position;
+                ((Game)Game.GlobalGame).NormalShader.SpotLight.Direction = -_camera.GlobalTransform.Forwards;
+
                 ((Game)Game.GlobalGame).PhongShader.SpotLight.Position = Entity.GlobalTransform.Position;
                 ((Game)Game.GlobalGame).PhongShader.SpotLight.Direction = -_camera.GlobalTransform.Forwards;
             }

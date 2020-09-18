@@ -135,7 +135,7 @@ namespace BogieEngineConsoleTest
 
             SamusInstance = SamusModel.CreateInstance();
             CubeInstance = CubeModel.CreateInstance();
-            NormalCubeInstance = CubeModel.CreateInstance(new NormalMaterial() { DiffuseTexture = Brick2Tex, NormalTexture = Brick2Norm, SpecularTexture = WhiteSpecular, Shininess = 32f }, PhongShader);
+            NormalCubeInstance = CubeModel.CreateInstance(new NormalMaterial() { DiffuseTexture = Brick2Tex, NormalTexture = Brick2Norm, SpecularTexture = WhiteSpecular, Shininess = 32f }, NormalShader);
             XenoInstance = XenoModel.CreateInstance();
 
             ActiveCamera.LocalTransform.Position = new Vector3(0, 0, 3);
